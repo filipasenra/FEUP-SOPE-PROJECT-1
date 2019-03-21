@@ -41,7 +41,7 @@ void inicializeWhatToShow(WhatToShow *whatToShow)
 */
 void inicializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
 {
-    if (argc < 2)
+    if (argc < 2 || argc > 8)
     {
         printf("Use: forensic [-r] [-h [md5[,sha1[,sha256]]] [-o <outfile>] [-v] <file|dir>");
         return;
@@ -64,6 +64,7 @@ void inicializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
         if (strcmp(argv[argc], "-v") == 0)
         {
             whatToShow->registosExecucao = true;
+
         } else if (strcmp(argv[argc], "-o") == 0)
         {
             whatToShow->saidaPadrao = false;

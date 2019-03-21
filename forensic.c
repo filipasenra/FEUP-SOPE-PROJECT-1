@@ -11,9 +11,6 @@ int main(int argc, char *argv[], char *envp[])
 
     inicializeWhatToShowUser(&whatToShow, argv, argc);
 
-    /*if (strcmp(argv[1], "-o") == 0)
-        printf("PASSOUUUU\n");*/
-
     printf("%s\n", whatToShow.file);
 
     printf("%s\n", whatToShow.outputFile);
