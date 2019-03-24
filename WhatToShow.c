@@ -84,7 +84,80 @@ void inicializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
     }
 }
 
-void gettingOutput(char * file)
+/**
+ * @Brief Displays the information accordingly with WhatToShow
+*/
+void gettingOutput(WhatToShow whatToShow)
+{
+    struct stat path_stat;
+    if (stat(whatToShow.file, &path_stat) < 0)
+    {
+        printf("FileStat failed!\n");
+        return;
+    }
+
+    //If it is a file and not a (sym)link or a directory
+    if (S_ISREG(path_stat.st_mode))
+    {
+        gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256);
+        return;
+    }
+
+    //If it is not a file, lets show the information of all files
+    DIR *d;
+    struct dirent *dir;
+
+    //Makes the currents directory the one passed by the user
+    d = opendir(whatToShow.file);
+
+    if (d)
+    {
+        while ((dir = readdir(d)) != NULL)
+        {
+            //If it is a file and not a (sym)link or a directory
+            if (dir->d_type == DT_REG)
+            {
+                gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256);
+            }
+        }
+        closedir(d);
+    }
+    else
+    {
+        printf("Failed to open %s directory!\n", whatToShow.file);
+        return;
+    }
+}
+
+/**
+ * @brief Reedirects the output of the command given to a FILE
+ * 
+ * @param File to be analysed
+ * @param Command to be given
+ * 
+ * @return Returns a pointer to the FILE where the output of the command is redirected
+*/
+FILE *file_of_command(char *file, const char command[])
+{
+    FILE *in = NULL;
+    char cmd[256];
+    strcpy(cmd, command);
+    strcat(cmd, file);
+    in = popen(cmd, "r");
+
+    return in;
+}
+
+/**
+ * @brief Getting the output of a file
+ * 
+ * @param name of the file
+ * @param if it should display MD5 hash
+ * @param if it should display SHA1 hash
+ * @param if it should display SHA256 hash
+ * 
+*/
+void gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
 {
     struct stat fileStat;
 
@@ -94,37 +167,105 @@ void gettingOutput(char * file)
         return;
     }
 
-    //file name
+    //===========================================
+    //FILE NAME
     printf("Name of file: %s\n", file);
 
-    //file size
-    printf("File Size: \t\t%d bytes\n",fileStat.st_size);
+    //===============================================
+    //TYPE OF FILE
 
-    //File Permissions
+    //Runs command of sheel, but to read within program
+    FILE *in_type_of_file = file_of_command(file, "file ");
+
+    //Reads line by line the result of the command
+    char temp[256];
+    fgets(temp, 255, in_type_of_file);
+
+    //Cuts C-string to give only what we want
+    char *type_file = strndup(temp + strlen(file) + 2, strlen(temp));
+
+    printf("Type of file: %s", type_file);
+
+    //===============================================
+    //FILE SIZE
+    printf("File Size: \t\t%d bytes\n", fileStat.st_size);
+
+    //===============================================
+    //FILE PERMISSIONS - TO BE MODIFIED
     printf("File Permissions: \t");
-    printf( (S_ISDIR(fileStat.st_mode)) ? "d" : "-");
-    printf( (fileStat.st_mode & S_IRUSR) ? "r" : "-");
-    printf( (fileStat.st_mode & S_IWUSR) ? "w" : "-");
-    printf( (fileStat.st_mode & S_IXUSR) ? "x" : "-");
-    printf( (fileStat.st_mode & S_IRGRP) ? "r" : "-");
-    printf( (fileStat.st_mode & S_IWGRP) ? "w" : "-");
-    printf( (fileStat.st_mode & S_IXGRP) ? "x" : "-");
-    printf( (fileStat.st_mode & S_IROTH) ? "r" : "-");
-    printf( (fileStat.st_mode & S_IWOTH) ? "w" : "-");
-    printf( (fileStat.st_mode & S_IXOTH) ? "x" : "-");
+    printf((S_ISDIR(fileStat.st_mode)) ? "d" : "-");
+    printf((fileStat.st_mode & S_IRUSR) ? "r" : "-");
+    printf((fileStat.st_mode & S_IWUSR) ? "w" : "-");
+    printf((fileStat.st_mode & S_IXUSR) ? "x" : "-");
+    printf((fileStat.st_mode & S_IRGRP) ? "r" : "-");
+    printf((fileStat.st_mode & S_IWGRP) ? "w" : "-");
+    printf((fileStat.st_mode & S_IXGRP) ? "x" : "-");
+    printf((fileStat.st_mode & S_IROTH) ? "r" : "-");
+    printf((fileStat.st_mode & S_IWOTH) ? "w" : "-");
+    printf((fileStat.st_mode & S_IXOTH) ? "x" : "-");
+    printf("\n");
+
+    //================================================
+    //MODIFICATION TIME
 
     //Extracting modification time in the struct tm
-    struct tm * modification_time;
+    struct tm *modification_time;
     modification_time = localtime(&fileStat.st_mtime);
 
     //Printing modification time in ISO 8601 (<date>T<time>) format
     printf("%d-%d-%dT%d-%d-%d\n", modification_time->tm_mday, modification_time->tm_mon + 1, modification_time->tm_year + 1900, modification_time->tm_hour, modification_time->tm_min, modification_time->tm_sec);
 
-    //Extracting modification time in the struct tm
-    struct tm * last_acess_time;
+    //================================================
+    //LAST ACESS TIME
+
+    //Extracting last acess time in the struct tm
+    struct tm *last_acess_time;
     last_acess_time = localtime(&fileStat.st_atime);
 
-    //Printing modification time in ISO 8601 (<date>T<time>) format
+    //Printing last acess time in ISO 8601 (<date>T<time>) format
     printf("%d-%d-%dT%d-%d-%d\n", last_acess_time->tm_mday, last_acess_time->tm_mon + 1, last_acess_time->tm_year + 1900, last_acess_time->tm_hour, last_acess_time->tm_min, last_acess_time->tm_sec);
 
+    //=================================================
+    //HASH
+
+    if (MD5)
+    {
+        FILE *in_MD5 = file_of_command(file, "md5sum ");
+
+        //Reads line by line the result of the command
+        fgets(temp, 255, in_MD5);
+
+        //Cuts C-string to get only what we want
+        char *string_md5 = strndup(temp, strlen(temp) - (strlen(file) + 1));
+
+        printf("MD5: %s\n", string_md5);
+    }
+
+    if (SHA1)
+    {
+        FILE *in_MD5 = file_of_command(file, "sha1sum ");
+
+        //Reads line by line the result of the command
+        fgets(temp, 255, in_MD5);
+
+        //Cuts C-string to get only what we want
+        char *string_md5 = strndup(temp, strlen(temp) - (strlen(file) + 1));
+
+        printf("sha1: %s\n", string_md5);
+    }
+
+    if (SHA256)
+    {
+        FILE *in_MD5 = file_of_command(file, "sha256sum ");
+
+        //Reads line by line the result of the command
+        fgets(temp, 255, in_MD5);
+
+        //Cuts C-string to get only what we want
+        char *string_md5 = strndup(temp, strlen(temp) - (strlen(file) + 1));
+
+        printf("sha256: %s\n", string_md5);
+    }
+
+    //=================================================
 }

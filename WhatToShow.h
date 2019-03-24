@@ -5,6 +5,8 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <time.h>
+#include <string.h>
+#include <dirent.h> 
 #pragma once
 
 /**
@@ -29,4 +31,6 @@ void inicializeWhatToShow(WhatToShow *whatToShow);
 
 void inicializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc);
 
-void gettingOutput(char * file);
+void gettingOutput(WhatToShow whatToShow);
+
+void gettingOutputFile(char * file, bool MD5, bool SHA1, bool SHA256);

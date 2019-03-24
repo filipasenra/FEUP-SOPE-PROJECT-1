@@ -19,7 +19,7 @@ int main(int argc, char *argv[], char *envp[])
     WhatToShow whatToShow;
 
     inicializeWhatToShowUser(&whatToShow, argv, argc);
-    gettingOutput(whatToShow.file);
+    gettingOutput(whatToShow);
 
     return 0;
 }
