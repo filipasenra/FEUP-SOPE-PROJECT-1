@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <time.h>
 #pragma once
 
 /**
@@ -25,3 +28,5 @@ typedef struct
 void inicializeWhatToShow(WhatToShow *whatToShow);
 
 void inicializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc);
+
+void gettingOutput(char * file);
