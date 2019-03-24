@@ -1,0 +1,6 @@
+Name of file: WhatToShow.c
+Type of file: C source, ASCII text
+File Size: 		8697 bytes
+File Permissions: 	-rw-rw-r--
+24-3-2019T18-22-20
+24-3-2019T18-22-23

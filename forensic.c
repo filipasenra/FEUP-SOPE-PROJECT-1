@@ -10,7 +10,7 @@
  * 1. getting the paramether from the user must be more robust
  * 2. Ouput is still incomplete
  *      2.1. Output function should return a C-string or a struct with the values 
- *      to be printed in the console or the output file
+ *      to be printed in the console or the output file - resolved, i think?
  *      2.2. The file permissions to be displayed are from whom?
 */
 

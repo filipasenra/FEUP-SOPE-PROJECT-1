@@ -7,6 +7,10 @@
 #include <time.h>
 #include <string.h>
 #include <dirent.h> 
+#include <fcntl.h>
+#include <unistd.h>
+#include <wait.h>
+
 #pragma once
 
 /**

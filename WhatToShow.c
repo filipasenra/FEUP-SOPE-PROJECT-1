@@ -21,8 +21,6 @@ void gettingTokens(WhatToShow *whatToShow, char *argv[], int argc, const char s[
     }
 }
 
-//forensic [-r] [-h [md5[,sha1[,sha256]]] [-o <outfile>] [-v] <file|dir>
-
 void inicializeWhatToShow(WhatToShow *whatToShow)
 {
     whatToShow->analiseAll = false;
@@ -85,6 +83,26 @@ void inicializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
 }
 
 /**
+ * @brief Redirects Output if necessary
+*/
+void redirectOutput(WhatToShow whatToShow)
+{
+
+    if (!whatToShow.saidaPadrao)
+    {
+        //opens file to reedirect output
+        int file1 = open(whatToShow.outputFile, O_WRONLY | O_TRUNC);
+        if (file1 == -1)
+        {
+            perror("ERROR OPENING DESTINATION FILE!");
+            return;
+        }
+
+        dup2(file1, 1);
+    }
+}
+
+/**
  * @Brief Displays the information accordingly with WhatToShow
 */
 void gettingOutput(WhatToShow whatToShow)
@@ -96,35 +114,60 @@ void gettingOutput(WhatToShow whatToShow)
         return;
     }
 
-    //If it is a file and not a (sym)link or a directory
-    if (S_ISREG(path_stat.st_mode))
+    //Child can mess with reedirecting printf to the file
+    int pid = fork();
+
+    if (pid == 0) /* child */
     {
-        gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256);
-        return;
-    }
 
-    //If it is not a file, lets show the information of all files
-    DIR *d;
-    struct dirent *dir;
+        //Reedirect Output to File Given by User if necessary
+        redirectOutput(whatToShow);
 
-    //Makes the currents directory the one passed by the user
-    d = opendir(whatToShow.file);
-
-    if (d)
-    {
-        while ((dir = readdir(d)) != NULL)
+        //If it is a file and not a (sym)link or a directory
+        if (S_ISREG(path_stat.st_mode))
         {
-            //If it is a file and not a (sym)link or a directory
-            if (dir->d_type == DT_REG)
-            {
-                gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256);
-            }
+            gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256);
+            return;
         }
-        closedir(d);
+
+        //If it is not a file, lets show the information of all files
+        DIR *d;
+        struct dirent *dir;
+
+        //Makes the currents directory the one passed by the user
+        d = opendir(whatToShow.file);
+
+        if (d)
+        {
+            while ((dir = readdir(d)) != NULL)
+            {
+                //If it is a file and not a (sym)link or a directory
+                if (dir->d_type == DT_REG)
+                {
+                    gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256);
+                }
+            }
+            closedir(d);
+        }
+        else
+        {
+            printf("Failed to open %s directory!\n", whatToShow.file);
+            return;
+        }
     }
-    else
+    else if (pid > 0) /* father */
     {
-        printf("Failed to open %s directory!\n", whatToShow.file);
+        //waits for child
+        wait(NULL);
+
+        //Rights in the console if necessary
+        if (!whatToShow.saidaPadrao)
+        {
+            printf("Data saved on file %s\n", whatToShow.outputFile);
+        }
+    } else
+    {
+        printf("ERROR in creating fork!\n");
         return;
     }
 }
