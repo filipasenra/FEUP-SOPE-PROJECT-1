@@ -11,20 +11,11 @@ void gettingTokens(WhatToShow *whatToShow, char *argv[], int argc, const char s[
     while (token != NULL)
     {
         if (strcmp(token, "md5") == 0)
-        {
             whatToShow->MD5 = true;
-            printf("Passou md5\n");
-        }
         else if (strcmp(token, "sha1") == 0)
-        {
             whatToShow->SHA1 = true;
-            printf("Passou sha1\n");
-        }
         else if (strcmp(token, "sha256") == 0)
-        {
             whatToShow->SHA256 = true;
-            printf("Passou sha256\n");
-        }
 
         token = strtok(NULL, s);
     }
@@ -93,6 +84,8 @@ void inicializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
 
 /**
  * @brief Redirects Output if necessary
+ * 
+ * @return Return zero upon sucess, non-zero otherwise
 */
 int redirectOutput(WhatToShow whatToShow)
 {
