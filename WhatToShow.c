@@ -10,12 +10,21 @@ void gettingTokens(WhatToShow *whatToShow, char *argv[], int argc, const char s[
     /* walk through other tokens */
     while (token != NULL)
     {
-        if (strcmp(argv[argc], "md5"))
+        if (strcmp(token, "md5") == 0)
+        {
             whatToShow->MD5 = true;
-        else if (strcmp(argv[argc], "sha1"))
+            printf("Passou md5\n");
+        }
+        else if (strcmp(token, "sha1") == 0)
+        {
             whatToShow->SHA1 = true;
-        else if (strcmp(argv[argc], "sha256"))
+            printf("Passou sha1\n");
+        }
+        else if (strcmp(token, "sha256") == 0)
+        {
             whatToShow->SHA256 = true;
+            printf("Passou sha256\n");
+        }
 
         token = strtok(NULL, s);
     }
@@ -165,7 +174,8 @@ void gettingOutput(WhatToShow whatToShow)
         {
             printf("Data saved on file %s\n", whatToShow.outputFile);
         }
-    } else
+    }
+    else
     {
         printf("ERROR in creating fork!\n");
         return;
