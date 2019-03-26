@@ -239,6 +239,12 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
     //Runs command of sheel, but to read within program
     FILE *in_type_of_file = file_of_command(file, "file ");
 
+    if (in_type_of_file == NULL)
+    {
+        printf("Error in file_of_command ");
+        return 2;
+    }
+
     //Reads line by line the result of the command
     char temp[256];
     fgets(temp, 255, in_type_of_file);
@@ -294,8 +300,18 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
     {
         FILE *in_MD5 = file_of_command(file, "md5sum ");
 
+        if (in_type_of_file == NULL)
+        {
+            printf("Error in file_of_command!\n");
+            return 3;
+        }
+
         //Reads line by line the result of the command
-        fgets(temp, 255, in_MD5);
+        if (fgets(temp, 255, in_MD5) == NULL)
+        {
+            printf("Error in fgets!\n");
+            return 4;
+        }
 
         //Cuts C-string to get only what we want
         char *string_md5 = strndup(temp, strlen(temp) - (strlen(file) + 1));
@@ -305,28 +321,48 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
 
     if (SHA1)
     {
-        FILE *in_MD5 = file_of_command(file, "sha1sum ");
+        FILE *in_sha1 = file_of_command(file, "sha1sum ");
+
+        if (in_sha1 == NULL)
+        {
+            printf("Error in file_of_command!\n");
+            return 5;
+        }
 
         //Reads line by line the result of the command
-        fgets(temp, 255, in_MD5);
+        if (fgets(temp, 255, in_sha1) == NULL)
+        {
+            printf("Error in fgets!\n");
+            return 6;
+        }
 
         //Cuts C-string to get only what we want
-        char *string_md5 = strndup(temp, strlen(temp) - (strlen(file) + 1));
+        char *string_sha1 = strndup(temp, strlen(temp) - (strlen(file) + 1));
 
-        printf("sha1: %s\n", string_md5);
+        printf("sha1: %s\n", string_sha1);
     }
 
     if (SHA256)
     {
-        FILE *in_MD5 = file_of_command(file, "sha256sum ");
+        FILE *in_sha256 = file_of_command(file, "sha256sum ");
+
+        if (in_sha256 == NULL)
+        {
+            printf("Error in file_of_command!\n");
+            return 7;
+        }
 
         //Reads line by line the result of the command
-        fgets(temp, 255, in_MD5);
+        if (fgets(temp, 255, in_sha256) == NULL)
+        {
+            printf("Error in fgets!\n");
+            return 8;
+        }
 
         //Cuts C-string to get only what we want
-        char *string_md5 = strndup(temp, strlen(temp) - (strlen(file) + 1));
+        char *string_sha256 = strndup(temp, strlen(temp) - (strlen(file) + 1));
 
-        printf("sha256: %s\n", string_md5);
+        printf("sha256: %s\n", string_sha256);
     }
 
     //=================================================
