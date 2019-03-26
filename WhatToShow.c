@@ -94,7 +94,7 @@ void inicializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
 /**
  * @brief Redirects Output if necessary
 */
-void redirectOutput(WhatToShow whatToShow)
+int redirectOutput(WhatToShow whatToShow)
 {
 
     if (!whatToShow.saidaPadrao)
@@ -104,23 +104,27 @@ void redirectOutput(WhatToShow whatToShow)
         if (file1 == -1)
         {
             perror("ERROR OPENING DESTINATION FILE!");
-            return;
+            return 1;
         }
 
         dup2(file1, 1);
     }
+
+    return 0;
 }
 
 /**
  * @Brief Displays the information accordingly with WhatToShow
+ * 
+ * @brief Returns 0 upon sucess, non-zero otherwise
 */
-void gettingOutput(WhatToShow whatToShow)
+int gettingOutput(WhatToShow whatToShow)
 {
     struct stat path_stat;
     if (stat(whatToShow.file, &path_stat) < 0)
     {
         printf("FileStat failed!\n");
-        return;
+        return 1;
     }
 
     //Child can mess with reedirecting printf to the file
@@ -130,13 +134,14 @@ void gettingOutput(WhatToShow whatToShow)
     {
 
         //Reedirect Output to File Given by User if necessary
-        redirectOutput(whatToShow);
+        if (redirectOutput(whatToShow) != 0)
+            return 2;
 
         //If it is a file and not a (sym)link or a directory
         if (S_ISREG(path_stat.st_mode))
         {
             gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256);
-            return;
+            return 2;
         }
 
         //If it is not a file, lets show the information of all files
@@ -153,7 +158,8 @@ void gettingOutput(WhatToShow whatToShow)
                 //If it is a file and not a (sym)link or a directory
                 if (dir->d_type == DT_REG)
                 {
-                    gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256);
+                    if (gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256) != 0)
+                        return -1;
                 }
             }
             closedir(d);
@@ -161,7 +167,7 @@ void gettingOutput(WhatToShow whatToShow)
         else
         {
             printf("Failed to open %s directory!\n", whatToShow.file);
-            return;
+            return 3;
         }
     }
     else if (pid > 0) /* father */
@@ -178,8 +184,10 @@ void gettingOutput(WhatToShow whatToShow)
     else
     {
         printf("ERROR in creating fork!\n");
-        return;
+        return 4;
     }
+
+    return 0;
 }
 
 /**
@@ -209,15 +217,16 @@ FILE *file_of_command(char *file, const char command[])
  * @param if it should display SHA1 hash
  * @param if it should display SHA256 hash
  * 
+ * @return Returns zero upon sucess, non-zero otherwise
 */
-void gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
+int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
 {
     struct stat fileStat;
 
     if (stat(file, &fileStat) < 0)
     {
         printf("FileStat failed!\n");
-        return;
+        return 1;
     }
 
     //===========================================
@@ -321,4 +330,6 @@ void gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
     }
 
     //=================================================
+
+    return 0;
 }

@@ -35,6 +35,6 @@ void inicializeWhatToShow(WhatToShow *whatToShow);
 
 void inicializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc);
 
-void gettingOutput(WhatToShow whatToShow);
+int gettingOutput(WhatToShow whatToShow);
 
-void gettingOutputFile(char * file, bool MD5, bool SHA1, bool SHA256);
+int gettingOutputFile(char * file, bool MD5, bool SHA1, bool SHA256);
