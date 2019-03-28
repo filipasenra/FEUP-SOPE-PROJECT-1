@@ -7,52 +7,38 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory)
 
     d = opendir(directory);
 
-    //Error opening directory
-    if (!d)
+    if (d)
+    {
+        //Makes the currents directory the one passed by the user
+        chdir(directory);
+
+        while ((dir = readdir(d)) != NULL)
+        {
+            //If it is a file and not a (sym)link or a directory
+            if (dir->d_type == DT_REG)
+            {
+                if (gettingOutputFile(dir->d_name, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256) != 0)
+                    return -1;
+            }
+            else if (dir->d_type == DT_DIR)
+            {
+                if (foundNewDirectory(whatToShow, dir->d_name))
+                    return -1;
+            }
+        }
+        closedir(d);
+    }
+    else
     {
         printf("Failed to open %s directory!\n", directory);
         return 3;
     }
-
-    //Makes the currents directory the one passed by the user
-    chdir(directory);
-
-    while ((dir = readdir(d)) != NULL)
-    {
-        //If it is a file and not a (sym)link or a directory
-        if (dir->d_type == DT_REG)
-        {
-            if (gettingOutputFile(dir->d_name, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256))
-                return -1;
-        }
-        else if (dir->d_type == DT_DIR) //If it is a directory
-        {
-            if (strcmp(dir->d_name, ".") && strcmp(dir->d_name, ".."))
-            {
-                int pid = fork();
-
-                if (pid == 0) //child working
-                {
-                    if (foundNewDirectory(whatToShow, dir->d_name))
-                        return -1;
-
-                    break;
-                }
-                else if (pid > 0) //father working
-                {
-                    wait(NULL);
-                }
-            }
-        }
-    }
-    closedir(d);
 
     return 0;
 }
 
 void gettingTokens(WhatToShow *whatToShow, char *argv[], int argc, const char s[2])
 {
-
     char *token;
 
     /* get the first token */
@@ -62,9 +48,7 @@ void gettingTokens(WhatToShow *whatToShow, char *argv[], int argc, const char s[
     while (token != NULL)
     {
         if (strcmp(token, "md5") == 0)
-            {
-                whatToShow->MD5 = true;
-            }
+            whatToShow->MD5 = true;
         else if (strcmp(token, "sha1") == 0)
             whatToShow->SHA1 = true;
         else if (strcmp(token, "sha256") == 0)
@@ -99,7 +83,6 @@ int verifyInvalidArgInserts(char *argv[], int argc)
         printf("FileStat failed!\n");
         return 2;
     }
-
     //check for user argument insertion failure on -r
     if (S_ISREG(path_stat.st_mode))
     {
@@ -111,21 +94,18 @@ int verifyInvalidArgInserts(char *argv[], int argc)
     }
 
     //check order
-    int order = 1;
+    static int order = 1;
     int ordered = 0;
     for (int i = 1; i < argc - 1; i++)
     {
-        if (strcmp(argv[i], "-r") == 0)
+        if (strcmp(argv[i], "-r"))
             order = 1;
-        else if (strcmp(argv[i], "-h") == 0)
+        else if (strcmp(argv[i], "-h"))
             order = 2;
-        else if (strcmp(argv[i], "-o") == 0)
+        else if (strcmp(argv[i], "-o"))
+            order = 3;
+        else if (strcmp(argv[i], "-v"))
             order = 4;
-        else if (strcmp(argv[i], "-v") == 0)
-            order = 6;
-        else if (order == 2 || order == 4){
-            order++;
-        }
 
         if (order <= ordered)
             return 4;
@@ -163,7 +143,8 @@ void initializeWhatToShow(WhatToShow *whatToShow)
 void initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
 {
     //check for eventual user errors
-    if (verifyInvalidArgInserts(argv, argc)) {
+    if (verifyInvalidArgInserts(argv, argc))
+    {
         return;
     }
 
@@ -245,7 +226,6 @@ int gettingOutput(WhatToShow whatToShow)
     if (stat(whatToShow.file, &path_stat) < 0)
     {
         printf("FileStat failed!\n");
-        printf("%s\n", whatToShow.file);
         return 1;
     }
 
@@ -334,7 +314,7 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
 
     //===========================================
     //FILE NAME
-    printf("%s, ", file);
+    printf("Name of file: %s\n", file);
 
     //===============================================
     //TYPE OF FILE
@@ -355,34 +335,26 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
     //Cuts C-string to give only what we want
     char *type_file = strndup(temp + strlen(file) + 2, strlen(temp));
 
-    for (int i = 0; i < strlen(type_file); i++) {
-        if (type_file[i] == '\n') {
-            type_file[i] = 0;
-            break;
-        }
-    }
-
-    printf("%s, ", type_file);
-
-    pclose(in_type_of_file);
+    printf("Type of file: %s", type_file);
 
     //===============================================
     //FILE SIZE
-    printf("%ld, ", fileStat.st_size);
+    printf("File Size: \t\t%ld bytes\n", fileStat.st_size);
 
     //===============================================
     //FILE PERMISSIONS - TO BE MODIFIED
+    printf("File Permissions: \t");
     printf((S_ISDIR(fileStat.st_mode)) ? "d" : "-");
-    //printf((fileStat.st_mode & S_IRUSR) ? "r" : "-");
+    printf((fileStat.st_mode & S_IRUSR) ? "r" : "-");
     printf((fileStat.st_mode & S_IWUSR) ? "w" : "-");
-    //printf((fileStat.st_mode & S_IXUSR) ? "x" : "-");
-    //printf((fileStat.st_mode & S_IRGRP) ? "r" : "-");
+    printf((fileStat.st_mode & S_IXUSR) ? "x" : "-");
+    printf((fileStat.st_mode & S_IRGRP) ? "r" : "-");
     printf((fileStat.st_mode & S_IWGRP) ? "w" : "-");
-    //printf((fileStat.st_mode & S_IXGRP) ? "x" : "-");
-    //printf((fileStat.st_mode & S_IROTH) ? "r" : "-");
+    printf((fileStat.st_mode & S_IXGRP) ? "x" : "-");
+    printf((fileStat.st_mode & S_IROTH) ? "r" : "-");
     printf((fileStat.st_mode & S_IWOTH) ? "w" : "-");
-    //printf((fileStat.st_mode & S_IXOTH) ? "x" : "-");
-    printf(", ");
+    printf((fileStat.st_mode & S_IXOTH) ? "x" : "-");
+    printf("\n");
 
     //================================================
     //MODIFICATION TIME
@@ -392,7 +364,7 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
     modification_time = localtime(&fileStat.st_mtime);
 
     //Printing modification time in ISO 8601 (<date>T<time>) format
-    printf("%d-%d-%dT%d-%d-%d, ", modification_time->tm_mday, modification_time->tm_mon + 1, modification_time->tm_year + 1900, modification_time->tm_hour, modification_time->tm_min, modification_time->tm_sec);
+    printf("%d-%d-%dT%d-%d-%d\n", modification_time->tm_mday, modification_time->tm_mon + 1, modification_time->tm_year + 1900, modification_time->tm_hour, modification_time->tm_min, modification_time->tm_sec);
 
     //================================================
     //LAST ACESS TIME
@@ -402,7 +374,7 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
     last_acess_time = localtime(&fileStat.st_atime);
 
     //Printing last acess time in ISO 8601 (<date>T<time>) format
-    printf("%d-%d-%dT%d-%d-%d", last_acess_time->tm_mday, last_acess_time->tm_mon + 1, last_acess_time->tm_year + 1900, last_acess_time->tm_hour, last_acess_time->tm_min, last_acess_time->tm_sec);
+    printf("%d-%d-%dT%d-%d-%d\n", last_acess_time->tm_mday, last_acess_time->tm_mon + 1, last_acess_time->tm_year + 1900, last_acess_time->tm_hour, last_acess_time->tm_min, last_acess_time->tm_sec);
 
     //=================================================
     //HASH
@@ -425,11 +397,9 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
         }
 
         //Cuts C-string to get only what we want
-        char *string_md5 = strndup(temp, strlen(temp) - (strlen(file) + 3));
+        char *string_md5 = strndup(temp, strlen(temp) - (strlen(file) + 1));
 
-        printf(", %s", string_md5);
-
-        pclose(in_MD5);
+        printf("MD5: %s\n", string_md5);
     }
 
     if (SHA1)
@@ -450,11 +420,9 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
         }
 
         //Cuts C-string to get only what we want
-        char *string_sha1 = strndup(temp, strlen(temp) - (strlen(file) + 3));
+        char *string_sha1 = strndup(temp, strlen(temp) - (strlen(file) + 1));
 
-        printf(", %s", string_sha1);
-
-        pclose(in_sha1);
+        printf("sha1: %s\n", string_sha1);
     }
 
     if (SHA256)
@@ -475,13 +443,10 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
         }
 
         //Cuts C-string to get only what we want
-        char *string_sha256 = strndup(temp, strlen(temp) - (strlen(file) + 3));
-        printf(", %s", string_sha256);
+        char *string_sha256 = strndup(temp, strlen(temp) - (strlen(file) + 1));
 
-        pclose(in_sha256);
+        printf("sha256: %s\n", string_sha256);
     }
-
-    printf("\n");
 
     //=================================================
 

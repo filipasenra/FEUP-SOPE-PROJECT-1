@@ -1,3 +1,6 @@
+#ifndef WhatToShow_H_
+#define WhatToShow_H_
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,8 +13,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <wait.h>
-
-#pragma once
 
 /**
  * @brief struct to save specifications given by the user
@@ -57,3 +58,5 @@ int gettingOutputFile(char * file, bool MD5, bool SHA1, bool SHA256);
  * @return Returns 0 in case of valid, right ordered arguments and non-zero otherwise
 */
 int verifyInvalidArgInserts(char *argv[], int argc);
+
+#endif 
