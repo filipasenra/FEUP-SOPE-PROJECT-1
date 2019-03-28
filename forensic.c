@@ -12,14 +12,20 @@
  *      2.1. Output function should return a C-string or a struct with the values 
  *      to be printed in the console or the output file - resolved, i think?
  *      2.2. The file permissions to be displayed are from whom?
+ * 3.Brief description for gettingTokens() and Filipa how it works?
+ * 4.gettingOutputFile -> printfs()? and file permissions?
 */
 
 int main(int argc, char *argv[], char *envp[])
 {
     WhatToShow whatToShow;
 
-    inicializeWhatToShowUser(&whatToShow, argv, argc);
-    gettingOutput(whatToShow);
+    initializeWhatToShowUser(&whatToShow, argv, argc);
+    
+    if (gettingOutput(whatToShow)) {
+        perror("ERROR GETTING DESTINATION FILE!");
+            return 1;
+    }
 
     return 0;
 }

@@ -31,10 +31,29 @@ typedef struct
 
 } WhatToShow;
 
-void inicializeWhatToShow(WhatToShow *whatToShow);
+/**
+ * @brief Initializes struct WhatToShow given by argument with default values
+ * 
+ * @param whatToShow Struct WhatToShow to be initialized
+*/
+void initializeWhatToShow(WhatToShow *whatToShow);
 
-void inicializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc);
+/**
+ * @brief Initializes struct WhatToShow with the arguments given by the user
+ * 
+ * @param whatToShow Struct
+ *        argv Arguments
+ *        argc Number of arguments
+*/
+void initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc);
 
 int gettingOutput(WhatToShow whatToShow);
 
 int gettingOutputFile(char * file, bool MD5, bool SHA1, bool SHA256);
+
+/**
+ * @brief Verifies all arguments inserted by the user
+ * 
+ * @return Returns 0 in case of valid, right ordered arguments and non-zero otherwise
+*/
+int verifyInvalidArgInserts(char *argv[], int argc);
