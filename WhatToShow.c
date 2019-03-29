@@ -1,6 +1,6 @@
 #include "WhatToShow.h"
 
-int foundNewDirectory(WhatToShow whatToShow, char *directory)
+int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
 {
     DIR *d;
     struct dirent *dir;
@@ -20,8 +20,10 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory)
     while ((dir = readdir(d)) != NULL)
     {
         //If it is a file and not a (sym)link or a directory
-        if (dir->d_type == DT_REG)
+        if (dir->d_type == DT_REG || (!whatToShow.analiseAll && strcmp(dir->d_name, ".") && strcmp(dir->d_name, "..")))
         {
+            if (!isFirstDir)
+                printf("%s/", directory);
             if (gettingOutputFile(dir->d_name, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256))
                 return -1;
         }
@@ -33,7 +35,7 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory)
 
                 if (pid == 0) //child working
                 {
-                    if (foundNewDirectory(whatToShow, dir->d_name))
+                    if (foundNewDirectory(whatToShow, dir->d_name, FALSE))
                         return -1;
 
                     break;
@@ -62,9 +64,9 @@ void gettingTokens(WhatToShow *whatToShow, char *argv[], int argc, const char s[
     while (token != NULL)
     {
         if (strcmp(token, "md5") == 0)
-            {
-                whatToShow->MD5 = true;
-            }
+        {
+            whatToShow->MD5 = true;
+        }
         else if (strcmp(token, "sha1") == 0)
             whatToShow->SHA1 = true;
         else if (strcmp(token, "sha256") == 0)
@@ -123,7 +125,8 @@ int verifyInvalidArgInserts(char *argv[], int argc)
             order = 4;
         else if (strcmp(argv[i], "-v") == 0)
             order = 6;
-        else if (order == 2 || order == 4){
+        else if (order == 2 || order == 4)
+        {
             order++;
         }
 
@@ -163,7 +166,8 @@ void initializeWhatToShow(WhatToShow *whatToShow)
 void initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
 {
     //check for eventual user errors
-    if (verifyInvalidArgInserts(argv, argc)) {
+    if (verifyInvalidArgInserts(argv, argc))
+    {
         return;
     }
 
@@ -245,7 +249,6 @@ int gettingOutput(WhatToShow whatToShow)
     if (stat(whatToShow.file, &path_stat) < 0)
     {
         printf("FileStat failed!\n");
-        printf("%s\n", whatToShow.file);
         return 1;
     }
 
@@ -254,7 +257,6 @@ int gettingOutput(WhatToShow whatToShow)
 
     if (pid == 0) /* child */
     {
-
         //Reedirect Output to File Given by User if necessary
         if (redirectOutput(whatToShow) != 0)
             return 2;
@@ -265,12 +267,14 @@ int gettingOutput(WhatToShow whatToShow)
             gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256);
             return 0;
         }
-
         //If it is not a file, lets show the information of all files
-        if (foundNewDirectory(whatToShow, whatToShow.file))
+        else
         {
-            printf("Failed finding new directory %s", whatToShow.file);
-            return 1;
+            if (foundNewDirectory(whatToShow, whatToShow.file, TRUE))
+            {
+                printf("Failed finding new directory %s", whatToShow.file);
+                return 1;
+            }
         }
     }
     else if (pid > 0) /* father */
@@ -355,8 +359,10 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
     //Cuts C-string to give only what we want
     char *type_file = strndup(temp + strlen(file) + 2, strlen(temp));
 
-    for (int i = 0; i < strlen(type_file); i++) {
-        if (type_file[i] == '\n') {
+    for (int i = 0; i < strlen(type_file); i++)
+    {
+        if (type_file[i] == '\n')
+        {
             type_file[i] = 0;
             break;
         }

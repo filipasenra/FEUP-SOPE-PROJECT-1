@@ -23,7 +23,7 @@ int main(int argc, char *argv[], char *envp[])
     initializeWhatToShowUser(&whatToShow, argv, argc);
     
     if (gettingOutput(whatToShow)) {
-        perror("ERROR GETTING DESTINATION FILE!");
+        perror("ERROR GETTING OUTPUT!");
             return 1;
     }
 

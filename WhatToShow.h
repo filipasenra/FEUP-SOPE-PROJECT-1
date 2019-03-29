@@ -14,6 +14,9 @@
 #include <unistd.h>
 #include <wait.h>
 
+#define FALSE 0
+#define TRUE 1
+
 /**
  * @brief struct to save specifications given by the user
 */
@@ -58,5 +61,7 @@ int gettingOutputFile(char * file, bool MD5, bool SHA1, bool SHA256);
  * @return Returns 0 in case of valid, right ordered arguments and non-zero otherwise
 */
 int verifyInvalidArgInserts(char *argv[], int argc);
+
+int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir);
 
 #endif 
