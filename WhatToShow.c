@@ -1,5 +1,13 @@
 #include "WhatToShow.h"
 
+/**
+ * @brief Displays information of files within a directory
+ * @param whatToShow Struct
+ *        directory String of the current directory
+ *        path String of the path to original to the currenct directory
+ * 
+ * @return Returns zero upon sucess, and non-zero otherwise
+*/
 int foundNewDirectory(WhatToShow whatToShow, char *directory, const char path[])
 {
     DIR *d;
@@ -65,6 +73,14 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, const char path[])
     return 0;
 }
 
+/**
+ * @brief Updates the struct whatToShow with the information in the argv
+ * 
+ * @param whatToShow Struct
+ *        argv List of arguments passed to the program
+ *        argc Current position of '-h'
+ *        s Token that separates the arguments
+*/
 void gettingTokens(WhatToShow *whatToShow, char *argv[], int argc, const char s[2])
 {
 
