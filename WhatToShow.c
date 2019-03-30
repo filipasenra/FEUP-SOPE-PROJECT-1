@@ -20,7 +20,7 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, const char path[])
     while ((dir = readdir(d)) != NULL)
     {
         //If it is a file and not a (sym)link or a directory
-        if (dir->d_type == DT_REG) //|| (!whatToShow.analiseAll && strcmp(dir->d_name, ".") && strcmp(dir->d_name, "..")))
+        if (dir->d_type == DT_REG)
         {
             //Prints the path of the file
             printf("%s", path);
