@@ -1,6 +1,6 @@
 #include "WhatToShow.h"
 
-int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
+int foundNewDirectory(WhatToShow whatToShow, char *directory, const char path[])
 {
     DIR *d;
     struct dirent *dir;
@@ -20,14 +20,15 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
     while ((dir = readdir(d)) != NULL)
     {
         //If it is a file and not a (sym)link or a directory
-        if (dir->d_type == DT_REG || (!whatToShow.analiseAll && strcmp(dir->d_name, ".") && strcmp(dir->d_name, "..")))
+        if (dir->d_type == DT_REG) //|| (!whatToShow.analiseAll && strcmp(dir->d_name, ".") && strcmp(dir->d_name, "..")))
         {
-            if (!isFirstDir)
-                printf("%s/", directory);
+            //Prints the path of the file
+            printf("%s", path);
+
             if (gettingOutputFile(dir->d_name, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256))
                 return -1;
         }
-        else if (dir->d_type == DT_DIR) //If it is a directory
+        else if (dir->d_type == DT_DIR && whatToShow.analiseAll) //If it is a directory
         {
             if (strcmp(dir->d_name, ".") && strcmp(dir->d_name, ".."))
             {
@@ -35,13 +36,25 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
 
                 if (pid == 0) //child working
                 {
-                    if (foundNewDirectory(whatToShow, dir->d_name, FALSE))
+                    char tmp_path[256];
+                    strcpy(tmp_path, path);
+
+                    //If the path is not empty, add a '/'
+                    if (strcmp(tmp_path, ""))
+                        strcat(tmp_path, "/");
+
+                    strcat(tmp_path, dir->d_name);
+                    strcat(tmp_path, "/");
+
+                    if (foundNewDirectory(whatToShow, dir->d_name, tmp_path))
                         return -1;
 
+                    //When it has finished working the directory, it returns
                     break;
                 }
                 else if (pid > 0) //father working
                 {
+                    //Waist for child to finished
                     wait(NULL);
                 }
             }
@@ -270,7 +283,7 @@ int gettingOutput(WhatToShow whatToShow)
         //If it is not a file, lets show the information of all files
         else
         {
-            if (foundNewDirectory(whatToShow, whatToShow.file, TRUE))
+            if (foundNewDirectory(whatToShow, whatToShow.file, ""))
             {
                 printf("Failed finding new directory %s", whatToShow.file);
                 return 1;
