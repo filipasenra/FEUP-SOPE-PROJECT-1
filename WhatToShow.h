@@ -22,7 +22,6 @@
 */
 typedef struct
 {
-
     bool analiseAll;
     bool MD5;
     bool SHA1;
@@ -32,6 +31,7 @@ typedef struct
     bool saidaPadrao;
     char *outputFile;
     char *file;
+    clock_t start;
 
 } WhatToShow;
 

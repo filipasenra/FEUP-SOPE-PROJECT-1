@@ -1,5 +1,27 @@
 #include "WhatToShow.h"
 
+/*
+* @brief Adds a log at the end of a file
+*/
+int addLog(clock_t start, clock_t end, char act[], char output[])
+{
+    FILE *file_output = fopen(output, "a");
+
+    double inst = ((double)(end - start)) / CLOCKS_PER_SEC;
+    fprintf(file_output, "%.2f", inst);
+    fprintf(file_output, " - ");
+
+    fprintf(file_output, "%d", getpid());
+    fprintf(file_output, " - ");
+
+    fprintf(file_output, act);
+    fprintf(file_output, "\n");
+
+    fclose(file_output);
+
+    return 0;
+}
+
 /**
  * @brief Displays information of files within a directory
  * @param whatToShow Struct
@@ -93,9 +115,7 @@ void gettingTokens(WhatToShow *whatToShow, char *argv[], int argc, const char s[
     while (token != NULL)
     {
         if (strcmp(token, "md5") == 0)
-        {
             whatToShow->MD5 = true;
-        }
         else if (strcmp(token, "sha1") == 0)
             whatToShow->SHA1 = true;
         else if (strcmp(token, "sha256") == 0)
@@ -155,9 +175,7 @@ int verifyInvalidArgInserts(char *argv[], int argc)
         else if (strcmp(argv[i], "-v") == 0)
             order = 6;
         else if (order == 2 || order == 4)
-        {
             order++;
-        }
 
         if (order <= ordered)
             return 4;
@@ -174,6 +192,7 @@ int verifyInvalidArgInserts(char *argv[], int argc)
 */
 void initializeWhatToShow(WhatToShow *whatToShow)
 {
+    whatToShow->start = clock();
     whatToShow->analiseAll = false;
     whatToShow->MD5 = false;
     whatToShow->SHA1 = false;
@@ -406,17 +425,9 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
     printf("%ld, ", fileStat.st_size);
 
     //===============================================
-    //FILE PERMISSIONS - TO BE MODIFIED
-    printf((S_ISDIR(fileStat.st_mode)) ? "d" : "-");
-    //printf((fileStat.st_mode & S_IRUSR) ? "r" : "-");
+    //FILE PERMISSIONS
+    printf((fileStat.st_mode & S_IRUSR) ? "r" : "-");
     printf((fileStat.st_mode & S_IWUSR) ? "w" : "-");
-    //printf((fileStat.st_mode & S_IXUSR) ? "x" : "-");
-    //printf((fileStat.st_mode & S_IRGRP) ? "r" : "-");
-    printf((fileStat.st_mode & S_IWGRP) ? "w" : "-");
-    //printf((fileStat.st_mode & S_IXGRP) ? "x" : "-");
-    //printf((fileStat.st_mode & S_IROTH) ? "r" : "-");
-    printf((fileStat.st_mode & S_IWOTH) ? "w" : "-");
-    //printf((fileStat.st_mode & S_IXOTH) ? "x" : "-");
     printf(", ");
 
     //================================================
