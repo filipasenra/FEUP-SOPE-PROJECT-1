@@ -4,66 +4,43 @@
  * @brief Constructs a string with the initial command given by the user
  * 
  * @param whatToShow Struct with the command arguments
+ *        path_stat Struct 
  * 
  * @return Return the string with the initial command
  */
-void initialCommand(WhatToShow whatToShow, struct stat path_stat, char command[])
+void initialCommand(WhatToShow whatToShow, bool folder, char command[])
 {
     strcpy(command, "forensic");
 
     if (whatToShow.analiseAll)
         strcat(command, " -r");
+
     if (whatToShow.MD5 || whatToShow.SHA1 || whatToShow.SHA256)
         strcat(command, " -h");
+
     if (whatToShow.MD5)
         strcat(command, " md5");
+
     if (whatToShow.SHA1)
         strcat(command, ",sha1");
+
     if (whatToShow.SHA256)
         strcat(command, ",sha256");
+
     if (!whatToShow.saidaPadrao)
     {
         strcat(command, " -o ");
         strcat(command, whatToShow.outputFile);
     }
+
     if (whatToShow.registosExecucao)
         strcat(command, " -v ");
 
     //If it is a folder, print ./
-    if (!S_ISREG(path_stat.st_mode))
+    if (folder)
         strcat(command, "./");
+
     strcat(command, whatToShow.file);
-}
-
-/**
-* @brief Adds a log at the end of a file
-*
-* @param start  Initial instant
-*        end    Final instant
-*        act    Description
-*        output Output file's name
-*
-* @return Return zero upon sucess, non-zero otherwise
-*/
-int addLog(clock_t start, clock_t end, char act[], FILE *file_output)
-{
-    double inst = ((double)(end - start)) / CLOCKS_PER_SEC;
-    fprintf(file_output, "%.2f", inst);
-    fflush(file_output);
-    fprintf(file_output, " - ");
-    fflush(file_output);
-
-    fprintf(file_output, "%d", getpid());
-    fflush(file_output);
-    fprintf(file_output, " - ");
-    fflush(file_output);
-
-    fprintf(file_output, "%s", act);
-    fflush(file_output);
-    fprintf(file_output, "\n");
-    fflush(file_output);
-
-    return 0;
 }
 
 int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
@@ -82,10 +59,10 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
 
     //Makes the currents directory the one passed by the user
     chdir(directory);
-    
+
     while ((dir = readdir(d)) != NULL)
     {
-        //If it is a file and not a (sym)link or a directory
+        //If it is a file or a if it isn't to analyse subfolders
         if (dir->d_type == DT_REG || (!whatToShow.analiseAll && strcmp(dir->d_name, ".") && strcmp(dir->d_name, "..")))
         {
             if (!isFirstDir)
@@ -93,31 +70,29 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
 
             if (gettingOutputFile(dir->d_name, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256))
                 return -1;
-            
-            //Print to log file case necessary     
-            if (whatToShow.registosExecucao) {
+
+            //Print to log file case necessary
+            if (whatToShow.registosExecucao)
+            {
                 enum act description = analized;
                 if (gettingRegFile(dir->d_name, whatToShow.outputRegFile, whatToShow.start, description, NULL))
                     printf("Failed getting log file");
             }
         }
-        else if (dir->d_type == DT_DIR) //If it is a directory
+        else if (dir->d_type == DT_DIR && strcmp(dir->d_name, ".") && strcmp(dir->d_name, "..")) //If it is a directory
         {
-            if (strcmp(dir->d_name, ".") && strcmp(dir->d_name, ".."))
+            int pid = fork();
+
+            if (pid == 0) //child working
             {
-                int pid = fork();
+                if (foundNewDirectory(whatToShow, dir->d_name, FALSE))
+                    return -1;
 
-                if (pid == 0) //child working
-                {
-                    if (foundNewDirectory(whatToShow, dir->d_name, FALSE))
-                        return -1;
-
-                    break;
-                }
-                else if (pid > 0) //father working
-                {
-                    wait(NULL);
-                }
+                break;
+            }
+            else if (pid > 0) //father working
+            {
+                wait(NULL);
             }
         }
     }
@@ -265,6 +240,12 @@ int initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
         {
             whatToShow->registosExecucao = true;
             whatToShow->outputRegExe = getenv("LOGFILENAME");
+
+            if(whatToShow->outputRegExe == NULL)
+                {
+                    char tmp[] = "logfile.txt";
+                    whatToShow->outputRegExe = tmp;
+                }
         }
         else if (strcmp(argv[argc], "-o") == 0)
         {
@@ -331,11 +312,15 @@ int gettingOutput(WhatToShow whatToShow)
 
     //String with all args given
     char cmd[256];
-    initialCommand(whatToShow, path_stat, cmd);
+
+    if (S_ISREG(path_stat.st_mode))
+        initialCommand(whatToShow, false, cmd);
+    else
+        initialCommand(whatToShow, true, cmd);
 
     //Printing first execution - program initialization
     if (whatToShow.registosExecucao)
-    {   
+    {
         //Opening log file
         whatToShow.outputRegFile = fopen(whatToShow.outputRegExe, "a");
 
@@ -359,8 +344,9 @@ int gettingOutput(WhatToShow whatToShow)
             if (gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256))
                 printf("Failed getting output file");
 
-            //Print to log file case necessary     
-            if (whatToShow.registosExecucao) {
+            //Print to log file case necessary
+            if (whatToShow.registosExecucao)
+            {
                 enum act description = analized;
                 if (gettingRegFile(whatToShow.file, whatToShow.outputRegFile, whatToShow.start, description, NULL))
                     printf("Failed getting log file");
@@ -396,7 +382,8 @@ int gettingOutput(WhatToShow whatToShow)
     }
 
     //Closing log file if necessary
-    if (whatToShow.registosExecucao) {
+    if (whatToShow.registosExecucao)
+    {
         enum act description = finished;
         if (gettingRegFile(whatToShow.file, whatToShow.outputRegFile, whatToShow.start, description, NULL))
             printf("Failed getting log file");
@@ -468,7 +455,7 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
     //Cuts C-string to give only what we want
     char *type_file = strndup(temp + strlen(file) + 2, strlen(temp));
 
-    for (int i = 0; i < strlen(type_file); i++)
+    for (int i = 0; i < (int) strlen(type_file); i++)
     {
         if (type_file[i] == '\n')
         {
@@ -487,7 +474,6 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
 
     //===============================================
     //FILE PERMISSIONS - TO BE MODIFIED
-    printf((S_ISDIR(fileStat.st_mode)) ? "d" : "-");
     printf((fileStat.st_mode & S_IWUSR) ? "w" : "-");
     printf((fileStat.st_mode & S_IWGRP) ? "w" : "-");
     printf((fileStat.st_mode & S_IWOTH) ? "w" : "-");
@@ -593,64 +579,6 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
     printf("\n");
 
     //=================================================
-
-    return 0;
-}
-
-int gettingRegFile(char *file, FILE *regFile, clock_t start, enum act description, char *cmd)
-{   
-    switch (description)
-    {
-    case 0:
-    {
-        //Setting up char array act
-        char act[256] = "COMMAND ";
-        strcat(act, cmd);
-
-        //Adding register to the log file
-        if (addLog(start, clock(), act, regFile))
-        {
-            printf("Failed printing to log file\n");
-            return 1;
-        }
-        break;
-    }
-    case 1:
-    {
-        break;
-    }
-    case 2:
-    {
-        break;
-    }
-    case 3:
-    {
-        //Setting up char array act
-        char act[256] = "ANALIZED ";
-        strcat(act, file);
-        
-        //Adding register to the log file
-        if (addLog(start, clock(), act, regFile))
-        {
-            printf("Failed printing to log file\n");
-            return 1;
-        }
-        break;
-    }
-    case 4:
-    {
-        //Setting up char array act
-        char act[256] = "Finished process execution";
-
-        //Adding register to the log file
-        if (addLog(start, clock(), act, regFile))
-        {
-            printf("Failed printing to log file\n");
-            return 1;
-        }
-        break;
-    }
-    }
 
     return 0;
 }

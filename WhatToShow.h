@@ -1,6 +1,8 @@
 #ifndef WhatToShow_H_
 #define WhatToShow_H_
 
+#include "log.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -35,17 +37,6 @@ typedef struct
     clock_t start;
 
 } WhatToShow;
-
-/**
- * @brief Enum to define which act is to be printed on the log file
-*/
-enum act {
-    command,
-    signalOne,
-    signalTwo,
-    analized,
-    finished
-};
 
 /**
  * @brief Initializes struct WhatToShow given by argument with default values
@@ -114,20 +105,6 @@ int verifyInvalidArgInserts(char *argv[], int argc);
 
 int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir);
 
-/**
-* @brief Adds a log at the end of a file
-*
-* @param start  Initial instant
-*        end    Final instant
-*        act    Description
-*        output Output file's name
-*
-* @return Return zero upon sucess, non-zero otherwise
-*/
-int addLog(clock_t start, clock_t end, char act[], FILE *file_output);
-
-void initialCommand(WhatToShow whatToShow, struct stat path_stat, char *command);
-
-int gettingRegFile(char *file, FILE *regFile, clock_t start, enum act description, char *cmd);
+void initialCommand(WhatToShow whatToShow, bool folder, char command[]);
 
 #endif 
