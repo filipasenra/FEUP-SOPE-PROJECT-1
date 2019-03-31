@@ -20,11 +20,14 @@ int main(int argc, char *argv[], char *envp[])
 {
     WhatToShow whatToShow;
 
-    initializeWhatToShowUser(&whatToShow, argv, argc);
+    if (initializeWhatToShowUser(&whatToShow, argv, argc)) {
+        perror("ERROR INITIALIZING!");
+        return 1;
+    }
     
     if (gettingOutput(whatToShow)) {
         perror("ERROR GETTING OUTPUT!");
-            return 1;
+        return 2;
     }
 
     return 0;

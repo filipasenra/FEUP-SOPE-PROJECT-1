@@ -36,6 +36,16 @@ typedef struct
 } WhatToShow;
 
 /**
+ * @brief Enum to define which act is to be printed on the log file
+*/
+enum act {
+    command,
+    signalOne,
+    signalTwo,
+    analized
+};
+
+/**
  * @brief Initializes struct WhatToShow given by argument with default values
  * 
  * @param whatToShow Struct WhatToShow to be initialized
@@ -49,11 +59,49 @@ void initializeWhatToShow(WhatToShow *whatToShow);
  *        argv Arguments
  *        argc Number of arguments
 */
-void initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc);
+int initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc);
 
+/**
+ * @brief Displays the information accordingly with WhatToShow
+ * 
+ * @param whatToShow Struct
+ * 
+ * @return Returns 0 upon sucess, non-zero otherwise
+*/
 int gettingOutput(WhatToShow whatToShow);
 
+/**
+ * @brief Redirects Output if necessary
+ * 
+ * @param whatToShow Struct 
+ * 
+ * @return Return zero upon sucess, non-zero otherwise
+*/
+int redirectOutput(WhatToShow whatToShow);
+
+/**
+ * @brief Reedirects the output of the command given to a FILE
+ * 
+ * @param File to be analysed
+ *        Command to be given
+ * 
+ * @return Returns a pointer to the FILE where the output of the command is redirected
+*/
+FILE *file_of_command(char *file, const char command[]);
+
+/**
+ * @brief Getting the output of a file
+ * 
+ * @param file Name of the file
+ *        MD5 If it should display MD5 hash
+ *        SHA1 If it should display SHA1 hash
+ *        SHA256 If it should display SHA256 hash
+ * 
+ * @return Returns zero upon sucess, non-zero otherwise
+*/
 int gettingOutputFile(char * file, bool MD5, bool SHA1, bool SHA256);
+
+void gettingTokens(WhatToShow *whatToShow, char *argv[], int argc, const char s[2]);
 
 /**
  * @brief Verifies all arguments inserted by the user
@@ -63,5 +111,21 @@ int gettingOutputFile(char * file, bool MD5, bool SHA1, bool SHA256);
 int verifyInvalidArgInserts(char *argv[], int argc);
 
 int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir);
+
+/**
+* @brief Adds a log at the end of a file
+*
+* @param start  Initial instant
+*        end    Final instant
+*        act    Description
+*        output Output file's name
+*
+* @return Return zero upon sucess, non-zero otherwise
+*/
+int addLog(clock_t start, clock_t end, char act[], char output[]);
+
+char* initialCommand(WhatToShow whatToShow, struct stat path_stat);
+
+int gettingRegFile(char *file, char *regFile, clock_t start, enum act description, char *cmd);
 
 #endif 

@@ -1,10 +1,57 @@
 #include "WhatToShow.h"
 
-/*
+/**
+ * @brief Constructs a string with the initial command given by the user
+ * 
+ * @param whatToShow Struct with the command arguments
+ * 
+ * @return Return the string with the initial command
+ */
+char *initialCommand(WhatToShow whatToShow, struct stat path_stat)
+{
+    char command[256] = "forensic";
+
+    if (whatToShow.analiseAll)
+        strcat(command, " -r");
+    if (whatToShow.MD5 || whatToShow.SHA1 || whatToShow.SHA256)
+        strcat(command, " -h");
+    if (whatToShow.MD5)
+        strcat(command, " md5");
+    if (whatToShow.SHA1)
+        strcat(command, ",sha1");
+    if (whatToShow.SHA256)
+        strcat(command, ",sha256");
+    if (!whatToShow.saidaPadrao)
+    {
+        strcat(command, " -o ");
+        strcat(command, whatToShow.outputFile);
+    }
+    if (whatToShow.registosExecucao)
+        strcat(command, " -v ");
+
+    //If it is a folder, print ./
+    if (!S_ISREG(path_stat.st_mode))
+        strcat(command, "./");
+    strcat(command, whatToShow.file);
+    char *cmd = command;
+
+    return cmd;
+}
+
+/**
 * @brief Adds a log at the end of a file
+*
+* @param start  Initial instant
+*        end    Final instant
+*        act    Description
+*        output Output file's name
+*
+* @return Return zero upon sucess, non-zero otherwise
 */
 int addLog(clock_t start, clock_t end, char act[], char output[])
 {
+    printf("Act: %s\n", act);
+    printf("Output: %s\n", output);
     FILE *file_output = fopen(output, "a");
 
     double inst = ((double)(end - start)) / CLOCKS_PER_SEC;
@@ -14,7 +61,7 @@ int addLog(clock_t start, clock_t end, char act[], char output[])
     fprintf(file_output, "%d", getpid());
     fprintf(file_output, " - ");
 
-    fprintf(file_output, act);
+    fprintf(file_output, "%s", act);
     fprintf(file_output, "\n");
 
     fclose(file_output);
@@ -22,15 +69,7 @@ int addLog(clock_t start, clock_t end, char act[], char output[])
     return 0;
 }
 
-/**
- * @brief Displays information of files within a directory
- * @param whatToShow Struct
- *        directory String of the current directory
- *        path String of the path to original to the currenct directory
- * 
- * @return Returns zero upon sucess, and non-zero otherwise
-*/
-int foundNewDirectory(WhatToShow whatToShow, char *directory, const char path[])
+int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
 {
     DIR *d;
     struct dirent *dir;
@@ -46,19 +85,26 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, const char path[])
 
     //Makes the currents directory the one passed by the user
     chdir(directory);
-
+    
     while ((dir = readdir(d)) != NULL)
     {
         //If it is a file and not a (sym)link or a directory
-        if (dir->d_type == DT_REG)
+        if (dir->d_type == DT_REG || (!whatToShow.analiseAll && strcmp(dir->d_name, ".") && strcmp(dir->d_name, "..")))
         {
-            //Prints the path of the file
-            printf("%s", path);
+            if (!isFirstDir)
+                printf("%s/", directory);
 
             if (gettingOutputFile(dir->d_name, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256))
                 return -1;
+            
+            //Print to log file case necessary     
+            if (whatToShow.registosExecucao) {
+                enum act description = analized;
+                if (gettingRegFile(dir->d_name, whatToShow.outputRegExe, whatToShow.start, description, NULL))
+                    printf("Failed getting log file");
+            }
         }
-        else if (dir->d_type == DT_DIR && whatToShow.analiseAll) //If it is a directory
+        else if (dir->d_type == DT_DIR) //If it is a directory
         {
             if (strcmp(dir->d_name, ".") && strcmp(dir->d_name, ".."))
             {
@@ -66,25 +112,13 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, const char path[])
 
                 if (pid == 0) //child working
                 {
-                    char tmp_path[256];
-                    strcpy(tmp_path, path);
-
-                    //If the path is not empty, add a '/'
-                    if (strcmp(tmp_path, ""))
-                        strcat(tmp_path, "/");
-
-                    strcat(tmp_path, dir->d_name);
-                    strcat(tmp_path, "/");
-
-                    if (foundNewDirectory(whatToShow, dir->d_name, tmp_path))
+                    if (foundNewDirectory(whatToShow, dir->d_name, FALSE))
                         return -1;
 
-                    //When it has finished working the directory, it returns
                     break;
                 }
                 else if (pid > 0) //father working
                 {
-                    //Waist for child to finished
                     wait(NULL);
                 }
             }
@@ -95,17 +129,8 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, const char path[])
     return 0;
 }
 
-/**
- * @brief Updates the struct whatToShow with the information in the argv
- * 
- * @param whatToShow Struct
- *        argv List of arguments passed to the program
- *        argc Current position of '-h'
- *        s Token that separates the arguments
-*/
 void gettingTokens(WhatToShow *whatToShow, char *argv[], int argc, const char s[2])
 {
-
     char *token;
 
     /* get the first token */
@@ -115,7 +140,9 @@ void gettingTokens(WhatToShow *whatToShow, char *argv[], int argc, const char s[
     while (token != NULL)
     {
         if (strcmp(token, "md5") == 0)
+        {
             whatToShow->MD5 = true;
+        }
         else if (strcmp(token, "sha1") == 0)
             whatToShow->SHA1 = true;
         else if (strcmp(token, "sha256") == 0)
@@ -175,7 +202,9 @@ int verifyInvalidArgInserts(char *argv[], int argc)
         else if (strcmp(argv[i], "-v") == 0)
             order = 6;
         else if (order == 2 || order == 4)
+        {
             order++;
+        }
 
         if (order <= ordered)
             return 4;
@@ -211,12 +240,12 @@ void initializeWhatToShow(WhatToShow *whatToShow)
  *        argv Arguments
  *        argc Number of arguments
 */
-void initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
+int initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
 {
     //check for eventual user errors
     if (verifyInvalidArgInserts(argv, argc))
     {
-        return;
+        return 1;
     }
 
     //initialize struct with default values
@@ -256,6 +285,8 @@ void initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
         //continuing backwards
         argc--;
     }
+
+    return 0;
 }
 
 /**
@@ -278,7 +309,7 @@ int redirectOutput(WhatToShow whatToShow)
             return 1;
         }
 
-        dup2(file1, 1);
+        dup2(file1, STDOUT_FILENO);
     }
 
     return 0;
@@ -300,6 +331,17 @@ int gettingOutput(WhatToShow whatToShow)
         return 1;
     }
 
+    //String with all args given
+    char* cmd = initialCommand(whatToShow, path_stat);
+
+    //Printing first execution - program initialization
+    if (whatToShow.registosExecucao)
+    {
+        enum act description = command;
+        if (gettingRegFile(whatToShow.file, whatToShow.outputRegExe, whatToShow.start, description, cmd))
+            printf("Failed getting log file");
+    }
+
     //Child can mess with reedirecting printf to the file
     int pid = fork();
 
@@ -312,13 +354,22 @@ int gettingOutput(WhatToShow whatToShow)
         //If it is a file and not a (sym)link or a directory
         if (S_ISREG(path_stat.st_mode))
         {
-            gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256);
+            if (gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256))
+                printf("Failed getting output file");
+
+            //Print to log file case necessary     
+            if (whatToShow.registosExecucao) {
+                enum act description = analized;
+                if (gettingRegFile(whatToShow.file, whatToShow.outputRegExe, whatToShow.start, description, cmd))
+                    printf("Failed getting log file");
+            }
+
             return 0;
         }
         //If it is not a file, lets show the information of all files
         else
         {
-            if (foundNewDirectory(whatToShow, whatToShow.file, ""))
+            if (foundNewDirectory(whatToShow, whatToShow.file, TRUE))
             {
                 printf("Failed finding new directory %s", whatToShow.file);
                 return 1;
@@ -425,9 +476,11 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
     printf("%ld, ", fileStat.st_size);
 
     //===============================================
-    //FILE PERMISSIONS
-    printf((fileStat.st_mode & S_IRUSR) ? "r" : "-");
+    //FILE PERMISSIONS - TO BE MODIFIED
+    printf((S_ISDIR(fileStat.st_mode)) ? "d" : "-");
     printf((fileStat.st_mode & S_IWUSR) ? "w" : "-");
+    printf((fileStat.st_mode & S_IWGRP) ? "w" : "-");
+    printf((fileStat.st_mode & S_IWOTH) ? "w" : "-");
     printf(", ");
 
     //================================================
@@ -530,6 +583,51 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
     printf("\n");
 
     //=================================================
+
+    return 0;
+}
+
+int gettingRegFile(char *file, char *regFile, clock_t start, enum act description, char *cmd)
+{   
+    switch (description)
+    {
+    case 0:
+    {
+        //Setting up char array act
+        char act[256] = "COMMAND ";
+        strcat(act, cmd);
+
+        //Adding register to the log file
+        if (addLog(start, clock(), act, regFile))
+        {
+            printf("Failed printing to log file\n");
+            return 1;
+        }
+        break;
+    }
+    case 1:
+    {
+        break;
+    }
+    case 2:
+    {
+        break;
+    }
+    case 3:
+    {
+        //Setting up char array act
+        char act[256] = "ANALIZED ";
+        strcat(act, file);
+        
+        //Adding register to the log file
+        if (addLog(start, clock(), act, regFile))
+        {
+            printf("Failed printing to log file\n");
+            return 1;
+        }
+        break;
+    }
+    }
 
     return 0;
 }

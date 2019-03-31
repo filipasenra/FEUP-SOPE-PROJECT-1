@@ -1,0 +1,2 @@
+0.00 - 6994 - COMMAND forensic -v .//home/nmtc01/Desktop/OLA
+0.00 - 7536 - COMMAND forensic -v .//home/nmtc01/Desktop/OLA
