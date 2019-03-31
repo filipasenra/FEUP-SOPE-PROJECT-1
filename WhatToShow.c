@@ -7,9 +7,9 @@
  * 
  * @return Return the string with the initial command
  */
-char *initialCommand(WhatToShow whatToShow, struct stat path_stat)
+void initialCommand(WhatToShow whatToShow, struct stat path_stat, char command[])
 {
-    char command[256] = "forensic";
+    strcpy(command, "forensic");
 
     if (whatToShow.analiseAll)
         strcat(command, " -r");
@@ -33,9 +33,6 @@ char *initialCommand(WhatToShow whatToShow, struct stat path_stat)
     if (!S_ISREG(path_stat.st_mode))
         strcat(command, "./");
     strcat(command, whatToShow.file);
-    char *cmd = command;
-
-    return cmd;
 }
 
 /**
@@ -48,23 +45,23 @@ char *initialCommand(WhatToShow whatToShow, struct stat path_stat)
 *
 * @return Return zero upon sucess, non-zero otherwise
 */
-int addLog(clock_t start, clock_t end, char act[], char output[])
+int addLog(clock_t start, clock_t end, char act[], FILE *file_output)
 {
-    printf("Act: %s\n", act);
-    printf("Output: %s\n", output);
-    FILE *file_output = fopen(output, "a");
-
     double inst = ((double)(end - start)) / CLOCKS_PER_SEC;
     fprintf(file_output, "%.2f", inst);
+    fflush(file_output);
     fprintf(file_output, " - ");
+    fflush(file_output);
 
     fprintf(file_output, "%d", getpid());
+    fflush(file_output);
     fprintf(file_output, " - ");
+    fflush(file_output);
 
     fprintf(file_output, "%s", act);
+    fflush(file_output);
     fprintf(file_output, "\n");
-
-    fclose(file_output);
+    fflush(file_output);
 
     return 0;
 }
@@ -100,7 +97,7 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
             //Print to log file case necessary     
             if (whatToShow.registosExecucao) {
                 enum act description = analized;
-                if (gettingRegFile(dir->d_name, whatToShow.outputRegExe, whatToShow.start, description, NULL))
+                if (gettingRegFile(dir->d_name, whatToShow.outputRegFile, whatToShow.start, description, NULL))
                     printf("Failed getting log file");
             }
         }
@@ -228,6 +225,7 @@ void initializeWhatToShow(WhatToShow *whatToShow)
     whatToShow->SHA256 = false;
     whatToShow->registosExecucao = false;
     whatToShow->outputRegExe = NULL;
+    whatToShow->outputRegFile = NULL;
     whatToShow->saidaPadrao = true;
     whatToShow->outputFile = NULL;
     whatToShow->file = NULL;
@@ -332,13 +330,17 @@ int gettingOutput(WhatToShow whatToShow)
     }
 
     //String with all args given
-    char* cmd = initialCommand(whatToShow, path_stat);
+    char cmd[256];
+    initialCommand(whatToShow, path_stat, cmd);
 
     //Printing first execution - program initialization
     if (whatToShow.registosExecucao)
-    {
+    {   
+        //Opening log file
+        whatToShow.outputRegFile = fopen(whatToShow.outputRegExe, "a");
+
         enum act description = command;
-        if (gettingRegFile(whatToShow.file, whatToShow.outputRegExe, whatToShow.start, description, cmd))
+        if (gettingRegFile(whatToShow.file, whatToShow.outputRegFile, whatToShow.start, description, cmd))
             printf("Failed getting log file");
     }
 
@@ -360,7 +362,7 @@ int gettingOutput(WhatToShow whatToShow)
             //Print to log file case necessary     
             if (whatToShow.registosExecucao) {
                 enum act description = analized;
-                if (gettingRegFile(whatToShow.file, whatToShow.outputRegExe, whatToShow.start, description, cmd))
+                if (gettingRegFile(whatToShow.file, whatToShow.outputRegFile, whatToShow.start, description, NULL))
                     printf("Failed getting log file");
             }
 
@@ -391,6 +393,14 @@ int gettingOutput(WhatToShow whatToShow)
     {
         printf("ERROR in creating fork!\n");
         return 4;
+    }
+
+    //Closing log file if necessary
+    if (whatToShow.registosExecucao) {
+        enum act description = finished;
+        if (gettingRegFile(whatToShow.file, whatToShow.outputRegFile, whatToShow.start, description, NULL))
+            printf("Failed getting log file");
+        fclose(whatToShow.outputRegFile);
     }
 
     return 0;
@@ -587,7 +597,7 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
     return 0;
 }
 
-int gettingRegFile(char *file, char *regFile, clock_t start, enum act description, char *cmd)
+int gettingRegFile(char *file, FILE *regFile, clock_t start, enum act description, char *cmd)
 {   
     switch (description)
     {
@@ -619,6 +629,19 @@ int gettingRegFile(char *file, char *regFile, clock_t start, enum act descriptio
         char act[256] = "ANALIZED ";
         strcat(act, file);
         
+        //Adding register to the log file
+        if (addLog(start, clock(), act, regFile))
+        {
+            printf("Failed printing to log file\n");
+            return 1;
+        }
+        break;
+    }
+    case 4:
+    {
+        //Setting up char array act
+        char act[256] = "Finished process execution";
+
         //Adding register to the log file
         if (addLog(start, clock(), act, regFile))
         {

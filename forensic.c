@@ -18,6 +18,8 @@
 
 int main(int argc, char *argv[], char *envp[])
 {
+    setbuf(stdout, NULL);
+
     WhatToShow whatToShow;
 
     if (initializeWhatToShowUser(&whatToShow, argv, argc)) {

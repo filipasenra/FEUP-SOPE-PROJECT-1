@@ -28,6 +28,7 @@ typedef struct
     bool SHA256;
     bool registosExecucao;
     char *outputRegExe;
+    FILE *outputRegFile;
     bool saidaPadrao;
     char *outputFile;
     char *file;
@@ -42,7 +43,8 @@ enum act {
     command,
     signalOne,
     signalTwo,
-    analized
+    analized,
+    finished
 };
 
 /**
@@ -122,10 +124,10 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir);
 *
 * @return Return zero upon sucess, non-zero otherwise
 */
-int addLog(clock_t start, clock_t end, char act[], char output[]);
+int addLog(clock_t start, clock_t end, char act[], FILE *file_output);
 
-char* initialCommand(WhatToShow whatToShow, struct stat path_stat);
+void initialCommand(WhatToShow whatToShow, struct stat path_stat, char *command);
 
-int gettingRegFile(char *file, char *regFile, clock_t start, enum act description, char *cmd);
+int gettingRegFile(char *file, FILE *regFile, clock_t start, enum act description, char *cmd);
 
 #endif 
