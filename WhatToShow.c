@@ -8,19 +8,39 @@
  * 
  * @return Return the string with the initial command
  */
-void outputInicialCommand(char * argv, int argc, char command[])
+void initialCommand(WhatToShow whatToShow, bool folder, char command[])
 {
-    if (argc < 1)
-        return;
-    
-    strcpy(command, argv[0]);
-    
-    for(int i = 0; i < argc - 1; i++)
+    strcpy(command, "forensic");
+
+    if (whatToShow.analiseAll)
+        strcat(command, " -r");
+
+    if (whatToShow.MD5 || whatToShow.SHA1 || whatToShow.SHA256)
+        strcat(command, " -h");
+
+    if (whatToShow.MD5)
+        strcat(command, " md5");
+
+    if (whatToShow.SHA1)
+        strcat(command, ",sha1");
+
+    if (whatToShow.SHA256)
+        strcat(command, ",sha256");
+
+    if (!whatToShow.saidaPadrao)
     {
-        strcat(command, " ");
-        strcat(command, argv[i]);
+        strcat(command, " -o ");
+        strcat(command, whatToShow.outputFile);
     }
 
+    if (whatToShow.registosExecucao)
+        strcat(command, " -v ");
+
+    //If it is a folder, print ./
+    if (folder)
+        strcat(command, "./");
+
+    strcat(command, whatToShow.file);
 }
 
 int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
@@ -294,7 +314,10 @@ int gettingOutput(WhatToShow whatToShow)
     //String with all args given
     char cmd[256];
 
-        initialCommand(argv, arg
+    if (S_ISREG(path_stat.st_mode))
+        initialCommand(whatToShow, false, cmd);
+    else
+        initialCommand(whatToShow, true, cmd);
 
     //Printing first execution - program initialization
     if (whatToShow.registosExecucao)
@@ -367,79 +390,6 @@ int gettingOutput(WhatToShow whatToShow)
             printf("Failed getting log file");
         fclose(whatToShow.outputRegFile);
     }
-
-    return 0;
-}
-
-/**
- * @brief Getting the output of a file
- * 
- * @param file Name of the file
- *        MD5 If it should display MD5 hash
- *        SHA1 If it should display SHA1 hash
- *        SHA256 If it should display SHA256 hash
- * 
- * @return Returns zero upon sucess, non-zero otherwise
-*/
-int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
-{
-    struct stat fileStat;
-
-    if (stat(file, &fileStat) < 0)
-    {
-        printf("FileStat failed!\n");
-        return 1;
-    }
-
-    //FILE NAME
-    printf("%s, ", file);
-
-    //TYPE OF FILE
-    outputTypeOfFile(file);
-
-    //FILE SIZE
-    printf("%ld, ", fileStat.st_size);
-
-    //FILE PERMISSIONS
-    outputPermissions(fileStat.st_mode);
-
-    //MODIFICATION TIME
-    outputTimeISO_8601(localtime(&fileStat.st_mtime));
-    printf(", ");
-
-    //LAST ACESS TIME
-    outputTimeISO_8601(localtime(&fileStat.st_atime));
-
-    //HASH
-
-    //se é um diretorio, não tem hash
-    if (S_ISDIR(fileStat.st_mode))
-    {
-        printf("\n");
-        return 0;
-    }
-
-    if (MD5)
-    {
-        char md5command[] = "md5sum";
-        outputHash(file, md5command);
-    }
-
-    if (SHA1)
-    {
-        char sha1command[] = "sha1sum";
-        outputHash(file, sha1command);
-    }
-
-    if (SHA256)
-    {
-        char sha256command[] = "sha256sum";
-        outputHash(file, sha256command);
-    }
-
-    printf("\n");
-
-    //=================================================
 
     return 0;
 }
