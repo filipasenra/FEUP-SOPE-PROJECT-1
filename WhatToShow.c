@@ -8,39 +8,19 @@
  * 
  * @return Return the string with the initial command
  */
-void initialCommand(WhatToShow whatToShow, bool folder, char command[])
+void outputInicialCommand(char * argv, int argc, char command[])
 {
-    strcpy(command, "forensic");
-
-    if (whatToShow.analiseAll)
-        strcat(command, " -r");
-
-    if (whatToShow.MD5 || whatToShow.SHA1 || whatToShow.SHA256)
-        strcat(command, " -h");
-
-    if (whatToShow.MD5)
-        strcat(command, " md5");
-
-    if (whatToShow.SHA1)
-        strcat(command, ",sha1");
-
-    if (whatToShow.SHA256)
-        strcat(command, ",sha256");
-
-    if (!whatToShow.saidaPadrao)
+    if (argc < 1)
+        return;
+    
+    strcpy(command, argv[0]);
+    
+    for(int i = 0; i < argc - 1; i++)
     {
-        strcat(command, " -o ");
-        strcat(command, whatToShow.outputFile);
+        strcat(command, " ");
+        strcat(command, argv[i]);
     }
 
-    if (whatToShow.registosExecucao)
-        strcat(command, " -v ");
-
-    //If it is a folder, print ./
-    if (folder)
-        strcat(command, "./");
-
-    strcat(command, whatToShow.file);
 }
 
 int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
@@ -241,11 +221,11 @@ int initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
             whatToShow->registosExecucao = true;
             whatToShow->outputRegExe = getenv("LOGFILENAME");
 
-            if(whatToShow->outputRegExe == NULL)
-                {
-                    char tmp[] = "logfile.txt";
-                    whatToShow->outputRegExe = tmp;
-                }
+            if (whatToShow->outputRegExe == NULL)
+            {
+                char tmp[] = "logfile.txt";
+                whatToShow->outputRegExe = tmp;
+            }
         }
         else if (strcmp(argv[argc], "-o") == 0)
         {
@@ -294,6 +274,7 @@ int redirectOutput(WhatToShow whatToShow)
     return 0;
 }
 
+
 /**
  * @brief Displays the information accordingly with WhatToShow
  * 
@@ -313,10 +294,7 @@ int gettingOutput(WhatToShow whatToShow)
     //String with all args given
     char cmd[256];
 
-    if (S_ISREG(path_stat.st_mode))
-        initialCommand(whatToShow, false, cmd);
-    else
-        initialCommand(whatToShow, true, cmd);
+        initialCommand(argv, arg
 
     //Printing first execution - program initialization
     if (whatToShow.registosExecucao)
@@ -328,7 +306,7 @@ int gettingOutput(WhatToShow whatToShow)
         if (gettingRegFile(whatToShow.file, whatToShow.outputRegFile, whatToShow.start, description, cmd))
             printf("Failed getting log file");
     }
-    
+
     //Child can mess with reedirecting printf to the file
     int pid = fork();
 
@@ -394,25 +372,6 @@ int gettingOutput(WhatToShow whatToShow)
 }
 
 /**
- * @brief Reedirects the output of the command given to a FILE
- * 
- * @param File to be analysed
- *        Command to be given
- * 
- * @return Returns a pointer to the FILE where the output of the command is redirected
-*/
-FILE *file_of_command(char *file, const char command[])
-{
-    FILE *in = NULL;
-    char cmd[256];
-    strcpy(cmd, command);
-    strcat(cmd, file);
-    in = popen(cmd, "r");
-
-    return in;
-}
-
-/**
  * @brief Getting the output of a file
  * 
  * @param file Name of the file
@@ -432,148 +391,50 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256)
         return 1;
     }
 
-    //===========================================
     //FILE NAME
     printf("%s, ", file);
 
-    //===============================================
     //TYPE OF FILE
+    outputTypeOfFile(file);
 
-    //Runs command of shell, but to read within program
-    FILE *in_type_of_file = file_of_command(file, "file ");
-
-    if (in_type_of_file == NULL)
-    {
-        printf("Error in file_of_command ");
-        return 2;
-    }
-
-    //Reads line by line the result of the command
-    char temp[256];
-    fgets(temp, 255, in_type_of_file);
-
-    //Cuts C-string to give only what we want
-    char *type_file = strndup(temp + strlen(file) + 2, strlen(temp));
-
-    for (int i = 0; i < (int) strlen(type_file); i++)
-    {
-        if (type_file[i] == '\n')
-        {
-            type_file[i] = 0;
-            break;
-        }
-    }
-
-    printf("%s, ", type_file);
-
-    pclose(in_type_of_file);
-
-    //===============================================
     //FILE SIZE
     printf("%ld, ", fileStat.st_size);
 
-    //===============================================
-    //FILE PERMISSIONS - TO BE MODIFIED
-    printf((fileStat.st_mode & S_IWUSR) ? "w" : "-");
-    printf((fileStat.st_mode & S_IWGRP) ? "w" : "-");
-    printf((fileStat.st_mode & S_IWOTH) ? "w" : "-");
+    //FILE PERMISSIONS
+    outputPermissions(fileStat.st_mode);
+
+    //MODIFICATION TIME
+    outputTimeISO_8601(localtime(&fileStat.st_mtime));
     printf(", ");
 
-    //================================================
-    //MODIFICATION TIME
-
-    //Extracting modification time in the struct tm
-    struct tm *modification_time;
-    modification_time = localtime(&fileStat.st_mtime);
-
-    //Printing modification time in ISO 8601 (<date>T<time>) format
-    printf("%d-%d-%dT%d-%d-%d, ", modification_time->tm_mday, modification_time->tm_mon + 1, modification_time->tm_year + 1900, modification_time->tm_hour, modification_time->tm_min, modification_time->tm_sec);
-
-    //================================================
     //LAST ACESS TIME
+    outputTimeISO_8601(localtime(&fileStat.st_atime));
 
-    //Extracting last acess time in the struct tm
-    struct tm *last_acess_time;
-    last_acess_time = localtime(&fileStat.st_atime);
-
-    //Printing last acess time in ISO 8601 (<date>T<time>) format
-    printf("%d-%d-%dT%d-%d-%d", last_acess_time->tm_mday, last_acess_time->tm_mon + 1, last_acess_time->tm_year + 1900, last_acess_time->tm_hour, last_acess_time->tm_min, last_acess_time->tm_sec);
-
-    //=================================================
     //HASH
+
+    //se é um diretorio, não tem hash
+    if (S_ISDIR(fileStat.st_mode))
+    {
+        printf("\n");
+        return 0;
+    }
 
     if (MD5)
     {
-        FILE *in_MD5 = file_of_command(file, "md5sum ");
-
-        if (in_type_of_file == NULL)
-        {
-            printf("Error in file_of_command!\n");
-            return 3;
-        }
-
-        //Reads line by line the result of the command
-        if (fgets(temp, 255, in_MD5) == NULL)
-        {
-            printf("Error in fgets!\n");
-            return 4;
-        }
-
-        //Cuts C-string to get only what we want
-        char *string_md5 = strndup(temp, strlen(temp) - (strlen(file) + 3));
-
-        printf(", %s", string_md5);
-
-        pclose(in_MD5);
+        char md5command[] = "md5sum";
+        outputHash(file, md5command);
     }
 
     if (SHA1)
     {
-        FILE *in_sha1 = file_of_command(file, "sha1sum ");
-
-        if (in_sha1 == NULL)
-        {
-            printf("Error in file_of_command!\n");
-            return 5;
-        }
-
-        //Reads line by line the result of the command
-        if (fgets(temp, 255, in_sha1) == NULL)
-        {
-            printf("Error in fgets!\n");
-            return 6;
-        }
-
-        //Cuts C-string to get only what we want
-        char *string_sha1 = strndup(temp, strlen(temp) - (strlen(file) + 3));
-
-        printf(", %s", string_sha1);
-
-        pclose(in_sha1);
+        char sha1command[] = "sha1sum";
+        outputHash(file, sha1command);
     }
 
     if (SHA256)
     {
-        FILE *in_sha256 = file_of_command(file, "sha256sum ");
-
-        if (in_sha256 == NULL)
-        {
-            printf("Error in file_of_command!\n");
-            return 7;
-        }
-
-        //Reads line by line the result of the command
-        if (fgets(temp, 255, in_sha256) == NULL)
-        {
-            printf("Error in fgets!\n");
-            return 8;
-        }
-
-        //Cuts C-string to get only what we want
-        char *string_sha256 = strndup(temp, strlen(temp) - (strlen(file) + 3));
-        printf(", %s", string_sha256);
-
-        pclose(in_sha256);
+        char sha256command[] = "sha256sum";
+        outputHash(file, sha256command);
     }
 
     printf("\n");

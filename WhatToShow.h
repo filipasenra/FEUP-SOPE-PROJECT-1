@@ -2,6 +2,7 @@
 #define WhatToShow_H_
 
 #include "log.h"
+#include "output.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -105,6 +106,6 @@ int verifyInvalidArgInserts(char *argv[], int argc);
 
 int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir);
 
-void initialCommand(WhatToShow whatToShow, bool folder, char command[]);
+void outputInicialCommand(char * argv, int argc, char command[]);
 
 #endif 
