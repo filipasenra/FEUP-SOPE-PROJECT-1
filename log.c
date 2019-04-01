@@ -1,6 +1,6 @@
 #include "log.h"
 
-int gettingRegFile(char *file, FILE *regFile, clock_t start, enum act description, char *cmd)
+int gettingRegFile(char *file, FILE *regFile, time_t start, enum act description, char *cmd)
 {
     switch (description)
     {
@@ -11,7 +11,7 @@ int gettingRegFile(char *file, FILE *regFile, clock_t start, enum act descriptio
         strcat(act, cmd);
 
         //Adding register to the log file
-        if (addLog(start, clock(), act, regFile))
+        if (addLog(start, time(NULL), act, regFile))
         {
             printf("Failed printing to log file\n");
             return 1;
@@ -25,7 +25,7 @@ int gettingRegFile(char *file, FILE *regFile, clock_t start, enum act descriptio
         strcat(act, file);
 
         //Adding register to the log file
-        if (addLog(start, clock(), act, regFile))
+        if (addLog(start, time(NULL), act, regFile))
         {
             printf("Failed printing to log file\n");
             return 1;
@@ -38,7 +38,7 @@ int gettingRegFile(char *file, FILE *regFile, clock_t start, enum act descriptio
         char act[256] = "Finished process execution";
 
         //Adding register to the log file
-        if (addLog(start, clock(), act, regFile))
+        if (addLog(start, time(NULL), act, regFile))
         {
             printf("Failed printing to log file\n");
             return 1;
@@ -62,13 +62,12 @@ int gettingRegFile(char *file, FILE *regFile, clock_t start, enum act descriptio
 *
 * @return Return zero upon sucess, non-zero otherwise
 */
-int addLog(clock_t start, clock_t end, char act[], FILE *file_output)
+int addLog(time_t start, time_t end, char act[], FILE *file_output)
 {
-    double inst = abs (((double)(end - start)) / CLOCKS_PER_SEC);
+    double inst = abs (((double) end - start) * 1000);
     fprintf(file_output, "%.2f", inst);
-    printf("%.2f", inst);
-
     fflush(file_output);
+
     fprintf(file_output, " - ");
     fflush(file_output);
 

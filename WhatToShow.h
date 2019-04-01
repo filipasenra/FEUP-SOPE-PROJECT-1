@@ -34,7 +34,7 @@ typedef struct
     bool saidaPadrao;
     char *outputFile;
     char *file;
-    clock_t start;
+    time_t start;
 
 } WhatToShow;
 

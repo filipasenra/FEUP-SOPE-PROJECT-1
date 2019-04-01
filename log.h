@@ -20,7 +20,7 @@ enum act {
 
 
 
-int gettingRegFile(char *file, FILE *regFile, clock_t start, enum act description, char *cmd);
+int gettingRegFile(char *file, FILE *regFile, time_t start, enum act description, char *cmd);
 
 
 /**
@@ -33,6 +33,6 @@ int gettingRegFile(char *file, FILE *regFile, clock_t start, enum act descriptio
 *
 * @return Return zero upon sucess, non-zero otherwise
 */
-int addLog(clock_t start, clock_t end, char act[], FILE *file_output);
+int addLog(time_t start, time_t end, char act[], FILE *file_output);
 
 #endif

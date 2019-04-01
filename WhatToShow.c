@@ -193,7 +193,7 @@ int verifyInvalidArgInserts(char *argv[], int argc)
 */
 void initializeWhatToShow(WhatToShow *whatToShow)
 {
-    whatToShow->start = clock();
+    whatToShow->start = time(NULL);
     whatToShow->analiseAll = false;
     whatToShow->MD5 = false;
     whatToShow->SHA1 = false;
@@ -328,7 +328,7 @@ int gettingOutput(WhatToShow whatToShow)
         if (gettingRegFile(whatToShow.file, whatToShow.outputRegFile, whatToShow.start, description, cmd))
             printf("Failed getting log file");
     }
-
+    
     //Child can mess with reedirecting printf to the file
     int pid = fork();
 
