@@ -44,7 +44,7 @@ typedef struct
  * 
  * @param whatToShow Struct WhatToShow to be initialized
 */
-void initializeWhatToShow(WhatToShow *whatToShow);
+void constructorWhatToShow(WhatToShow *whatToShow);
 
 /**
  * @brief Initializes struct WhatToShow with the arguments given by the user

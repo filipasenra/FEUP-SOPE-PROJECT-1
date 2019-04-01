@@ -62,8 +62,10 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
 
     while ((dir = readdir(d)) != NULL)
     {
+        bool dir_current_old = strcmp(dir->d_name, ".") && strcmp(dir->d_name, "..");
+
         //If it is a file or a if it isn't to analyse subfolders
-        if (dir->d_type == DT_REG || (!whatToShow.analiseAll && strcmp(dir->d_name, ".") && strcmp(dir->d_name, "..")))
+        if (dir->d_type == DT_REG || (!whatToShow.analiseAll && dir_current_old))
         {
             if (!isFirstDir)
                 printf("%s/", directory);
@@ -79,7 +81,7 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
                     printf("Failed getting log file");
             }
         }
-        else if (dir->d_type == DT_DIR && strcmp(dir->d_name, ".") && strcmp(dir->d_name, "..")) //If it is a directory
+        else if (dir->d_type == DT_DIR && dir_current_old) //If it is a directory
         {
             int pid = fork();
 
@@ -191,7 +193,7 @@ int verifyInvalidArgInserts(char *argv[], int argc)
  * 
  * @param whatToShow Struct WhatToShow to be initialized
 */
-void initializeWhatToShow(WhatToShow *whatToShow)
+void constructorWhatToShow(WhatToShow *whatToShow)
 {
     whatToShow->start = time(NULL);
     whatToShow->analiseAll = false;
@@ -222,7 +224,7 @@ int initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
     }
 
     //initialize struct with default values
-    initializeWhatToShow(whatToShow);
+    constructorWhatToShow(whatToShow);
 
     //let's do it backwards
     argc--;
@@ -293,7 +295,6 @@ int redirectOutput(WhatToShow whatToShow)
 
     return 0;
 }
-
 
 /**
  * @brief Displays the information accordingly with WhatToShow
