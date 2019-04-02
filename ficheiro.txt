@@ -1,0 +1,91 @@
+0.00 - 4086 - COMMAND forensic -r -o texto.txt -v .//home/nmtc01/Desktop/OLA
+0.00 - 4089 - ANALIZED WhatToShow2.c
+0.00 - 4089 - ANALIZED fodasse.c
+0.00 - 4089 - Finished process execution
+0.00 - 4088 - ANALIZED WhatToShow2.c
+0.00 - 4096 - ANALIZED fodasse.c
+0.00 - 4096 - Finished process execution
+0.00 - 4088 - ANALIZED texto.txt
+0.00 - 4088 - Finished process execution
+0.00 - 4086 - Finished process execution
+0.00 - 4175 - COMMAND forensic -r -o texto.txt -v .//home/nmtc01/Desktop/OLA
+0.00 - 4177 - ANALIZED WhatToShow2.c
+0.00 - 4177 - ANALIZED fodasse.c
+0.00 - 4177 - Finished process execution
+0.00 - 4176 - ANALIZED WhatToShow2.c
+0.00 - 4184 - ANALIZED fodasse.c
+0.00 - 4184 - Finished process execution
+0.00 - 4176 - ANALIZED texto.txt
+0.00 - 4176 - Finished process execution
+0.00 - 4175 - Finished process execution
+0.00 - 4268 - COMMAND forensic -r -o texto.txt -v .//home/nmtc01/Desktop/OLA
+0.00 - 4270 - ANALIZED WhatToShow2.c
+0.00 - 4270 - ANALIZED fodasse.c
+0.00 - 4270 - Finished process execution
+0.00 - 4269 - ANALIZED WhatToShow2.c
+1000.00 - 4277 - ANALIZED fodasse.c
+1000.00 - 4277 - Finished process execution
+1000.00 - 4269 - ANALIZED texto.txt
+1000.00 - 4269 - Finished process execution
+1000.00 - 4268 - Finished process execution
+0.00 - 4314 - COMMAND forensic -r -o texto.txt -v ./OLA
+0.00 - 4316 - ANALIZED WhatToShow2.c
+0.00 - 4316 - ANALIZED fodasse.c
+0.00 - 4316 - Finished process execution
+0.00 - 4315 - ANALIZED WhatToShow2.c
+0.00 - 4323 - ANALIZED fodasse.c
+0.00 - 4323 - Finished process execution
+0.00 - 4315 - ANALIZED texto.txt
+0.00 - 4315 - Finished process execution
+0.00 - 4314 - Finished process execution
+0.00 - 4385 - COMMAND forensic -r -o texto.txt -v ./OLA
+0.00 - 4386 - SIGNAL USR1
+0.00 - 4387 - SIGNAL USR1
+0.00 - 4387 - ANALIZED WhatToShow2.c
+0.00 - 4387 - ANALIZED fodasse.c
+0.00 - 4387 - Finished process execution
+0.00 - 4386 - ANALIZED WhatToShow2.c
+0.00 - 4394 - SIGNAL USR1
+0.00 - 4394 - ANALIZED fodasse.c
+0.00 - 4394 - Finished process execution
+0.00 - 4386 - ANALIZED texto.txt
+0.00 - 4386 - Finished process execution
+0.00 - 4385 - Finished process execution
+0.00 - 4461 - COMMAND forensic -r -o texto.txt -v ./OLA
+0.00 - 4462 - SIGNAL USR1
+0.00 - 4463 - SIGNAL USR1
+0.00 - 4463 - SIGNAL USR2
+0.00 - 4463 - ANALIZED WhatToShow2.c
+0.00 - 4463 - SIGNAL USR2
+0.00 - 4463 - ANALIZED fodasse.c
+0.00 - 4463 - Finished process execution
+0.00 - 4462 - SIGNAL USR2
+0.00 - 4462 - ANALIZED WhatToShow2.c
+0.00 - 4470 - SIGNAL USR1
+0.00 - 4470 - SIGNAL USR2
+0.00 - 4470 - ANALIZED fodasse.c
+0.00 - 4470 - Finished process execution
+0.00 - 4462 - SIGNAL USR2
+0.00 - 4462 - ANALIZED texto.txt
+0.00 - 4462 - Finished process execution
+0.00 - 4461 - Finished process execution
+0.00 - 4712 - COMMAND forensic -o texto.txt -v /home/nmtc01/Desktop/OLA/texto.txt
+0.00 - 4713 - SIGNAL USR1
+0.00 - 4713 - ANALIZED /home/nmtc01/Desktop/OLA/texto.txt
+0.00 - 4712 - Finished process execution
+0.00 - 4837 - COMMAND forensic -o texto.txt -v /home/nmtc01/Desktop/OLA/texto.txt
+0.00 - 4838 - SIGNAL USR1
+0.00 - 4838 - ANALIZED /home/nmtc01/Desktop/OLA/texto.txt
+0.00 - 4837 - Finished process execution
+0.00 - 4845 - COMMAND forensic -o texto.txt -v .//home/nmtc01/Desktop/OLA
+0.00 - 4846 - SIGNAL USR1
+0.00 - 4846 - SIGNAL USR2
+0.00 - 4846 - ANALIZED CENAS
+0.00 - 4846 - SIGNAL USR2
+0.00 - 4846 - ANALIZED WhatToShow2.c
+0.00 - 4846 - SIGNAL USR2
+0.00 - 4846 - ANALIZED ADEUS
+0.00 - 4846 - SIGNAL USR2
+0.00 - 4846 - ANALIZED texto.txt
+0.00 - 4846 - Finished process execution
+0.00 - 4845 - Finished process execution

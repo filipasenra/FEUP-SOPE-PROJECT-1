@@ -60,6 +60,20 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
     //Makes the currents directory the one passed by the user
     chdir(directory);
 
+    //Found directory, sending SIGUSR1
+    if (!whatToShow.saidaPadrao)
+    {
+        enum sig msg = usr1;
+        sendSignal(msg);
+        
+        //Print to log file case necessary
+        if (whatToShow.registosExecucao)
+        {
+            enum act description = signalOne;
+            gettingRegFile(directory, whatToShow.outputRegFile, whatToShow.start, description, NULL);
+        }
+    }
+
     while ((dir = readdir(d)) != NULL)
     {
         bool dir_current_old = strcmp(dir->d_name, ".") && strcmp(dir->d_name, "..");
@@ -70,7 +84,21 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
             if (!isFirstDir)
                 printf("%s/", directory);
 
-            if (gettingOutputFile(dir->d_name, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256))
+            //Found file, sending SIGUSR2
+            if (!whatToShow.saidaPadrao)
+            {
+                enum sig msg = usr2;
+                sendSignal(msg);
+                //Print to log file case necessary
+                if (whatToShow.registosExecucao)
+                {
+                    enum act description = signalTwo;
+                    if (gettingRegFile(whatToShow.file, whatToShow.outputRegFile, whatToShow.start, description, NULL))
+                        printf("Failed getting log file");
+                }
+            }
+
+            if (gettingOutputFile(dir->d_name, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256, whatToShow.saidaPadrao))
                 return -1;
 
             //Print to log file case necessary
@@ -343,7 +371,21 @@ int gettingOutput(WhatToShow whatToShow)
         //If it is a file and not a (sym)link or a directory
         if (S_ISREG(path_stat.st_mode))
         {
-            if (gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256))
+            //Found file, sending SIGUSR2
+            if (!whatToShow.saidaPadrao)
+            {
+                enum sig msg = usr2;
+                sendSignal(msg);
+                //Print to log file case necessary
+                if (whatToShow.registosExecucao)
+                {
+                    enum act description = usr2;
+                    if (gettingRegFile(whatToShow.file, whatToShow.outputRegFile, whatToShow.start, description, NULL))
+                        printf("Failed getting log file");
+                }
+            }
+
+            if (gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256, whatToShow.saidaPadrao))
                 printf("Failed getting output file");
 
             //Print to log file case necessary

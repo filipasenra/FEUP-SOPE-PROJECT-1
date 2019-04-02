@@ -11,6 +11,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "signals.h"
+
 #define FALSE 0
 #define TRUE 1
 
@@ -29,6 +31,6 @@ int outputPermissions(mode_t mode);
  * 
  * @return Returns zero upon sucess, non-zero otherwise
 */
-int gettingOutputFile(char * file, bool MD5, bool SHA1, bool SHA256);
+int gettingOutputFile(char * file, bool MD5, bool SHA1, bool SHA256, bool saidaPadrao);
 
 #endif

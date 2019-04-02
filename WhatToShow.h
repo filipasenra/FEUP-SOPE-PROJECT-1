@@ -3,6 +3,7 @@
 
 #include "log.h"
 #include "output.h"
+#include "signals.h"
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -18,6 +18,32 @@ int gettingRegFile(char *file, FILE *regFile, time_t start, enum act description
         }
         break;
     }
+    case 1:
+    {
+        //Setting up char array act
+        char act[256] = "SIGNAL USR1";
+
+        //Adding register to the log file
+        if (addLog(start, time(NULL), act, regFile))
+        {
+            printf("Failed printing to log file\n");
+            return 1;
+        }
+        break;
+    }
+    case 2:
+    {
+        //Setting up char array act
+        char act[256] = "SIGNAL USR2";
+
+        //Adding register to the log file
+        if (addLog(start, time(NULL), act, regFile))
+        {
+            printf("Failed printing to log file\n");
+            return 1;
+        }
+        break;
+    }
     case 3:
     {
         //Setting up char array act
@@ -48,7 +74,7 @@ int gettingRegFile(char *file, FILE *regFile, time_t start, enum act description
     default:
         break;
     }
-
+    
     return 0;
 }
 
