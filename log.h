@@ -6,6 +6,7 @@
 #include <time.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/times.h>
 
 /**
  * @brief Enum to define which act is to be printed on the log file

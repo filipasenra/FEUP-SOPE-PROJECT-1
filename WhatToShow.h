@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <time.h>
+#include <sys/times.h>
 #include <string.h>
 #include <dirent.h> 
 #include <fcntl.h>
@@ -36,7 +36,7 @@ typedef struct
     bool saidaPadrao;
     char *outputFile;
     char *file;
-    time_t start;
+    clock_t start;
 
 } WhatToShow;
 

@@ -1,91 +1,843 @@
-0.00 - 4086 - COMMAND forensic -r -o texto.txt -v .//home/nmtc01/Desktop/OLA
-0.00 - 4089 - ANALIZED WhatToShow2.c
-0.00 - 4089 - ANALIZED fodasse.c
-0.00 - 4089 - Finished process execution
-0.00 - 4088 - ANALIZED WhatToShow2.c
-0.00 - 4096 - ANALIZED fodasse.c
-0.00 - 4096 - Finished process execution
-0.00 - 4088 - ANALIZED texto.txt
-0.00 - 4088 - Finished process execution
-0.00 - 4086 - Finished process execution
-0.00 - 4175 - COMMAND forensic -r -o texto.txt -v .//home/nmtc01/Desktop/OLA
-0.00 - 4177 - ANALIZED WhatToShow2.c
-0.00 - 4177 - ANALIZED fodasse.c
-0.00 - 4177 - Finished process execution
-0.00 - 4176 - ANALIZED WhatToShow2.c
-0.00 - 4184 - ANALIZED fodasse.c
-0.00 - 4184 - Finished process execution
-0.00 - 4176 - ANALIZED texto.txt
-0.00 - 4176 - Finished process execution
-0.00 - 4175 - Finished process execution
-0.00 - 4268 - COMMAND forensic -r -o texto.txt -v .//home/nmtc01/Desktop/OLA
-0.00 - 4270 - ANALIZED WhatToShow2.c
-0.00 - 4270 - ANALIZED fodasse.c
-0.00 - 4270 - Finished process execution
-0.00 - 4269 - ANALIZED WhatToShow2.c
-1000.00 - 4277 - ANALIZED fodasse.c
-1000.00 - 4277 - Finished process execution
-1000.00 - 4269 - ANALIZED texto.txt
-1000.00 - 4269 - Finished process execution
-1000.00 - 4268 - Finished process execution
-0.00 - 4314 - COMMAND forensic -r -o texto.txt -v ./OLA
-0.00 - 4316 - ANALIZED WhatToShow2.c
-0.00 - 4316 - ANALIZED fodasse.c
-0.00 - 4316 - Finished process execution
-0.00 - 4315 - ANALIZED WhatToShow2.c
-0.00 - 4323 - ANALIZED fodasse.c
-0.00 - 4323 - Finished process execution
-0.00 - 4315 - ANALIZED texto.txt
-0.00 - 4315 - Finished process execution
-0.00 - 4314 - Finished process execution
-0.00 - 4385 - COMMAND forensic -r -o texto.txt -v ./OLA
-0.00 - 4386 - SIGNAL USR1
-0.00 - 4387 - SIGNAL USR1
-0.00 - 4387 - ANALIZED WhatToShow2.c
-0.00 - 4387 - ANALIZED fodasse.c
-0.00 - 4387 - Finished process execution
-0.00 - 4386 - ANALIZED WhatToShow2.c
-0.00 - 4394 - SIGNAL USR1
-0.00 - 4394 - ANALIZED fodasse.c
-0.00 - 4394 - Finished process execution
-0.00 - 4386 - ANALIZED texto.txt
-0.00 - 4386 - Finished process execution
-0.00 - 4385 - Finished process execution
-0.00 - 4461 - COMMAND forensic -r -o texto.txt -v ./OLA
-0.00 - 4462 - SIGNAL USR1
-0.00 - 4463 - SIGNAL USR1
-0.00 - 4463 - SIGNAL USR2
-0.00 - 4463 - ANALIZED WhatToShow2.c
-0.00 - 4463 - SIGNAL USR2
-0.00 - 4463 - ANALIZED fodasse.c
-0.00 - 4463 - Finished process execution
-0.00 - 4462 - SIGNAL USR2
-0.00 - 4462 - ANALIZED WhatToShow2.c
-0.00 - 4470 - SIGNAL USR1
-0.00 - 4470 - SIGNAL USR2
-0.00 - 4470 - ANALIZED fodasse.c
-0.00 - 4470 - Finished process execution
-0.00 - 4462 - SIGNAL USR2
-0.00 - 4462 - ANALIZED texto.txt
-0.00 - 4462 - Finished process execution
-0.00 - 4461 - Finished process execution
-0.00 - 4712 - COMMAND forensic -o texto.txt -v /home/nmtc01/Desktop/OLA/texto.txt
-0.00 - 4713 - SIGNAL USR1
-0.00 - 4713 - ANALIZED /home/nmtc01/Desktop/OLA/texto.txt
-0.00 - 4712 - Finished process execution
-0.00 - 4837 - COMMAND forensic -o texto.txt -v /home/nmtc01/Desktop/OLA/texto.txt
-0.00 - 4838 - SIGNAL USR1
-0.00 - 4838 - ANALIZED /home/nmtc01/Desktop/OLA/texto.txt
-0.00 - 4837 - Finished process execution
-0.00 - 4845 - COMMAND forensic -o texto.txt -v .//home/nmtc01/Desktop/OLA
-0.00 - 4846 - SIGNAL USR1
-0.00 - 4846 - SIGNAL USR2
-0.00 - 4846 - ANALIZED CENAS
-0.00 - 4846 - SIGNAL USR2
-0.00 - 4846 - ANALIZED WhatToShow2.c
-0.00 - 4846 - SIGNAL USR2
-0.00 - 4846 - ANALIZED ADEUS
-0.00 - 4846 - SIGNAL USR2
-0.00 - 4846 - ANALIZED texto.txt
-0.00 - 4846 - Finished process execution
-0.00 - 4845 - Finished process execution
+0.00 - 6183 - COMMAND forensic -o texto.txt -v .//home/nmtc01/Desktop/OLA
+0.00 - 6184 - SIGNAL USR1
+0.00 - 6184 - SIGNAL USR2
+10.00 - 6184 - ANALIZED CENAS
+10.00 - 6184 - SIGNAL USR2
+10.00 - 6184 - ANALIZED WhatToShow2.c
+10.00 - 6184 - SIGNAL USR2
+20.00 - 6184 - ANALIZED ADEUS
+20.00 - 6184 - SIGNAL USR2
+30.00 - 6184 - ANALIZED texto.txt
+30.00 - 6184 - Finished process execution
+30.00 - 6183 - Finished process execution
+10000.00 - 6281 - COMMAND forensic -o texto.txt -v .//home/nmtc01/Desktop/OLA
+10000.00 - 6286 - SIGNAL USR1
+10000.00 - 6286 - SIGNAL USR2
+10010.00 - 6286 - ANALIZED CENAS
+10010.00 - 6286 - SIGNAL USR2
+10020.00 - 6286 - ANALIZED WhatToShow2.c
+10020.00 - 6286 - SIGNAL USR2
+10020.00 - 6286 - ANALIZED ADEUS
+10020.00 - 6286 - SIGNAL USR2
+10030.00 - 6286 - ANALIZED texto.txt
+10030.00 - 6286 - Finished process execution
+10030.00 - 6281 - Finished process execution
+0.00 - 6597 - COMMAND forensic -o texto.txt -v .//home/nmtc01/Desktop/OLA
+10.00 - 6598 - SIGNAL USR1
+10.00 - 6598 - SIGNAL USR2
+10.00 - 6598 - ANALIZED CENAS
+10.00 - 6598 - SIGNAL USR2
+20.00 - 6598 - ANALIZED WhatToShow2.c
+20.00 - 6598 - SIGNAL USR2
+20.00 - 6598 - ANALIZED ADEUS
+20.00 - 6598 - SIGNAL USR2
+30.00 - 6598 - ANALIZED texto.txt
+30.00 - 6598 - Finished process execution
+30.00 - 6597 - Finished process execution
+0.00 - 6620 - COMMAND forensic -v .//usr/
+10.00 - 6621 - ANALIZED lib
+10.00 - 6621 - ANALIZED share
+10.00 - 6621 - ANALIZED local
+10.00 - 6621 - ANALIZED sbin
+10.00 - 6621 - ANALIZED games
+20.00 - 6621 - ANALIZED include
+20.00 - 6621 - ANALIZED src
+20.00 - 6621 - ANALIZED bin
+20.00 - 6621 - Finished process execution
+20.00 - 6620 - Finished process execution
+0.00 - 6762 - COMMAND forensic -r -v .//usr/
+10.00 - 6765 - ANALIZED do-partial-upgrade
+10.00 - 6765 - ANALIZED check-new-release-gtk
+20.00 - 6765 - ANALIZED release-upgrade-motd
+20.00 - 6765 - Finished process execution
+20.00 - 6764 - ANALIZED cnf-update-db
+30.00 - 6774 - ANALIZED system-service-d
+30.00 - 6774 - Finished process execution
+30.00 - 6778 - ANALIZED 90solaris
+40.00 - 6778 - ANALIZED 83haiku
+40.00 - 6778 - ANALIZED 90linux-distro
+50.00 - 6778 - ANALIZED 10freedos
+50.00 - 6778 - ANALIZED 20microsoft
+50.00 - 6778 - ANALIZED 30utility
+50.00 - 6778 - ANALIZED 70hurd
+60.00 - 6778 - ANALIZED 80minix
+60.00 - 6778 - ANALIZED 05efi
+70.00 - 6797 - ANALIZED 10elilo
+70.00 - 6797 - ANALIZED 20microsoft
+70.00 - 6797 - Finished process execution
+70.00 - 6778 - ANALIZED 20macosx
+70.00 - 6778 - ANALIZED 10qnx
+80.00 - 6778 - ANALIZED 40lsb
+80.00 - 6778 - Finished process execution
+90.00 - 6777 - ANALIZED 50mounted-tests
+90.00 - 6810 - ANALIZED 10filesystems
+90.00 - 6810 - Finished process execution
+90.00 - 6777 - Finished process execution
+90.00 - 6815 - Finished process execution
+90.00 - 6814 - Finished process execution
+100.00 - 6816 - ANALIZED sockets.target
+110.00 - 6816 - ANALIZED evolution-source-registry.service
+110.00 - 6816 - ANALIZED at-spi-dbus-bus.service
+130.00 - 6816 - ANALIZED systemd-exit.service
+130.00 - 6816 - ANALIZED gnome-terminal-server.service
+140.00 - 6816 - ANALIZED update-notifier-crash.path
+150.00 - 6816 - ANALIZED gpg-agent.service
+150.00 - 6816 - ANALIZED zeitgeist.service
+170.00 - 6816 - ANALIZED gvfs-daemon.service
+170.00 - 6816 - ANALIZED gpg-agent-ssh.socket
+180.00 - 6816 - ANALIZED systemd-tmpfiles-setup.service
+190.00 - 6816 - ANALIZED evolution-calendar-factory.service
+200.00 - 6816 - ANALIZED gpg-agent.socket
+210.00 - 6816 - ANALIZED vino-server.service
+220.00 - 6816 - ANALIZED dbus.service
+230.00 - 6816 - ANALIZED bluetooth.target
+240.00 - 6816 - ANALIZED dirmngr.socket
+250.00 - 6816 - ANALIZED gnome-keyring-ssh.service
+260.00 - 6816 - ANALIZED pulseaudio.service
+270.00 - 6816 - ANALIZED exit.target
+290.00 - 6816 - ANALIZED graphical-session.target
+300.00 - 6816 - ANALIZED gpg-agent-extra.socket
+310.00 - 6816 - ANALIZED evolution-addressbook-factory.service
+320.00 - 6816 - ANALIZED gnome-keyring.service
+330.00 - 6816 - ANALIZED im-config.service
+330.00 - 6867 - Finished process execution
+340.00 - 6816 - ANALIZED colord-session.service
+350.00 - 6816 - ANALIZED ubuntu-report.path
+360.00 - 6816 - ANALIZED update-notifier-release.path
+360.00 - 6874 - Finished process execution
+370.00 - 6816 - ANALIZED evince.service
+380.00 - 6816 - ANALIZED gvfs-udisks2-volume-monitor.service
+390.00 - 6816 - ANALIZED session-migration.service
+400.00 - 6816 - ANALIZED shutdown.target
+410.00 - 6816 - ANALIZED update-notifier-livepatch.path
+420.00 - 6816 - ANALIZED timers.target
+430.00 - 6816 - ANALIZED sound.target
+440.00 - 6816 - ANALIZED obex.service
+450.00 - 6816 - ANALIZED dbus.socket
+460.00 - 6816 - ANALIZED zeitgeist-fts.service
+470.00 - 6816 - ANALIZED glib-pacrunner.service
+480.00 - 6816 - ANALIZED evolution-user-prompter.service
+490.00 - 6816 - ANALIZED smartcard.target
+500.00 - 6816 - ANALIZED update-notifier-crash.service
+510.00 - 6816 - ANALIZED graphical-session-pre.target
+520.00 - 6816 - ANALIZED pulseaudio.socket
+530.00 - 6816 - ANALIZED gpg-agent-browser.socket
+540.00 - 6816 - ANALIZED update-notifier-livepatch.service
+550.00 - 6816 - ANALIZED ubuntu-report.service
+560.00 - 6816 - ANALIZED gnome-session.service
+570.00 - 6816 - ANALIZED gvfs-mtp-volume-monitor.service
+580.00 - 6816 - ANALIZED ssh-agent.service
+590.00 - 6816 - ANALIZED systemd-tmpfiles-clean.service
+600.00 - 6816 - ANALIZED basic.target
+610.00 - 6816 - ANALIZED gvfs-gphoto2-volume-monitor.service
+620.00 - 6816 - ANALIZED unicast-local-avahi.path
+630.00 - 6816 - ANALIZED unicast-local-avahi.service
+640.00 - 6816 - ANALIZED gvfs-afc-volume-monitor.service
+640.00 - 6816 - ANALIZED dirmngr.service
+650.00 - 6816 - ANALIZED systemd-tmpfiles-clean.timer
+670.00 - 6816 - ANALIZED printer.target
+670.00 - 6937 - Finished process execution
+670.00 - 6816 - ANALIZED default.target
+690.00 - 6816 - ANALIZED paths.target
+700.00 - 6816 - ANALIZED update-notifier-release.service
+710.00 - 6816 - ANALIZED gvfs-goa-volume-monitor.service
+710.00 - 6816 - ANALIZED gvfs-metadata.service
+710.00 - 6816 - Finished process execution
+730.00 - 6948 - ANALIZED 90-systemd.preset
+730.00 - 6948 - Finished process execution
+730.00 - 6951 - Finished process execution
+730.00 - 6953 - ANALIZED linuxx64.efi.stub
+740.00 - 6953 - ANALIZED systemd-bootx64.efi
+740.00 - 6953 - Finished process execution
+740.00 - 6952 - Finished process execution
+740.00 - 6958 - ANALIZED 90gpg-agent
+750.00 - 6958 - ANALIZED 30-systemd-environment-d-generator
+750.00 - 6958 - Finished process execution
+760.00 - 6963 - ANALIZED unattended-upgrades-logind-maxdelay.conf
+760.00 - 6963 - Finished process execution
+770.00 - 6966 - ANALIZED systemd.it.catalog
+790.00 - 6966 - ANALIZED systemd.ru.catalog
+810.00 - 6966 - ANALIZED systemd.zh_CN.catalog
+820.00 - 6966 - ANALIZED systemd.pt_BR.catalog
+840.00 - 6966 - ANALIZED systemd.zh_TW.catalog
+850.00 - 6966 - ANALIZED systemd.pl.catalog
+870.00 - 6966 - ANALIZED systemd.catalog
+890.00 - 6966 - ANALIZED systemd.be.catalog
+900.00 - 6966 - ANALIZED systemd.de.catalog
+910.00 - 6966 - ANALIZED systemd.fr.catalog
+930.00 - 6966 - ANALIZED systemd.bg.catalog
+940.00 - 6966 - ANALIZED systemd.be@latin.catalog
+940.00 - 6966 - Finished process execution
+940.00 - 6991 - ANALIZED snapd-env-generator
+940.00 - 6991 - Finished process execution
+940.00 - 6813 - Finished process execution
+950.00 - 6995 - ANALIZED help.cgi
+950.00 - 6995 - ANALIZED classes.cgi
+960.00 - 6995 - ANALIZED jobs.cgi
+960.00 - 6995 - ANALIZED admin.cgi
+960.00 - 6995 - ANALIZED printers.cgi
+960.00 - 6995 - Finished process execution
+980.00 - 7006 - ANALIZED foomatic-db-compressed-ppds
+980.00 - 7006 - ANALIZED foo2zjs
+1010.00 - 7006 - ANALIZED openprinting-ppds
+1020.00 - 7006 - ANALIZED pxljr
+1050.00 - 7006 - ANALIZED hplip
+1050.00 - 7006 - ANALIZED ptouch
+1080.00 - 7006 - ANALIZED postscript-hp
+1090.00 - 7006 - ANALIZED driverless
+1090.00 - 7006 - ANALIZED m2300w
+1100.00 - 7006 - ANALIZED gutenprint.5.2
+1100.00 - 7006 - Finished process execution
+1100.00 - 7027 - ANALIZED mailto
+1110.00 - 7027 - ANALIZED dbus
+1110.00 - 7027 - ANALIZED rss
+1110.00 - 7027 - Finished process execution
+1110.00 - 7034 - ANALIZED cups-driverd
+1110.00 - 7034 - ANALIZED cups-lpd
+1120.00 - 7034 - ANALIZED cups-deviced
+1120.00 - 7034 - ANALIZED cups-exec
+1120.00 - 7034 - Finished process execution
+1130.00 - 7043 - ANALIZED rastertoqpdl
+1130.00 - 7043 - ANALIZED c2esp
+1130.00 - 7043 - ANALIZED mupdftoraster
+1140.00 - 7043 - ANALIZED pstotiff
+1140.00 - 7043 - ANALIZED commandtoepson
+1140.00 - 7043 - ANALIZED gstopdf
+1150.00 - 7043 - ANALIZED rastertoescpx
+1150.00 - 7043 - ANALIZED rastertobrlaser
+1150.00 - 7043 - ANALIZED hpcups
+1160.00 - 7043 - ANALIZED rastertopwg
+1160.00 - 7043 - ANALIZED rastertoepson
+1170.00 - 7043 - ANALIZED rastertops
+1170.00 - 7043 - ANALIZED gziptoany
+1170.00 - 7043 - ANALIZED rastertopclx
+1170.00 - 7043 - ANALIZED texttops
+1180.00 - 7043 - ANALIZED imageubrltoindexv3
+1180.00 - 7043 - ANALIZED imagetobrf
+1190.00 - 7043 - ANALIZED pstoqpdl
+1190.00 - 7043 - ANALIZED texttobrf
+1200.00 - 7043 - ANALIZED rastertosag-gdi
+1210.00 - 7043 - ANALIZED commandtocanon
+1210.00 - 7043 - ANALIZED pdftoraster
+1210.00 - 7043 - ANALIZED rastertolabel
+1210.00 - 7043 - ANALIZED texttopdf
+1210.00 - 7043 - ANALIZED c2espC
+1220.00 - 7043 - ANALIZED brftoembosser
+1230.00 - 7043 - ANALIZED vectortopdf
+1230.00 - 7043 - ANALIZED pstops
+1230.00 - 7043 - ANALIZED rastertohp
+1240.00 - 7043 - ANALIZED rastertoptch
+1240.00 - 7043 - ANALIZED textbrftoindexv3
+1250.00 - 7043 - ANALIZED bannertopdf
+1250.00 - 7043 - ANALIZED pdftops
+1250.00 - 7043 - ANALIZED commandtopclx
+1250.00 - 7043 - ANALIZED sys5ippprinter
+1260.00 - 7043 - ANALIZED foomatic-rip
+1260.00 - 7043 - ANALIZED imagetoraster
+1270.00 - 7043 - ANALIZED hpps
+1270.00 - 7043 - ANALIZED gstopxl
+1270.00 - 7043 - ANALIZED commandtoescpx
+1270.00 - 7043 - ANALIZED commandtops
+1280.00 - 7043 - ANALIZED hpcupsfax
+1280.00 - 7043 - ANALIZED rastertopdf
+1290.00 - 7043 - ANALIZED texttotext
+1290.00 - 7043 - ANALIZED imageubrltoindexv4
+1290.00 - 7043 - ANALIZED vectortobrf
+1300.00 - 7043 - ANALIZED pdftopdf
+1300.00 - 7043 - ANALIZED command2esp
+1310.00 - 7043 - ANALIZED musicxmltobrf
+1310.00 - 7043 - ANALIZED imagetopdf
+1310.00 - 7043 - ANALIZED brftopagedbrf
+1310.00 - 7043 - ANALIZED rastertogutenprint.5.2
+1320.00 - 7043 - ANALIZED rastertopclm
+1320.00 - 7043 - ANALIZED imagetops
+1330.00 - 7043 - ANALIZED command2foo2lava-pjl
+1330.00 - 7043 - ANALIZED gstoraster
+1330.00 - 7043 - Finished process execution
+1340.00 - 7156 - ANALIZED parallel
+1340.00 - 7156 - ANALIZED beh
+1340.00 - 7156 - ANALIZED lpd
+1340.00 - 7156 - ANALIZED usb
+1350.00 - 7156 - ANALIZED serial
+1350.00 - 7156 - ANALIZED gutenprint52+usb
+1360.00 - 7156 - ANALIZED implicitclass
+1360.00 - 7156 - ANALIZED snmp
+1370.00 - 7156 - ANALIZED ipp
+1370.00 - 7156 - ANALIZED bluetooth
+1370.00 - 7156 - ANALIZED hp
+1370.00 - 7156 - ANALIZED dnssd
+1380.00 - 7156 - ANALIZED cups-brf
+1380.00 - 7156 - ANALIZED hpfax
+1390.00 - 7156 - ANALIZED socket
+1390.00 - 7156 - ANALIZED mdns
+1390.00 - 7156 - Finished process execution
+1400.00 - 7189 - ANALIZED bcp
+1400.00 - 7189 - ANALIZED tbcp
+1400.00 - 7189 - Finished process execution
+1410.00 - 7194 - ANALIZED lpd
+1410.00 - 7194 - ANALIZED usb
+1410.00 - 7194 - ANALIZED snmp
+1410.00 - 7194 - ANALIZED dnssd
+1420.00 - 7194 - ANALIZED socket
+1420.00 - 7194 - Finished process execution
+1420.00 - 6994 - Finished process execution
+1420.00 - 7206 - ANALIZED 85-initrd.install
+1430.00 - 7206 - ANALIZED 90-loaderentry.install
+1430.00 - 7206 - ANALIZED 50-depmod.install
+1430.00 - 7206 - Finished process execution
+1430.00 - 7205 - Finished process execution
+1440.00 - 7213 - ANALIZED libsmime3.so
+1440.00 - 7216 - ANALIZED libmozgtk.so
+1440.00 - 7216 - Finished process execution
+1440.00 - 7213 - ANALIZED libfreeblpriv3.chk
+1450.00 - 7213 - ANALIZED thunderbird
+1450.00 - 7213 - ANALIZED libnssckbi.so
+1460.00 - 7227 - ANALIZED default64.png
+1460.00 - 7227 - ANALIZED default48.png
+1470.00 - 7227 - ANALIZED default16.png
+1470.00 - 7227 - ANALIZED default32.png
+1470.00 - 7227 - ANALIZED default256.png
+1470.00 - 7227 - ANALIZED default128.png
+1470.00 - 7227 - ANALIZED default24.png
+1480.00 - 7227 - ANALIZED default22.png
+1480.00 - 7227 - Finished process execution
+1480.00 - 7226 - Finished process execution
+1480.00 - 7225 - Finished process execution
+1490.00 - 7213 - ANALIZED libsoftokn3.so
+1490.00 - 7213 - ANALIZED crashreporter.ini
+1500.00 - 7213 - ANALIZED plugin-container
+1500.00 - 7213 - ANALIZED libplds4.so
+1510.00 - 7213 - ANALIZED libprldap60.so
+1510.00 - 7213 - ANALIZED libldif60.so
+1510.00 - 7213 - ANALIZED libldap60.so
+1520.00 - 7258 - ANALIZED EmojiOneMozilla.ttf
+1520.00 - 7258 - Finished process execution
+1520.00 - 7213 - ANALIZED libmozsqlite3.so
+1530.00 - 7213 - ANALIZED libsoftokn3.chk
+1530.00 - 7267 - Finished process execution
+1530.00 - 7266 - Finished process execution
+1530.00 - 7265 - Finished process execution
+1530.00 - 7213 - ANALIZED libnssutil3.so
+1540.00 - 7213 - ANALIZED dependentlibs.list
+1550.00 - 7213 - ANALIZED platform.ini
+1560.00 - 7213 - ANALIZED omni.ja
+1570.00 - 7213 - ANALIZED libnssdbm3.chk
+1570.00 - 7213 - ANALIZED thunderbird.sh
+1580.00 - 7213 - ANALIZED libnss3.so
+1590.00 - 7282 - ANALIZED SpamAssassin.sfd
+1600.00 - 7282 - ANALIZED POPFile.sfd
+1610.00 - 7282 - ANALIZED SpamPal.sfd
+1620.00 - 7282 - ANALIZED DSPAM.sfd
+1630.00 - 7282 - ANALIZED Bogofilter.sfd
+1630.00 - 7282 - Finished process execution
+1630.00 - 7213 - ANALIZED libmozgtk.so
+1640.00 - 7213 - ANALIZED libxul.so
+1650.00 - 7213 - ANALIZED application.ini
+1660.00 - 7213 - ANALIZED libnssdbm3.so
+1660.00 - 7213 - ANALIZED libssl3.so
+1670.00 - 7213 - ANALIZED Throbber-small.gif
+1670.00 - 7213 - ANALIZED libfreeblpriv3.so
+1670.00 - 7213 - ANALIZED libmozsandbox.so
+1680.00 - 7213 - ANALIZED libplc4.so
+1690.00 - 7312 - ANALIZED channel-prefs.js
+1700.00 - 7312 - ANALIZED vendor.js
+1700.00 - 7312 - Finished process execution
+1710.00 - 7317 - ANALIZED mailViews.dat
+1710.00 - 7317 - Finished process execution
+1710.00 - 7311 - Finished process execution
+1710.00 - 7213 - ANALIZED crashreporter
+1720.00 - 7213 - ANALIZED liblgpllibs.so
+1720.00 - 7213 - ANALIZED libnspr4.so
+1730.00 - 7213 - ANALIZED blocklist.xml
+1730.00 - 7213 - Finished process execution
+1740.00 - 7328 - ANALIZED experimental.dist
+1760.00 - 7328 - ANALIZED pareto.dist
+1760.00 - 7328 - ANALIZED m_xt.so
+1770.00 - 7328 - ANALIZED q_atm.so
+1780.00 - 7328 - ANALIZED normal.dist
+1790.00 - 7328 - ANALIZED paretonormal.dist
+1790.00 - 7328 - Finished process execution
+1800.00 - 7341 - ANALIZED reprlib.py
+1810.00 - 7341 - ANALIZED datetime.py
+1820.00 - 7346 - ANALIZED _bootstrap.py
+1830.00 - 7346 - ANALIZED machinery.py
+1830.00 - 7346 - ANALIZED util.py
+1840.00 - 7346 - ANALIZED abc.py
+1840.00 - 7346 - ANALIZED _bootstrap_external.py
+1850.00 - 7357 - ANALIZED _bootstrap.cpython-36.pyc
+1850.00 - 7357 - ANALIZED __init__.cpython-36.pyc
+1850.00 - 7357 - ANALIZED abc.cpython-36.pyc
+1860.00 - 7357 - ANALIZED machinery.cpython-36.pyc
+1870.00 - 7357 - ANALIZED _bootstrap_external.cpython-36.pyc
+1870.00 - 7357 - ANALIZED util.cpython-36.pyc
+1870.00 - 7357 - Finished process execution
+1870.00 - 7346 - ANALIZED __init__.py
+1870.00 - 7346 - Finished process execution
+1880.00 - 7341 - ANALIZED operator.py
+1880.00 - 7341 - ANALIZED pyclbr.py
+1890.00 - 7376 - ANALIZED config.py
+1900.00 - 7376 - ANALIZED handlers.py
+1910.00 - 7381 - ANALIZED __init__.cpython-36.pyc
+1910.00 - 7381 - ANALIZED handlers.cpython-36.pyc
+1910.00 - 7381 - ANALIZED config.cpython-36.pyc
+1910.00 - 7381 - Finished process execution
+1920.00 - 7376 - ANALIZED __init__.py
+1920.00 - 7376 - Finished process execution
+1930.00 - 7341 - ANALIZED netrc.py
+1930.00 - 7392 - ANALIZED big5.py
+1940.00 - 7392 - ANALIZED cp866.py
+1940.00 - 7392 - ANALIZED tis_620.py
+1950.00 - 7392 - ANALIZED utf_32_le.py
+1950.00 - 7392 - ANALIZED cp861.py
+1960.00 - 7392 - ANALIZED cp950.py
+1960.00 - 7392 - ANALIZED mbcs.py
+1970.00 - 7392 - ANALIZED iso8859_16.py
+1970.00 - 7392 - ANALIZED cp1256.py
+1980.00 - 7392 - ANALIZED shift_jis.py
+1990.00 - 7392 - ANALIZED mac_greek.py
+1990.00 - 7392 - ANALIZED cp874.py
+2000.00 - 7392 - ANALIZED cp1252.py
+2010.00 - 7392 - ANALIZED euc_kr.py
+2010.00 - 7392 - ANALIZED cp850.py
+2010.00 - 7392 - ANALIZED iso8859_7.py
+2020.00 - 7392 - ANALIZED cp1257.py
+2030.00 - 7392 - ANALIZED utf_32_be.py
+2030.00 - 7392 - ANALIZED hex_codec.py
+2040.00 - 7392 - ANALIZED cp1251.py
+2050.00 - 7392 - ANALIZED mac_croatian.py
+2050.00 - 7392 - ANALIZED cp852.py
+2060.00 - 7392 - ANALIZED iso2022_jp_2004.py
+2060.00 - 7392 - ANALIZED cp1006.py
+2070.00 - 7392 - ANALIZED iso8859_10.py
+2070.00 - 7392 - ANALIZED koi8_t.py
+2080.00 - 7392 - ANALIZED latin_1.py
+2090.00 - 7392 - ANALIZED iso8859_4.py
+2090.00 - 7392 - ANALIZED iso2022_jp_2.py
+2100.00 - 7392 - ANALIZED iso8859_3.py
+2110.00 - 7392 - ANALIZED cp862.py
+2110.00 - 7392 - ANALIZED cp875.py
+2120.00 - 7392 - ANALIZED cp855.py
+2120.00 - 7392 - ANALIZED base64_codec.py
+2130.00 - 7392 - ANALIZED ascii.py
+2130.00 - 7392 - ANALIZED cp720.py
+2140.00 - 7392 - ANALIZED utf_16_be.py
+2140.00 - 7392 - ANALIZED johab.py
+2150.00 - 7392 - ANALIZED cp949.py
+2150.00 - 7392 - ANALIZED cp1026.py
+2160.00 - 7392 - ANALIZED cp865.py
+2170.00 - 7392 - ANALIZED iso8859_1.py
+2170.00 - 7392 - ANALIZED undefined.py
+2180.00 - 7392 - ANALIZED iso8859_6.py
+2190.00 - 7392 - ANALIZED cp857.py
+2190.00 - 7392 - ANALIZED cp932.py
+2200.00 - 7392 - ANALIZED utf_7.py
+2210.00 - 7392 - ANALIZED cp858.py
+2210.00 - 7392 - ANALIZED utf_8.py
+2220.00 - 7392 - ANALIZED hz.py
+2220.00 - 7392 - ANALIZED mac_roman.py
+2230.00 - 7392 - ANALIZED iso2022_jp.py
+2230.00 - 7392 - ANALIZED punycode.py
+2240.00 - 7392 - ANALIZED mac_cyrillic.py
+2240.00 - 7392 - ANALIZED cp273.py
+2250.00 - 7392 - ANALIZED zlib_codec.py
+2250.00 - 7392 - ANALIZED euc_jis_2004.py
+2260.00 - 7392 - ANALIZED ptcp154.py
+2270.00 - 7392 - ANALIZED oem.py
+2270.00 - 7392 - ANALIZED charmap.py
+2280.00 - 7392 - ANALIZED cp869.py
+2280.00 - 7392 - ANALIZED utf_16_le.py
+2290.00 - 7392 - ANALIZED iso8859_9.py
+2290.00 - 7392 - ANALIZED bz2_codec.py
+2300.00 - 7392 - ANALIZED iso2022_jp_ext.py
+2300.00 - 7392 - ANALIZED mac_iceland.py
+2310.00 - 7392 - ANALIZED euc_jp.py
+2310.00 - 7392 - ANALIZED euc_jisx0213.py
+2320.00 - 7392 - ANALIZED iso8859_13.py
+2320.00 - 7392 - ANALIZED aliases.py
+2330.00 - 7392 - ANALIZED idna.py
+2330.00 - 7392 - ANALIZED cp860.py
+2340.00 - 7392 - ANALIZED koi8_u.py
+2350.00 - 7392 - ANALIZED shift_jisx0213.py
+2350.00 - 7392 - ANALIZED iso8859_11.py
+2350.00 - 7392 - ANALIZED iso8859_2.py
+2360.00 - 7392 - ANALIZED cp500.py
+2370.00 - 7392 - ANALIZED kz1048.py
+2370.00 - 7392 - ANALIZED mac_farsi.py
+2380.00 - 7392 - ANALIZED utf_16.py
+2390.00 - 7392 - ANALIZED cp856.py
+2390.00 - 7392 - ANALIZED gb2312.py
+2400.00 - 7392 - ANALIZED cp775.py
+2410.00 - 7392 - ANALIZED iso8859_8.py
+2410.00 - 7392 - ANALIZED cp863.py
+2410.00 - 7392 - ANALIZED shift_jis_2004.py
+2420.00 - 7392 - ANALIZED uu_codec.py
+2430.00 - 7392 - ANALIZED iso2022_kr.py
+2430.00 - 7392 - ANALIZED quopri_codec.py
+2440.00 - 7392 - ANALIZED utf_8_sig.py
+2440.00 - 7392 - ANALIZED iso2022_jp_1.py
+2450.00 - 7579 - ANALIZED cp866.cpython-36.pyc
+2450.00 - 7579 - ANALIZED cp65001.cpython-36.pyc
+2450.00 - 7579 - ANALIZED iso8859_6.cpython-36.pyc
+2450.00 - 7579 - ANALIZED cp437.cpython-36.pyc
+2460.00 - 7579 - ANALIZED mac_iceland.cpython-36.pyc
+2470.00 - 7579 - ANALIZED iso8859_3.cpython-36.pyc
+2470.00 - 7579 - ANALIZED mac_roman.cpython-36.pyc
+2470.00 - 7579 - ANALIZED cp1026.cpython-36.pyc
+2470.00 - 7579 - ANALIZED utf_8.cpython-36.pyc
+2480.00 - 7579 - ANALIZED rot_13.cpython-36.pyc
+2480.00 - 7579 - ANALIZED quopri_codec.cpython-36.pyc
+2480.00 - 7579 - ANALIZED mac_romanian.cpython-36.pyc
+2490.00 - 7579 - ANALIZED cp1006.cpython-36.pyc
+2490.00 - 7579 - ANALIZED kz1048.cpython-36.pyc
+2490.00 - 7579 - ANALIZED cp860.cpython-36.pyc
+2500.00 - 7579 - ANALIZED utf_8_sig.cpython-36.pyc
+2500.00 - 7579 - ANALIZED cp857.cpython-36.pyc
+2500.00 - 7579 - ANALIZED __init__.cpython-36.pyc
+2510.00 - 7579 - ANALIZED iso8859_11.cpython-36.pyc
+2510.00 - 7579 - ANALIZED cp874.cpython-36.pyc
+2510.00 - 7579 - ANALIZED cp1258.cpython-36.pyc
+2510.00 - 7579 - ANALIZED mac_greek.cpython-36.pyc
+2520.00 - 7579 - ANALIZED latin_1.cpython-36.pyc
+2520.00 - 7579 - ANALIZED cp1252.cpython-36.pyc
+2520.00 - 7579 - ANALIZED cp273.cpython-36.pyc
+2530.00 - 7579 - ANALIZED iso2022_kr.cpython-36.pyc
+2530.00 - 7579 - ANALIZED euc_jis_2004.cpython-36.pyc
+2540.00 - 7579 - ANALIZED euc_kr.cpython-36.pyc
+2540.00 - 7579 - ANALIZED euc_jisx0213.cpython-36.pyc
+2540.00 - 7579 - ANALIZED utf_32.cpython-36.pyc
+2550.00 - 7579 - ANALIZED mbcs.cpython-36.pyc
+2550.00 - 7579 - ANALIZED utf_16_be.cpython-36.pyc
+2550.00 - 7579 - ANALIZED iso8859_15.cpython-36.pyc
+2550.00 - 7579 - ANALIZED iso2022_jp_3.cpython-36.pyc
+2560.00 - 7579 - ANALIZED cp1125.cpython-36.pyc
+2570.00 - 7579 - ANALIZED zlib_codec.cpython-36.pyc
+2570.00 - 7579 - ANALIZED big5.cpython-36.pyc
+2570.00 - 7579 - ANALIZED cp1140.cpython-36.pyc
+2570.00 - 7579 - ANALIZED mac_croatian.cpython-36.pyc
+2580.00 - 7579 - ANALIZED oem.cpython-36.pyc
+2580.00 - 7579 - ANALIZED ptcp154.cpython-36.pyc
+2580.00 - 7579 - ANALIZED johab.cpython-36.pyc
+2590.00 - 7579 - ANALIZED iso8859_2.cpython-36.pyc
+2590.00 - 7579 - ANALIZED cp1257.cpython-36.pyc
+2600.00 - 7579 - ANALIZED cp875.cpython-36.pyc
+2600.00 - 7579 - ANALIZED aliases.cpython-36.pyc
+2600.00 - 7579 - ANALIZED cp861.cpython-36.pyc
+2610.00 - 7579 - ANALIZED iso8859_14.cpython-36.pyc
+2610.00 - 7579 - ANALIZED cp850.cpython-36.pyc
+2610.00 - 7579 - ANALIZED iso2022_jp_2.cpython-36.pyc
+2620.00 - 7579 - ANALIZED undefined.cpython-36.pyc
+2620.00 - 7579 - ANALIZED utf_7.cpython-36.pyc
+2630.00 - 7579 - ANALIZED mac_centeuro.cpython-36.pyc
+2630.00 - 7579 - ANALIZED uu_codec.cpython-36.pyc
+2630.00 - 7579 - ANALIZED utf_16.cpython-36.pyc
+2640.00 - 7579 - ANALIZED iso8859_1.cpython-36.pyc
+2640.00 - 7579 - ANALIZED iso2022_jp_ext.cpython-36.pyc
+2640.00 - 7579 - ANALIZED unicode_internal.cpython-36.pyc
+2650.00 - 7579 - ANALIZED ascii.cpython-36.pyc
+2650.00 - 7579 - ANALIZED hp_roman8.cpython-36.pyc
+2650.00 - 7579 - ANALIZED iso8859_13.cpython-36.pyc
+2650.00 - 7579 - ANALIZED iso8859_4.cpython-36.pyc
+2660.00 - 7579 - ANALIZED base64_codec.cpython-36.pyc
+2670.00 - 7579 - ANALIZED cp852.cpython-36.pyc
+2670.00 - 7579 - ANALIZED koi8_u.cpython-36.pyc
+2670.00 - 7579 - ANALIZED mac_arabic.cpython-36.pyc
+2670.00 - 7579 - ANALIZED cp1256.cpython-36.pyc
+2680.00 - 7579 - ANALIZED tis_620.cpython-36.pyc
+2680.00 - 7579 - ANALIZED cp1250.cpython-36.pyc
+2680.00 - 7579 - ANALIZED cp775.cpython-36.pyc
+2690.00 - 7579 - ANALIZED iso8859_10.cpython-36.pyc
+2690.00 - 7579 - ANALIZED raw_unicode_escape.cpython-36.pyc
+2690.00 - 7579 - ANALIZED cp949.cpython-36.pyc
+2700.00 - 7579 - ANALIZED punycode.cpython-36.pyc
+2700.00 - 7579 - ANALIZED iso2022_jp_2004.cpython-36.pyc
+2710.00 - 7579 - ANALIZED shift_jis.cpython-36.pyc
+2710.00 - 7579 - ANALIZED gb2312.cpython-36.pyc
+2710.00 - 7579 - ANALIZED bz2_codec.cpython-36.pyc
+2710.00 - 7579 - ANALIZED shift_jisx0213.cpython-36.pyc
+2720.00 - 7579 - ANALIZED cp932.cpython-36.pyc
+2720.00 - 7579 - ANALIZED cp856.cpython-36.pyc
+2720.00 - 7579 - ANALIZED idna.cpython-36.pyc
+2730.00 - 7579 - ANALIZED iso8859_9.cpython-36.pyc
+2730.00 - 7579 - ANALIZED mac_farsi.cpython-36.pyc
+2740.00 - 7579 - ANALIZED iso8859_7.cpython-36.pyc
+2740.00 - 7579 - ANALIZED utf_32_le.cpython-36.pyc
+2740.00 - 7579 - ANALIZED mac_cyrillic.cpython-36.pyc
+2750.00 - 7579 - ANALIZED hz.cpython-36.pyc
+2750.00 - 7579 - ANALIZED cp865.cpython-36.pyc
+2750.00 - 7579 - ANALIZED cp1251.cpython-36.pyc
+2750.00 - 7579 - ANALIZED koi8_r.cpython-36.pyc
+2760.00 - 7579 - ANALIZED cp500.cpython-36.pyc
+2770.00 - 7579 - ANALIZED cp862.cpython-36.pyc
+2770.00 - 7579 - ANALIZED iso2022_jp.cpython-36.pyc
+2770.00 - 7579 - ANALIZED cp864.cpython-36.pyc
+2770.00 - 7579 - ANALIZED cp1253.cpython-36.pyc
+2780.00 - 7579 - ANALIZED big5hkscs.cpython-36.pyc
+2780.00 - 7579 - ANALIZED palmos.cpython-36.pyc
+2780.00 - 7579 - ANALIZED charmap.cpython-36.pyc
+2790.00 - 7579 - ANALIZED unicode_escape.cpython-36.pyc
+2790.00 - 7579 - ANALIZED hex_codec.cpython-36.pyc
+2790.00 - 7579 - ANALIZED iso8859_8.cpython-36.pyc
+2800.00 - 7579 - ANALIZED koi8_t.cpython-36.pyc
+2810.00 - 7579 - ANALIZED euc_jp.cpython-36.pyc
+2810.00 - 7579 - ANALIZED cp720.cpython-36.pyc
+2810.00 - 7579 - ANALIZED iso2022_jp_1.cpython-36.pyc
+2810.00 - 7579 - ANALIZED cp863.cpython-36.pyc
+2810.00 - 7579 - ANALIZED cp950.cpython-36.pyc
+2820.00 - 7579 - ANALIZED cp855.cpython-36.pyc
+2830.00 - 7579 - ANALIZED cp737.cpython-36.pyc
+2830.00 - 7579 - ANALIZED gb18030.cpython-36.pyc
+2830.00 - 7579 - ANALIZED utf_16_le.cpython-36.pyc
+2840.00 - 7579 - ANALIZED cp037.cpython-36.pyc
+2840.00 - 7579 - ANALIZED cp858.cpython-36.pyc
+2840.00 - 7579 - ANALIZED cp869.cpython-36.pyc
+2850.00 - 7579 - ANALIZED cp1255.cpython-36.pyc
+2850.00 - 7579 - ANALIZED iso8859_5.cpython-36.pyc
+2850.00 - 7579 - ANALIZED iso8859_16.cpython-36.pyc
+2850.00 - 7579 - ANALIZED mac_turkish.cpython-36.pyc
+2860.00 - 7579 - ANALIZED cp1254.cpython-36.pyc
+2870.00 - 7579 - ANALIZED cp424.cpython-36.pyc
+2870.00 - 7579 - ANALIZED mac_latin2.cpython-36.pyc
+2870.00 - 7579 - ANALIZED gbk.cpython-36.pyc
+2870.00 - 7579 - ANALIZED utf_32_be.cpython-36.pyc
+2880.00 - 7579 - ANALIZED shift_jis_2004.cpython-36.pyc
+2880.00 - 7579 - Finished process execution
+2890.00 - 7392 - ANALIZED cp1254.py
+2890.00 - 7392 - ANALIZED koi8_r.py
+2900.00 - 7392 - ANALIZED __init__.py
+2900.00 - 7392 - ANALIZED rot_13.py
+2910.00 - 7392 - ANALIZED mac_turkish.py
+2910.00 - 7392 - ANALIZED utf_32.py
+2920.00 - 7392 - ANALIZED iso8859_15.py
+2930.00 - 7392 - ANALIZED cp737.py
+2930.00 - 7392 - ANALIZED cp1255.py
+2940.00 - 7392 - ANALIZED mac_latin2.py
+2950.00 - 7392 - ANALIZED gbk.py
+2950.00 - 7392 - ANALIZED mac_romanian.py
+2960.00 - 7392 - ANALIZED palmos.py
+2960.00 - 7392 - ANALIZED gb18030.py
+2970.00 - 7392 - ANALIZED cp1250.py
+2970.00 - 7392 - ANALIZED cp1140.py
+2980.00 - 7392 - ANALIZED unicode_internal.py
+2980.00 - 7392 - ANALIZED iso2022_jp_3.py
+2990.00 - 7392 - ANALIZED iso8859_14.py
+2990.00 - 7392 - ANALIZED raw_unicode_escape.py
+3000.00 - 7392 - ANALIZED cp037.py
+3000.00 - 7392 - ANALIZED cp864.py
+3010.00 - 7392 - ANALIZED hp_roman8.py
+3010.00 - 7392 - ANALIZED cp424.py
+3020.00 - 7392 - ANALIZED cp1125.py
+3020.00 - 7392 - ANALIZED iso8859_5.py
+3030.00 - 7392 - ANALIZED mac_arabic.py
+3030.00 - 7392 - ANALIZED mac_centeuro.py
+3040.00 - 7392 - ANALIZED unicode_escape.py
+3040.00 - 7392 - ANALIZED cp437.py
+3050.00 - 7392 - ANALIZED cp65001.py
+3050.00 - 7392 - ANALIZED cp1253.py
+3060.00 - 7392 - ANALIZED big5hkscs.py
+3060.00 - 7392 - ANALIZED cp1258.py
+3060.00 - 7392 - Finished process execution
+3070.00 - 7341 - ANALIZED configparser.py
+3070.00 - 7341 - ANALIZED gzip.py
+3080.00 - 7341 - ANALIZED ast.py
+3090.00 - 7341 - ANALIZED colorsys.py
+3090.00 - 7341 - ANALIZED imaplib.py
+3100.00 - 7341 - ANALIZED sre_parse.py
+3110.00 - 7341 - ANALIZED traceback.py
+3110.00 - 7341 - ANALIZED zipapp.py
+3110.00 - 7341 - ANALIZED signal.py
+3120.00 - 7341 - ANALIZED antigravity.py
+3130.00 - 7341 - ANALIZED doctest.py
+3130.00 - 7341 - ANALIZED pydoc.py
+3140.00 - 7341 - ANALIZED copyreg.py
+3150.00 - 7341 - ANALIZED argparse.py
+3150.00 - 7341 - ANALIZED pstats.py
+3160.00 - 7341 - ANALIZED linecache.py
+3170.00 - 7341 - ANALIZED subprocess.py
+3170.00 - 7341 - ANALIZED locale.py
+3170.00 - 7341 - ANALIZED decimal.py
+3190.00 - 7341 - ANALIZED typing.py
+3190.00 - 7341 - ANALIZED base64.py
+3190.00 - 7341 - ANALIZED _sitebuiltins.py
+3200.00 - 7341 - ANALIZED stat.py
+3210.00 - 7341 - ANALIZED pdb.py
+3210.00 - 7341 - ANALIZED filecmp.py
+3220.00 - 7341 - ANALIZED trace.py
+3230.00 - 7341 - ANALIZED cgitb.py
+3230.00 - 7341 - ANALIZED telnetlib.py
+3240.00 - 7341 - ANALIZED functools.py
+3240.00 - 7341 - ANALIZED _osx_support.py
+3250.00 - 7341 - ANALIZED shlex.py
+3260.00 - 7341 - ANALIZED sysconfig.py
+3260.00 - 7341 - ANALIZED copy.py
+3270.00 - 7341 - ANALIZED tokenize.py
+3270.00 - 7967 - ANALIZED thread.py
+3280.00 - 7970 - ANALIZED __init__.cpython-36.pyc
+3280.00 - 7970 - ANALIZED process.cpython-36.pyc
+3280.00 - 7970 - ANALIZED _base.cpython-36.pyc
+3290.00 - 7970 - ANALIZED thread.cpython-36.pyc
+3290.00 - 7970 - Finished process execution
+3290.00 - 7967 - ANALIZED __init__.py
+3290.00 - 7967 - ANALIZED process.py
+3300.00 - 7967 - ANALIZED _base.py
+3300.00 - 7967 - Finished process execution
+3310.00 - 7985 - ANALIZED __init__.cpython-36.pyc
+3310.00 - 7985 - Finished process execution
+3310.00 - 7966 - ANALIZED __init__.py
+3310.00 - 7966 - Finished process execution
+3320.00 - 7341 - ANALIZED __phello__.foo.py
+3330.00 - 7341 - ANALIZED posixpath.py
+3330.00 - 7994 - ANALIZED parser.py
+3340.00 - 7994 - ANALIZED entities.py
+3340.00 - 7999 - ANALIZED __init__.cpython-36.pyc
+3350.00 - 7999 - ANALIZED parser.cpython-36.pyc
+3350.00 - 7999 - ANALIZED entities.cpython-36.pyc
+3350.00 - 7999 - Finished process execution
+3350.00 - 7994 - ANALIZED __init__.py
+3350.00 - 7994 - Finished process execution
+3360.00 - 8009 - ANALIZED client.cpython-36.pyc
+3360.00 - 8009 - ANALIZED __init__.cpython-36.pyc
+3360.00 - 8009 - ANALIZED server.cpython-36.pyc
+3360.00 - 8009 - Finished process execution
+3370.00 - 8008 - ANALIZED __init__.py
+3380.00 - 8008 - ANALIZED server.py
+3390.00 - 8008 - ANALIZED client.py
+3390.00 - 8008 - Finished process execution
+3390.00 - 7341 - ANALIZED _dummy_thread.py
+3390.00 - 8024 - ANALIZED abc.py
+3400.00 - 8027 - ANALIZED __init__.cpython-36.pyc
+3400.00 - 8027 - ANALIZED abc.cpython-36.pyc
+3400.00 - 8027 - Finished process execution
+3410.00 - 8024 - ANALIZED __init__.py
+3410.00 - 8024 - Finished process execution
+3410.00 - 7341 - ANALIZED quopri.py
+3420.00 - 8036 - ANALIZED validate.py
+3420.00 - 8036 - ANALIZED headers.py
+3430.00 - 8036 - ANALIZED simple_server.py
+3430.00 - 8036 - ANALIZED util.py
+3440.00 - 8036 - ANALIZED handlers.py
+3440.00 - 8047 - ANALIZED __init__.cpython-36.pyc
+3440.00 - 8047 - ANALIZED headers.cpython-36.pyc
+3450.00 - 8047 - ANALIZED handlers.cpython-36.pyc
+3450.00 - 8047 - ANALIZED validate.cpython-36.pyc
+3450.00 - 8047 - ANALIZED simple_server.cpython-36.pyc
+3460.00 - 8047 - ANALIZED util.cpython-36.pyc
+3460.00 - 8047 - Finished process execution
+3470.00 - 8036 - ANALIZED __init__.py
+3470.00 - 8036 - Finished process execution
+3470.00 - 8062 - ANALIZED _endian.py
+3480.00 - 8062 - ANALIZED util.py
+3480.00 - 8067 - ANALIZED __init__.cpython-36.pyc
+3480.00 - 8067 - ANALIZED wintypes.cpython-36.pyc
+3490.00 - 8067 - ANALIZED util.cpython-36.pyc
+3490.00 - 8067 - ANALIZED _endian.cpython-36.pyc
+3490.00 - 8067 - Finished process execution
+3490.00 - 8062 - ANALIZED __init__.py
+3500.00 - 8062 - ANALIZED wintypes.py
+3500.00 - 8062 - Finished process execution
+3510.00 - 7341 - ANALIZED mimetypes.py
+3510.00 - 8082 - ANALIZED unix_events.py
+3520.00 - 8082 - ANALIZED base_tasks.py
+3530.00 - 8082 - ANALIZED subprocess.py
+3530.00 - 8082 - ANALIZED test_utils.py
+3530.00 - 8082 - ANALIZED coroutines.py
+3540.00 - 8082 - ANALIZED sslproto.py
+3550.00 - 8082 - ANALIZED base_subprocess.py
+3550.00 - 8082 - ANALIZED constants.py
+3560.00 - 8082 - ANALIZED events.py
+3570.00 - 8082 - ANALIZED locks.py
+3570.00 - 8082 - ANALIZED log.py
+3580.00 - 8082 - ANALIZED selector_events.py
+3580.00 - 8082 - ANALIZED streams.py
+3590.00 - 8082 - ANALIZED transports.py
+3600.00 - 8082 - ANALIZED futures.py
+3600.00 - 8082 - ANALIZED proactor_events.py
+3610.00 - 8115 - ANALIZED subprocess.cpython-36.pyc
+3610.00 - 8115 - ANALIZED base_futures.cpython-36.pyc
+3610.00 - 8115 - ANALIZED protocols.cpython-36.pyc
+3610.00 - 8115 - ANALIZED windows_utils.cpython-36.pyc
+3620.00 - 8115 - ANALIZED __init__.cpython-36.pyc
+3620.00 - 8115 - ANALIZED compat.cpython-36.pyc
+3630.00 - 8115 - ANALIZED transports.cpython-36.pyc
+3630.00 - 8115 - ANALIZED base_events.cpython-36.pyc
+3630.00 - 8115 - ANALIZED tasks.cpython-36.pyc
+3630.00 - 8115 - ANALIZED selector_events.cpython-36.pyc
+3640.00 - 8115 - ANALIZED unix_events.cpython-36.pyc
+3640.00 - 8115 - ANALIZED test_utils.cpython-36.pyc
+3640.00 - 8115 - ANALIZED futures.cpython-36.pyc
+3650.00 - 8115 - ANALIZED coroutines.cpython-36.pyc
+3650.00 - 8115 - ANALIZED base_subprocess.cpython-36.pyc
+3650.00 - 8115 - ANALIZED proactor_events.cpython-36.pyc
+3660.00 - 8115 - ANALIZED events.cpython-36.pyc
+3660.00 - 8115 - ANALIZED queues.cpython-36.pyc
+3660.00 - 8115 - ANALIZED locks.cpython-36.pyc
+3670.00 - 8115 - ANALIZED base_tasks.cpython-36.pyc
+3670.00 - 8115 - ANALIZED streams.cpython-36.pyc
+3670.00 - 8115 - ANALIZED sslproto.cpython-36.pyc
+3670.00 - 8115 - ANALIZED windows_events.cpython-36.pyc
+3680.00 - 8115 - ANALIZED log.cpython-36.pyc
+3680.00 - 8115 - ANALIZED constants.cpython-36.pyc
+3680.00 - 8115 - Finished process execution
+3690.00 - 8082 - ANALIZED __init__.py
+3690.00 - 8082 - ANALIZED windows_utils.py
+3690.00 - 8082 - ANALIZED windows_events.py
+3700.00 - 8082 - ANALIZED protocols.py
+3710.00 - 8082 - ANALIZED base_events.py
+3710.00 - 8082 - ANALIZED base_futures.py
+3720.00 - 8082 - ANALIZED queues.py
+3720.00 - 8082 - ANALIZED compat.py
+3730.00 - 8082 - ANALIZED tasks.py
+3730.00 - 8082 - Finished process execution
+3730.00 - 7341 - ANALIZED cgi.py
+3740.00 - 7341 - ANALIZED csv.py
+3750.00 - 7341 - ANALIZED imghdr.py
+3750.00 - 7341 - ANALIZED shelve.py
+3770.00 - 7341 - ANALIZED _sysconfigdata_m_linux_x86_64-linux-gnu.py
+3770.00 - 7341 - ANALIZED ntpath.py
+3780.00 - 7341 - ANALIZED random.py
+3790.00 - 7341 - ANALIZED fractions.py
+3790.00 - 7341 - ANALIZED codecs.py
+3790.00 - 7341 - ANALIZED sre_constants.py
+3800.00 - 7341 - ANALIZED lzma.py
+3810.00 - 7341 - ANALIZED io.py
+3810.00 - 7341 - ANALIZED difflib.py
+3810.00 - 7341 - ANALIZED macurl2path.py
+3820.00 - 7341 - ANALIZED uuid.py
+3830.00 - 7341 - ANALIZED warnings.py
+3830.00 - 7341 - ANALIZED dis.py
+3840.00 - 7341 - ANALIZED pathlib.py
+3850.00 - 7341 - ANALIZED ipaddress.py
+3850.00 - 7341 - ANALIZED _threading_local.py
+3850.00 - 7341 - ANALIZED types.py
+3860.00 - 7341 - ANALIZED timeit.py
+3870.00 - 7341 - ANALIZED shutil.py
+3870.00 - 7341 - ANALIZED queue.py
+3880.00 - 7341 - ANALIZED chunk.py
+3900.00 - 7341 - ANALIZED pickletools.py
+3910.00 - 7341 - ANALIZED tempfile.py
+3910.00 - 7341 - ANALIZED asynchat.py
+3910.00 - 7341 - ANALIZED rlcompleter.py
+3920.00 - 7341 - ANALIZED dummy_threading.py
+3930.00 - 7341 - ANALIZED mailbox.py
+3930.00 - 8247 - ANALIZED client.cpython-36.pyc
+3930.00 - 8247 - ANALIZED cookiejar.cpython-36.pyc
+3930.00 - 8247 - ANALIZED __init__.cpython-36.pyc
+3940.00 - 8247 - ANALIZED cookies.cpython-36.pyc
+3940.00 - 8247 - ANALIZED server.cpython-36.pyc
+3940.00 - 8247 - Finished process execution
+3950.00 - 8246 - ANALIZED __init__.py
+3950.00 - 8246 - ANALIZED cookies.py
+3960.00 - 8246 - ANALIZED server.py
+3970.00 - 8246 - ANALIZED cookiejar.py
+3970.00 - 8246 - ANALIZED client.py
+3970.00 - 8246 - Finished process execution
+3970.00 - 7341 - ANALIZED numbers.py
+3990.00 - 8270 - ANALIZED _pydoc.css
+3990.00 - 8273 - ANALIZED __init__.cpython-36.pyc
+3990.00 - 8273 - ANALIZED topics.cpython-36.pyc
+3990.00 - 8273 - Finished process execution
+3990.00 - 8270 - ANALIZED __init__.py
+4030.00 - 8270 - ANALIZED topics.py
+4030.00 - 8270 - Finished process execution
+4040.00 - 7341 - ANALIZED hashlib.py
+4050.00 - 7341 - ANALIZED sched.py
+4050.00 - 7341 - ANALIZED modulefinder.py

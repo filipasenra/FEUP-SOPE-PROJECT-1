@@ -223,7 +223,7 @@ int verifyInvalidArgInserts(char *argv[], int argc)
 */
 void constructorWhatToShow(WhatToShow *whatToShow)
 {
-    whatToShow->start = time(NULL);
+    whatToShow->start = times(NULL);
     whatToShow->analiseAll = false;
     whatToShow->MD5 = false;
     whatToShow->SHA1 = false;
@@ -384,7 +384,7 @@ int gettingOutput(WhatToShow whatToShow)
                         printf("Failed getting log file");
                 }
             }
-
+            
             if (gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256, whatToShow.saidaPadrao))
                 printf("Failed getting output file");
 
