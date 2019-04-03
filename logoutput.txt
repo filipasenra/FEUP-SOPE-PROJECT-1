@@ -506,3 +506,8 @@
 0.00 - 6657 - SIGNAL USR1
 0.00 - 6658 - SIGNAL USR1
 0.00 - 6656 - Finished process execution
+0.00 - 6997 - COMMAND ./run -r -o teste.txt -v
+0.00 - 6997 - SIGNAL USR1
+0.00 - 6998 - SIGNAL USR1
+10.00 - 6999 - SIGNAL USR1
+10.00 - 6997 - Finished process execution

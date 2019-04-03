@@ -68,15 +68,6 @@ int initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc);
 int gettingOutput(WhatToShow whatToShow);
 
 /**
- * @brief Redirects Output if necessary
- * 
- * @param whatToShow Struct 
- * 
- * @return Return zero upon sucess, non-zero otherwise
-*/
-int redirectOutput(WhatToShow whatToShow);
-
-/**
  * @brief Reedirects the output of the command given to a FILE
  * 
  * @param File to be analysed

@@ -302,32 +302,6 @@ int initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
 }
 
 /**
- * @brief Redirects Output if necessary
- * 
- * @param whatToShow Struct 
- * 
- * @return Return zero upon sucess, non-zero otherwise
-*/
-int redirectOutput(WhatToShow whatToShow)
-{
-
-    if (!whatToShow.saidaPadrao)
-    {
-        //opens file to reedirect output
-        int file1 = open(whatToShow.outputFile, O_WRONLY | O_TRUNC);
-        if (file1 == -1)
-        {
-            perror("ERROR OPENING DESTINATION FILE!");
-            return 1;
-        }
-
-        dup2(file1, STDOUT_FILENO);
-    }
-
-    return 0;
-}
-
-/**
  * @brief Displays the information accordingly with WhatToShow
  * 
  * @param whatToShow Struct
