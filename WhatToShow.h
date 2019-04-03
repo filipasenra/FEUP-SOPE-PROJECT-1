@@ -22,6 +22,8 @@
 #define FALSE 0
 #define TRUE 1
 
+extern int flag;
+
 /**
  * @brief struct to save specifications given by the user
 */

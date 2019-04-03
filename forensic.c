@@ -12,18 +12,27 @@
  * 
 */
 
+void handling_exit()
+{
+    fcloseall();
+}
+
 int main(int argc, char *argv[], char *envp[])
 {
+    atexit(handling_exit);
+
     setbuf(stdout, NULL);
 
     WhatToShow whatToShow;
 
-    if (initializeWhatToShowUser(&whatToShow, argv, argc)) {
+    if (initializeWhatToShowUser(&whatToShow, argv, argc))
+    {
         perror("ERROR INITIALIZING!");
         return 1;
     }
-    
-    if (gettingOutput(whatToShow)) {
+
+    if (gettingOutput(whatToShow))
+    {
         perror("ERROR GETTING OUTPUT!");
         return 2;
     }

@@ -47,6 +47,12 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
 
     while ((dir = readdir(d)) != NULL)
     {
+        if (flag)
+        {
+            kill(0, SIGKILL);
+            exit(0);
+        }
+
         bool dir_current_old = strcmp(dir->d_name, ".") && strcmp(dir->d_name, "..");
 
         //If it is a file or a if it isn't to analyse subfolders
@@ -87,6 +93,8 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
             {
                 if (foundNewDirectory(whatToShow, dir->d_name, FALSE))
                     return -1;
+
+                sleep(20);
 
                 closedir(d);
 

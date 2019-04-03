@@ -11,8 +11,6 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "signals.h"
-
 #define FALSE 0
 #define TRUE 1
 

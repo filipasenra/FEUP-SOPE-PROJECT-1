@@ -2,6 +2,7 @@
 
 static int nrDirectories = 0;
 static int nrFiles = 0;
+int flag = 0;
 
 void sigusr_handler(int signo)
 {
@@ -16,7 +17,7 @@ void sigusr_handler(int signo)
     }
     else if (signo == SIGINT)
     {
-        
+        flag = 1;
     }
 }
 
