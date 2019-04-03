@@ -8,7 +8,7 @@ void sigusr_handler(int signo)
     if (signo == SIGUSR1) 
     {
         nrDirectories++;
-        //fprintf(stdout, "New directory: %d/%d directories/files at this time\n", nrDirectories, nrFiles);
+        printf("New directory: %d/%d directories/files at this time\n", nrDirectories, nrFiles);
     }
     if (signo == SIGUSR2)
     {

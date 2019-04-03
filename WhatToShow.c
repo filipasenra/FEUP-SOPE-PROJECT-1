@@ -1,46 +1,14 @@
 #include "WhatToShow.h"
 
-/**
- * @brief Constructs a string with the initial command given by the user
- * 
- * @param whatToShow Struct with the command arguments
- *        path_stat Struct 
- * 
- * @return Return the string with the initial command
- */
-void initialCommand(WhatToShow whatToShow, bool folder, char command[])
+void getInicialCommand(int argc, char *argv[], char command[])
 {
-    strcpy(command, "forensic");
+    strcpy(command, argv[0]);
 
-    if (whatToShow.analiseAll)
-        strcat(command, " -r");
-
-    if (whatToShow.MD5 || whatToShow.SHA1 || whatToShow.SHA256)
-        strcat(command, " -h");
-
-    if (whatToShow.MD5)
-        strcat(command, " md5");
-
-    if (whatToShow.SHA1)
-        strcat(command, ",sha1");
-
-    if (whatToShow.SHA256)
-        strcat(command, ",sha256");
-
-    if (!whatToShow.saidaPadrao)
+    for (int i = 1; i < argc; i++)
     {
-        strcat(command, " -o ");
-        strcat(command, whatToShow.outputFile);
+        strcat(command, " ");
+        strcat(command, argv[i]);
     }
-
-    if (whatToShow.registosExecucao)
-        strcat(command, " -v ");
-
-    //If it is a folder, print ./
-    if (folder)
-        strcat(command, "./");
-
-    strcat(command, whatToShow.file);
 }
 
 int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
@@ -58,19 +26,20 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
     }
 
     //Makes the currents directory the one passed by the user
-    chdir(directory);
+    if (!whatToShow.is_file)
+        chdir(directory);
 
     //Found directory, sending SIGUSR1
     if (!whatToShow.saidaPadrao)
     {
         enum sig msg = usr1;
         sendSignal(msg);
-        
+
         //Print to log file case necessary
         if (whatToShow.registosExecucao)
         {
-            enum act description = signalOne;
-            gettingRegFile(directory, whatToShow.outputRegFile, whatToShow.start, description, NULL);
+            if (gettingRegFileSignalOne(whatToShow.outputRegFile, whatToShow.start))
+                printf("Failed getting log file");
         }
     }
 
@@ -82,30 +51,29 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
         if (dir->d_type == DT_REG || (!whatToShow.analiseAll && dir_current_old))
         {
             if (!isFirstDir)
-                printf("%s/", directory);
+                fprintf(whatToShow.redOutputFile, "%s/", directory);
 
             //Found file, sending SIGUSR2
             if (!whatToShow.saidaPadrao)
             {
                 enum sig msg = usr2;
                 sendSignal(msg);
+
                 //Print to log file case necessary
                 if (whatToShow.registosExecucao)
                 {
-                    enum act description = signalTwo;
-                    if (gettingRegFile(whatToShow.file, whatToShow.outputRegFile, whatToShow.start, description, NULL))
+                    if (gettingRegFileSignalTwo(whatToShow.outputRegFile, whatToShow.start))
                         printf("Failed getting log file");
                 }
             }
 
-            if (gettingOutputFile(dir->d_name, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256, whatToShow.saidaPadrao))
+            if (gettingOutputFile(dir->d_name, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256, whatToShow.redOutputFile))
                 return -1;
 
             //Print to log file case necessary
             if (whatToShow.registosExecucao)
             {
-                enum act description = analized;
-                if (gettingRegFile(dir->d_name, whatToShow.outputRegFile, whatToShow.start, description, NULL))
+                if (gettingRegFileAnalized(dir->d_name, whatToShow.outputRegFile, whatToShow.start))
                     printf("Failed getting log file");
             }
         }
@@ -233,7 +201,50 @@ void constructorWhatToShow(WhatToShow *whatToShow)
     whatToShow->outputRegFile = NULL;
     whatToShow->saidaPadrao = true;
     whatToShow->outputFile = NULL;
+    whatToShow->redOutputFile = stdout;
     whatToShow->file = NULL;
+    whatToShow->is_file = false;
+}
+
+int is_file(WhatToShow *whatToShow)
+{
+    //Check if file is a diretory or a file
+    struct stat path_stat;
+
+    if (stat(whatToShow->file, &path_stat) < 0)
+    {
+        printf("FileStat failed!\n");
+        return 1;
+    }
+
+    if (S_ISREG(path_stat.st_mode))
+        whatToShow->is_file = TRUE;
+
+    return 0;
+}
+
+int inicializeRegistosExe(WhatToShow *whatToShow, char *argv[], int argc)
+{
+    whatToShow->registosExecucao = true;
+    whatToShow->outputRegExe = getenv("LOGFILENAME");
+
+    if (whatToShow->outputRegExe == NULL)
+    {
+        char tmp[] = "logoutput.txt";
+        whatToShow->outputRegExe = tmp;
+    }
+
+    //Opening log file
+    whatToShow->outputRegFile = fopen(whatToShow->outputRegExe, "a");
+
+    //String with all args given
+    char command[256] = "";
+    getInicialCommand(argc, argv, command);
+
+    if (gettingRegFileCommand(whatToShow->outputRegFile, whatToShow->start, command))
+        printf("Failed getting log file");
+
+    return 0;
 }
 
 /**
@@ -248,6 +259,7 @@ int initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
     //check for eventual user errors
     if (verifyInvalidArgInserts(argv, argc))
     {
+        printf("heelo");
         return 1;
     }
 
@@ -260,39 +272,30 @@ int initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
     //saving file or directory to analise
     whatToShow->file = argv[argc];
 
-    //continuing backwards
-    argc--;
+    //Check if file is a diretory or a file
+    is_file(whatToShow);
 
     //handling other arguments representing functionalities
-    while (argc > 0)
+    for (int i = argc - 1; i > 0; i--)
     {
-        if (strcmp(argv[argc], "-v") == 0)
+        if (strcmp(argv[i], "-v") == 0)
         {
-            whatToShow->registosExecucao = true;
-            whatToShow->outputRegExe = getenv("LOGFILENAME");
-
-            if (whatToShow->outputRegExe == NULL)
-            {
-                char tmp[] = "logfile.txt";
-                whatToShow->outputRegExe = tmp;
-            }
+            inicializeRegistosExe(whatToShow, argv, argc);
         }
-        else if (strcmp(argv[argc], "-o") == 0)
+        else if (strcmp(argv[i], "-o") == 0)
         {
             whatToShow->saidaPadrao = false;
-            whatToShow->outputFile = argv[argc + 1];
+            whatToShow->outputFile = argv[i + 1];
+            whatToShow->redOutputFile = fopen(whatToShow->outputFile, "w");
         }
-        else if (strcmp(argv[argc], "-h") == 0)
+        else if (strcmp(argv[i], "-h") == 0)
         {
-            gettingTokens(whatToShow, argv, argc, ",");
+            gettingTokens(whatToShow, argv, i, ",");
         }
-        else if (strcmp(argv[argc], "-r") == 0)
+        else if (strcmp(argv[i], "-r") == 0)
         {
             whatToShow->analiseAll = true;
         }
-
-        //continuing backwards
-        argc--;
     }
 
     return 0;
@@ -333,104 +336,56 @@ int redirectOutput(WhatToShow whatToShow)
 */
 int gettingOutput(WhatToShow whatToShow)
 {
-    struct stat path_stat;
-    if (stat(whatToShow.file, &path_stat) < 0)
+    //If it is a file and not a (sym)link or a directory
+    if (whatToShow.is_file)
     {
-        printf("FileStat failed!\n");
-        return 1;
-    }
-
-    //String with all args given
-    char cmd[256];
-
-    if (S_ISREG(path_stat.st_mode))
-        initialCommand(whatToShow, false, cmd);
-    else
-        initialCommand(whatToShow, true, cmd);
-
-    //Printing first execution - program initialization
-    if (whatToShow.registosExecucao)
-    {
-        //Opening log file
-        whatToShow.outputRegFile = fopen(whatToShow.outputRegExe, "a");
-
-        enum act description = command;
-        if (gettingRegFile(whatToShow.file, whatToShow.outputRegFile, whatToShow.start, description, cmd))
-            printf("Failed getting log file");
-    }
-
-    //Child can mess with reedirecting printf to the file
-    int pid = fork();
-
-    if (pid == 0) /* child */
-    {
-        //Reedirect Output to File Given by User if necessary
-        if (redirectOutput(whatToShow) != 0)
-            return 2;
-
-        //If it is a file and not a (sym)link or a directory
-        if (S_ISREG(path_stat.st_mode))
+        //Found file, sending SIGUSR2
+        if (!whatToShow.saidaPadrao)
         {
-            //Found file, sending SIGUSR2
-            if (!whatToShow.saidaPadrao)
-            {
-                enum sig msg = usr2;
-                sendSignal(msg);
-                //Print to log file case necessary
-                if (whatToShow.registosExecucao)
-                {
-                    enum act description = usr2;
-                    if (gettingRegFile(whatToShow.file, whatToShow.outputRegFile, whatToShow.start, description, NULL))
-                        printf("Failed getting log file");
-                }
-            }
-            
-            if (gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256, whatToShow.saidaPadrao))
-                printf("Failed getting output file");
+            enum sig msg = usr2;
+            sendSignal(msg);
 
             //Print to log file case necessary
             if (whatToShow.registosExecucao)
             {
-                enum act description = analized;
-                if (gettingRegFile(whatToShow.file, whatToShow.outputRegFile, whatToShow.start, description, NULL))
+                if (gettingRegFileSignalTwo(whatToShow.outputRegFile, whatToShow.start))
                     printf("Failed getting log file");
             }
-
-            return 0;
         }
-        //If it is not a file, lets show the information of all files
-        else
+
+        if (gettingOutputFile(whatToShow.file, whatToShow.MD5, whatToShow.SHA1, whatToShow.SHA256, whatToShow.redOutputFile))
+            printf("Failed getting output file");
+
+        //Print to log file case necessary
+        if (whatToShow.registosExecucao)
         {
-            if (foundNewDirectory(whatToShow, whatToShow.file, TRUE))
-            {
-                printf("Failed finding new directory %s", whatToShow.file);
-                return 1;
-            }
+            if (gettingRegFileAnalized(whatToShow.file, whatToShow.outputRegFile, whatToShow.start))
+                printf("Failed getting log file");
         }
     }
-    else if (pid > 0) /* father */
-    {
-        //waits for child
-        wait(NULL);
-
-        //Rights in the console if necessary
-        if (!whatToShow.saidaPadrao)
-        {
-            printf("Data saved on file %s\n", whatToShow.outputFile);
-        }
-    }
+    //If it is not a file, lets show the information of all files
     else
     {
-        printf("ERROR in creating fork!\n");
-        return 4;
+        if (foundNewDirectory(whatToShow, whatToShow.file, TRUE))
+        {
+            printf("Failed finding new directory %s", whatToShow.file);
+            return 1;
+        }
+    }
+
+    //Rights in the console if necessary
+    if (!whatToShow.saidaPadrao)
+    {
+        printf("Data saved on file %s\n", whatToShow.outputFile);
+        fclose(whatToShow.redOutputFile);
     }
 
     //Closing log file if necessary
     if (whatToShow.registosExecucao)
     {
-        enum act description = finished;
-        if (gettingRegFile(whatToShow.file, whatToShow.outputRegFile, whatToShow.start, description, NULL))
+        if (gettingRegFileFinished(whatToShow.outputRegFile, whatToShow.start))
             printf("Failed getting log file");
+
         fclose(whatToShow.outputRegFile);
     }
 

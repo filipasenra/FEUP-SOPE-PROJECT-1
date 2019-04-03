@@ -16,10 +16,10 @@
 #define FALSE 0
 #define TRUE 1
 
-int outputTypeOfFile(char file[]);
-int outputTimeISO_8601 (struct tm * time);
-int outputHash(char file[], char command[]);
-int outputPermissions(mode_t mode);
+int outputTypeOfFile(char file[], FILE * outputFile);
+int outputTimeISO_8601 (struct tm * time, FILE * outputFile);
+int outputHash(char file[], char command[], FILE * outputFile);
+int outputPermissions(mode_t mode, FILE * outputFile);
 
 /**
  * @brief Getting the output of a file
@@ -31,6 +31,6 @@ int outputPermissions(mode_t mode);
  * 
  * @return Returns zero upon sucess, non-zero otherwise
 */
-int gettingOutputFile(char * file, bool MD5, bool SHA1, bool SHA256, bool saidaPadrao);
+int gettingOutputFile(char * file, bool MD5, bool SHA1, bool SHA256, FILE * outputFile);
 
 #endif

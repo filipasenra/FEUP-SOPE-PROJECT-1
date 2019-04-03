@@ -19,10 +19,15 @@ enum act {
     finished
 };
 
+int gettingRegFileCommand(FILE *regFile, clock_t start, char *cmd);
 
+int gettingRegFileSignalOne(FILE *regFile, clock_t start);
 
-int gettingRegFile(char *file, FILE *regFile, time_t start, enum act description, char *cmd);
+int gettingRegFileSignalTwo(FILE *regFile, clock_t start);
 
+int gettingRegFileAnalized(char *file, FILE *regFile, clock_t start);
+
+int gettingRegFileFinished(FILE *regFile, clock_t start);
 
 /**
 * @brief Adds a log at the end of a file

@@ -20,7 +20,7 @@ FILE *file_of_command(char *file, const char command[])
     return in;
 }
 
-int outputTypeOfFile(char file[])
+int outputTypeOfFile(char file[], FILE * outputFile)
 {
     //===============================================
     //TYPE OF FILE
@@ -50,22 +50,22 @@ int outputTypeOfFile(char file[])
         }
     }
 
-    printf("%s, ", type_file);
+    fprintf(outputFile, "%s, ", type_file);
 
     pclose(in_type_of_file);
 
     return 0;
 }
 
-int outputTimeISO_8601(struct tm *time)
+int outputTimeISO_8601(struct tm *time, FILE * outputFile)
 {
     //Printing modification time in ISO 8601 (<date>T<time>) format
-    printf("%d-%d-%dT%d-%d-%d", time->tm_mday, time->tm_mon + 1, time->tm_year + 1900, time->tm_hour, time->tm_min, time->tm_sec);
+   fprintf(outputFile, "%d-%d-%dT%d-%d-%d", time->tm_mday, time->tm_mon + 1, time->tm_year + 1900, time->tm_hour, time->tm_min, time->tm_sec);
 
     return 0;
 }
 
-int outputHash(char file[], char command[])
+int outputHash(char file[], char command[], FILE * outputFile)
 {
 
     FILE *hash = file_of_command(file, command);
@@ -88,19 +88,19 @@ int outputHash(char file[], char command[])
     //Cuts C-string to get only what we want
     char *string_md5 = strndup(temp, strlen(temp) - (strlen(file) + 3));
 
-    printf(", %s", string_md5);
+    fprintf(outputFile, ", %s", string_md5);
 
     pclose(hash);
 
     return 0;
 }
 
-int outputPermissions(mode_t mode)
+int outputPermissions(mode_t mode, FILE * outputFile)
 {
-    printf((mode & S_IWUSR) ? "w" : "-");
-    printf((mode & S_IWGRP) ? "w" : "-");
-    printf((mode & S_IWOTH) ? "w" : "-");
-    printf(", ");
+    fprintf(outputFile, (mode & S_IWUSR) ? "w" : "-");
+    fprintf(outputFile, (mode & S_IWGRP) ? "w" : "-");
+    fprintf(outputFile, (mode & S_IWOTH) ? "w" : "-");
+    fprintf(outputFile, ", ");
 
     return 0;
 }
@@ -115,7 +115,7 @@ int outputPermissions(mode_t mode)
  * 
  * @return Returns zero upon sucess, non-zero otherwise
 */
-int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256, bool saidaPadrao)
+int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256, FILE * outputFile)
 {
     struct stat fileStat;
 
@@ -126,52 +126,52 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256, bool saidaPa
     }
 
     //FILE NAME
-    printf("%s, ", file);
+    fprintf(outputFile, "%s, ", file);
 
     //TYPE OF FILE
-    outputTypeOfFile(file);
+    outputTypeOfFile(file, outputFile);
 
     //FILE SIZE
-    printf("%ld, ", fileStat.st_size);
+    fprintf(outputFile, "%ld, ", fileStat.st_size);
 
     //FILE PERMISSIONS
-    outputPermissions(fileStat.st_mode);
+    outputPermissions(fileStat.st_mode, outputFile);
 
     //MODIFICATION TIME
-    outputTimeISO_8601(localtime(&fileStat.st_mtime));
-    printf(", ");
+    outputTimeISO_8601(localtime(&fileStat.st_mtime), outputFile);
+    fprintf(outputFile, ", ");
 
     //LAST ACESS TIME
-    outputTimeISO_8601(localtime(&fileStat.st_atime));
+    outputTimeISO_8601(localtime(&fileStat.st_atime), outputFile);
 
     //HASH
 
     //se é um diretorio, não tem hash
     if (S_ISDIR(fileStat.st_mode))
     {
-        printf("\n");
+        fprintf(outputFile, "\n");
         return 0;
     }
 
     if (MD5)
     {
         char md5command[] = "md5sum ";
-        outputHash(file, md5command);
+        outputHash(file, md5command, outputFile);
     }
 
     if (SHA1)
     {
         char sha1command[] = "sha1sum ";
-        outputHash(file, sha1command);
+        outputHash(file, sha1command, outputFile);
     }
 
     if (SHA256)
     {
         char sha256command[] = "sha256sum ";
-        outputHash(file, sha256command);
+        outputHash(file, sha256command, outputFile);
     }
 
-    printf("\n");
+    fprintf(outputFile, "\n");
 
     //=================================================
 

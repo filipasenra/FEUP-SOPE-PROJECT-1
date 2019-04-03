@@ -35,7 +35,9 @@ typedef struct
     FILE *outputRegFile;
     bool saidaPadrao;
     char *outputFile;
+    FILE *redOutputFile;
     char *file;
+    bool is_file;
     clock_t start;
 
 } WhatToShow;

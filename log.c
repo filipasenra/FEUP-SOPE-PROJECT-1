@@ -1,80 +1,78 @@
 #include "log.h"
 
-int gettingRegFile(char *file, FILE *regFile, clock_t start, enum act description, char *cmd)
+int gettingRegFileCommand(FILE *regFile, clock_t start, char *cmd)
 {
-    switch (description)
-    {
-    case 0:
-    {
-        //Setting up char array act
-        char act[256] = "COMMAND ";
-        strcat(act, cmd);
+    char act[256] = "COMMAND ";
+    strcat(act, cmd);
 
-        //Adding register to the log file
-        if (addLog(start, times(NULL), act, regFile))
-        {
-            printf("Failed printing to log file\n");
-            return 1;
-        }
-        break;
-    }
-    case 1:
+    //Adding register to the log file
+    if (addLog(start, times(NULL), act, regFile))
     {
-        //Setting up char array act
-        char act[256] = "SIGNAL USR1";
-
-        //Adding register to the log file
-        if (addLog(start, times(NULL), act, regFile))
-        {
-            printf("Failed printing to log file\n");
-            return 1;
-        }
-        break;
+        printf("Failed printing to log file\n");
+        return 1;
     }
-    case 2:
+
+    return 0;
+}
+
+int gettingRegFileSignalOne(FILE *regFile, clock_t start)
+{
+    // Setting up char array act
+    char act[256] = "SIGNAL USR1";
+
+    //Adding register to the log file
+    if (addLog(start, times(NULL), act, regFile))
     {
-        //Setting up char array act
-        char act[256] = "SIGNAL USR2";
-
-        //Adding register to the log file
-        if (addLog(start, times(NULL), act, regFile))
-        {
-            printf("Failed printing to log file\n");
-            return 1;
-        }
-        break;
+        printf("Failed printing to log file\n");
+        return 1;
     }
-    case 3:
+
+    return 0;
+}
+
+int gettingRegFileSignalTwo(FILE *regFile, clock_t start)
+{
+    //Setting up char array act
+    char act[256] = "SIGNAL USR2";
+
+    //Adding register to the log file
+    if (addLog(start, times(NULL), act, regFile))
     {
-        //Setting up char array act
-        char act[256] = "ANALIZED ";
-        strcat(act, file);
-
-        //Adding register to the log file
-        if (addLog(start, times(NULL), act, regFile))
-        {
-            printf("Failed printing to log file\n");
-            return 1;
-        }
-        break;
+        printf("Failed printing to log file\n");
+        return 1;
     }
-    case 4:
+
+    return 0;
+}
+
+int gettingRegFileAnalized(char *file, FILE *regFile, clock_t start)
+{
+    //Setting up char array act
+    char act[256] = "ANALIZED ";
+    strcat(act, file);
+
+    //Adding register to the log file
+    if (addLog(start, times(NULL), act, regFile))
     {
-        //Setting up char array act
-        char act[256] = "Finished process execution";
+        printf("Failed printing to log file\n");
+        return 1;
+    }
 
-        //Adding register to the log file
-        if (addLog(start, times(NULL), act, regFile))
-        {
-            printf("Failed printing to log file\n");
-            return 1;
-        }
-        break;
+    return 0;
+}
+
+int gettingRegFileFinished(FILE *regFile, clock_t start)
+{
+    //Setting up char array act
+    char act[256] = "Finished process execution";
+
+    //Adding register to the log file
+    if (addLog(start, times(NULL), act, regFile))
+    {
+        printf("Failed printing to log file\n");
+        return 1;
     }
-    default:
-        break;
-    }
-    
+
     return 0;
 }
 
@@ -90,8 +88,8 @@ int gettingRegFile(char *file, FILE *regFile, clock_t start, enum act descriptio
 */
 int addLog(clock_t start, clock_t end, char act[], FILE *file_output)
 {
-    long ticks = sysconf(_SC_CLK_TCK); 
-    double inst = ((double) end - start) / ticks * 1000;
+    long ticks = sysconf(_SC_CLK_TCK);
+    double inst = ((double)end - start) / ticks * 1000;
     fprintf(file_output, "%4.2f", inst);
     fflush(file_output);
 

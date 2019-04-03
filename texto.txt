@@ -1,4 +1,0 @@
-CENAS, directory, 4096, w--, 31-3-2019T14-37-13, 2-4-2019T11-25-5
-WhatToShow2.c, C source, ASCII text, 11858, ww-, 28-3-2019T11-11-41, 2-4-2019T11-25-5
-ADEUS, directory, 4096, w--, 31-3-2019T14-37-6, 2-4-2019T11-25-5
-texto.txt, ASCII text, 224, ww-, 28-3-2019T16-17-52, 2-4-2019T11-25-5
