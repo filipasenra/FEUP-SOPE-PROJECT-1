@@ -17,6 +17,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <wait.h>
+#include <errno.h>
 
 #define FALSE 0
 #define TRUE 1

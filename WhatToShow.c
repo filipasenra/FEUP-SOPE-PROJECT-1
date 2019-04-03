@@ -1,5 +1,7 @@
 #include "WhatToShow.h"
 
+static int pid_pai;
+
 void getInicialCommand(int argc, char *argv[], char command[])
 {
     strcpy(command, argv[0]);
@@ -33,7 +35,7 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
     if (!whatToShow.saidaPadrao)
     {
         enum sig msg = usr1;
-        sendSignal(msg);
+        sendSignal(msg, pid_pai);
 
         //Print to log file case necessary
         if (whatToShow.registosExecucao)
@@ -57,7 +59,7 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
             if (!whatToShow.saidaPadrao)
             {
                 enum sig msg = usr2;
-                sendSignal(msg);
+                sendSignal(msg, pid_pai);
 
                 //Print to log file case necessary
                 if (whatToShow.registosExecucao)
@@ -86,11 +88,20 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
                 if (foundNewDirectory(whatToShow, dir->d_name, FALSE))
                     return -1;
 
-                return 0;
+                closedir(d);
+
+                exit(0);
             }
             else if (pid > 0) //father working
             {
-                wait(NULL);
+
+                while (wait(NULL))
+                {
+                    if (errno == EINTR)
+                        continue;
+                    else
+                        break;
+                }
             }
         }
     }
@@ -259,7 +270,6 @@ int initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
     //check for eventual user errors
     if (verifyInvalidArgInserts(argv, argc))
     {
-        printf("heelo");
         return 1;
     }
 
@@ -310,7 +320,9 @@ int initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
 */
 int gettingOutput(WhatToShow whatToShow)
 {
-    //preparingSignal();
+    preparingSignal();
+
+    pid_pai = getpid();
 
     //If it is a file and not a (sym)link or a directory
     if (whatToShow.is_file)
@@ -319,7 +331,7 @@ int gettingOutput(WhatToShow whatToShow)
         if (!whatToShow.saidaPadrao)
         {
             enum sig msg = usr2;
-            sendSignal(msg);
+            sendSignal(msg, pid_pai);
 
             //Print to log file case necessary
             if (whatToShow.registosExecucao)
@@ -342,7 +354,6 @@ int gettingOutput(WhatToShow whatToShow)
     //If it is not a file, lets show the information of all files
     else
     {
-        
         if (foundNewDirectory(whatToShow, whatToShow.file, TRUE))
         {
             printf("Failed finding new directory %s", whatToShow.file);

@@ -21,6 +21,6 @@ void sigusr_handler(int signo);
 
 int preparingSignal();
 
-int sendSignal(enum sig msg);
+int sendSignal(enum sig msg, int pid);
 
 #endif
