@@ -8,8 +8,7 @@
 /**
  * Things to do:
  * foundNewDirectory & gettingOutput too confusing
- * I think the inicial command can be simplified if it is done when we have acess to argc and argv * 
- * Repiting Data saved on file 
+ * I think signals might have a problem 
  * 
 */
 

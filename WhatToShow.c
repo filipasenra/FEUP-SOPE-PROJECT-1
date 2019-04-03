@@ -86,7 +86,7 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
                 if (foundNewDirectory(whatToShow, dir->d_name, FALSE))
                     return -1;
 
-                break;
+                return 0;
             }
             else if (pid > 0) //father working
             {
@@ -336,6 +336,8 @@ int redirectOutput(WhatToShow whatToShow)
 */
 int gettingOutput(WhatToShow whatToShow)
 {
+    //preparingSignal();
+
     //If it is a file and not a (sym)link or a directory
     if (whatToShow.is_file)
     {
@@ -366,6 +368,7 @@ int gettingOutput(WhatToShow whatToShow)
     //If it is not a file, lets show the information of all files
     else
     {
+        
         if (foundNewDirectory(whatToShow, whatToShow.file, TRUE))
         {
             printf("Failed finding new directory %s", whatToShow.file);

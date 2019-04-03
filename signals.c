@@ -16,6 +16,19 @@ void sigusr_handler(int signo)
     }
 }
 
+/*int preparingSignal()
+{
+    struct sigaction action;
+    // prepare the 'sigaction struct'
+    action.sa_handler = sigusr_handler;
+    sigemptyset(&action.sa_mask);
+    action.sa_flags = 0;
+    sigaction(SIGUSR1, &action, NULL);
+    sigaction(SIGUSR2, &action, NULL);
+
+    return 0;
+}*/
+
 int sendSignal(enum sig msg)
 {
     struct sigaction action;
@@ -37,7 +50,7 @@ int sendSignal(enum sig msg)
         break;
 
     case 1:
-        sigaction(SIGUSR2, &action, NULL);
+        //sigaction(SIGUSR2, &action, NULL);
         if (raise(SIGUSR2))
         {
             printf("Failed to raise SIGUSR2!");
