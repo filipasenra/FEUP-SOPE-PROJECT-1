@@ -4,7 +4,7 @@ static int pid_pai;
 
 
 /**
- * @brief Gets the inicial command given by the user
+ * @brief Gets the initial command given by the user
  * 
  * @param argc Number of arguments in argv
  *        argv Arguments given by the user
