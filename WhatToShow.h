@@ -5,6 +5,7 @@
 #include "output.h"
 #include "signals.h"
 
+#define _GNU_SOURCE 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -80,7 +81,7 @@ int gettingOutput(WhatToShow whatToShow);
 */
 FILE *file_of_command(char *file, const char command[]);
 
-void gettingTokens(WhatToShow *whatToShow, char *argv[], int argc, const char s[2]);
+void gettingTokens(WhatToShow *whatToShow, char * argument, const char s[2]);
 
 /**
  * @brief Verifies all arguments inserted by the user
@@ -89,8 +90,15 @@ void gettingTokens(WhatToShow *whatToShow, char *argv[], int argc, const char s[
 */
 int verifyInvalidArgInserts(char *argv[], int argc);
 
+/**
+ * @brief Deals with new directory 
+ * 
+ * @param whatToShow Struct
+ *        directory Directory to be analised
+ *        isFirstDir signals if it is the first directory (the directory passed by the user)
+ * 
+ * @return Returns 0 upon sucess, non-zero otherwise
+*/
 int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir);
-
-void outputInicialCommand(char * argv, int argc, char command[]);
 
 #endif 

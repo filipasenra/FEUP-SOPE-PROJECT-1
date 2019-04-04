@@ -2,6 +2,16 @@
 
 static int pid_pai;
 
+
+/**
+ * @brief Gets the inicial command given by the user
+ * 
+ * @param argc Number of arguments in argv
+ *        argv Arguments given by the user
+ *        command String that reseives the command
+ * 
+ * @returns
+*/
 void getInicialCommand(int argc, char *argv[], char command[])
 {
     strcpy(command, argv[0]);
@@ -13,6 +23,15 @@ void getInicialCommand(int argc, char *argv[], char command[])
     }
 }
 
+/**
+ * @brief Deals with new directory 
+ * 
+ * @param whatToShow Struct
+ *        directory Directory to be analised
+ *        isFirstDir signals if it is the first directory (the directory passed by the user)
+ * 
+ * @return Returns 0 upon sucess, non-zero otherwise
+*/
 int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
 {
     DIR *d;
@@ -23,13 +42,15 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
     //Error opening directory
     if (!d)
     {
-        printf("Failed to open %s directory!\n", directory);
+        perror("FoundNewDirectory");
         return 3;
     }
 
     //Makes the currents directory the one passed by the user
-    if (!whatToShow.is_file)
-        chdir(directory);
+    chdir(directory);
+
+    if (flag)
+        exit(1);
 
     //Found directory, sending SIGUSR1
     if (!whatToShow.saidaPadrao)
@@ -45,18 +66,21 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
         }
     }
 
+
+
     while ((dir = readdir(d)) != NULL)
     {
         if (flag)
         {
             kill(0, SIGKILL);
-            exit(0);
+            exit(1);
         }
 
-        bool dir_current_old = strcmp(dir->d_name, ".") && strcmp(dir->d_name, "..");
+        if ((strcmp(dir->d_name, ".") == 0) || (strcmp(dir->d_name, "..") == 0))
+            continue;
 
         //If it is a file or a if it isn't to analyse subfolders
-        if (dir->d_type == DT_REG || (!whatToShow.analiseAll && dir_current_old))
+        if (dir->d_type == DT_REG || !whatToShow.analiseAll )
         {
             if (!isFirstDir)
                 fprintf(whatToShow.redOutputFile, "%s/", directory);
@@ -85,7 +109,7 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
                     printf("Failed getting log file");
             }
         }
-        else if (dir->d_type == DT_DIR && dir_current_old) //If it is a directory
+        else if (dir->d_type == DT_DIR) //If it is a directory
         {
             int pid = fork();
 
@@ -94,15 +118,12 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
                 if (foundNewDirectory(whatToShow, dir->d_name, FALSE))
                     return -1;
 
-                sleep(20);
-
                 closedir(d);
-
                 exit(0);
             }
             else if (pid > 0) //father working
             {
-
+                //Wiats for sun until it finishes (against signals, as well)
                 while (wait(NULL))
                 {
                     if (errno == EINTR)
@@ -113,17 +134,21 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
             }
         }
     }
+
     closedir(d);
 
     return 0;
 }
 
-void gettingTokens(WhatToShow *whatToShow, char *argv[], int argc, const char s[2])
+/**
+ * @brief Updates whatToShow with the information of the hashes
+*/
+void gettingTokens(WhatToShow *whatToShow, char * argument, const char s[2])
 {
     char *token;
 
     /* get the first token */
-    token = strtok(argv[argc + 1], s);
+    token = strtok(argument, s);
 
     /* walk through other tokens */
     while (token != NULL)
@@ -225,6 +250,13 @@ void constructorWhatToShow(WhatToShow *whatToShow)
     whatToShow->is_file = false;
 }
 
+/**
+ * @brief Determinates if the user chose a file or a directory
+ * 
+ * @param whatToShow Struct
+ * 
+ * @return Returns 0 upon sucess, non-zero otherwise
+*/
 int is_file(WhatToShow *whatToShow)
 {
     //Check if file is a diretory or a file
@@ -232,7 +264,7 @@ int is_file(WhatToShow *whatToShow)
 
     if (stat(whatToShow->file, &path_stat) < 0)
     {
-        printf("FileStat failed!\n");
+        perror("is_file");
         return 1;
     }
 
@@ -242,6 +274,15 @@ int is_file(WhatToShow *whatToShow)
     return 0;
 }
 
+/**
+ * @brief Updates whatToShow when the user chose to have Execution Registers
+ * 
+ * @param whatToShow Struct
+ *        argv
+ *        argc
+ * 
+ * @return Returns 0 upon sucess, non-zero otherwise
+*/
 int inicializeRegistosExe(WhatToShow *whatToShow, char *argv[], int argc)
 {
     whatToShow->registosExecucao = true;
@@ -308,7 +349,7 @@ int initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
         }
         else if (strcmp(argv[i], "-h") == 0)
         {
-            gettingTokens(whatToShow, argv, i, ",");
+            gettingTokens(whatToShow, argv[i + 1], ",");
         }
         else if (strcmp(argv[i], "-r") == 0)
         {
@@ -368,6 +409,9 @@ int gettingOutput(WhatToShow whatToShow)
             return 1;
         }
     }
+
+    if(flag)
+        exit(1);
 
     //Rights in the console if necessary
     if (!whatToShow.saidaPadrao)

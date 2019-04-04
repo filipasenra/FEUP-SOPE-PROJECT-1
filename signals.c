@@ -28,9 +28,24 @@ int preparingSignal()
     action.sa_handler = sigusr_handler;
     sigemptyset(&action.sa_mask);
     action.sa_flags = 0;
-    sigaction(SIGUSR1, &action, NULL);
-    sigaction(SIGUSR2, &action, NULL);
-    sigaction(SIGINT, &action, NULL);
+    
+    if (sigaction(SIGUSR1, &action, NULL))
+    {
+        perror("preparingSignal SIGUSR1");
+        return 1;
+    }
+
+    if (sigaction(SIGUSR2, &action, NULL))
+    {
+        perror("preparingSignal SIGUSR1");
+        return 2;
+    }
+
+    if (sigaction(SIGINT, &action, NULL))
+    {
+        perror("preparingSignal SIGUSR1");
+        return 3;
+    }
 
     return 0;
 }
@@ -43,7 +58,7 @@ int sendSignal(enum sig msg, int pid)
     case 0:
         if (kill(pid, SIGUSR1))
         {
-            printf("Failed to raise SIGUSR1!\n");
+            perror("sendSignal");
             return 1;
         }
         break;
@@ -51,7 +66,7 @@ int sendSignal(enum sig msg, int pid)
     case 1:
         if (kill(pid, SIGUSR2))
         {
-            printf("Failed to raise SIGUSR2!\n");
+            perror("sendSignal");
             return 1;
         }
         break;

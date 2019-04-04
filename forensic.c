@@ -21,7 +21,7 @@ int main(int argc, char *argv[], char *envp[])
 {
     atexit(handling_exit);
 
-    setbuf(stdout, NULL);
+    //setbuf(stdout, NULL);
 
     WhatToShow whatToShow;
 
@@ -33,7 +33,6 @@ int main(int argc, char *argv[], char *envp[])
 
     if (gettingOutput(whatToShow))
     {
-        perror("ERROR GETTING OUTPUT!");
         return 2;
     }
 

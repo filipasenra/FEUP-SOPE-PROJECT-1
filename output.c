@@ -30,7 +30,7 @@ int outputTypeOfFile(char file[], FILE * outputFile)
 
     if (in_type_of_file == NULL)
     {
-        printf("Error in file_of_command ");
+        perror("OutputTypeOfFile");
         return 2;
     }
 
@@ -72,7 +72,7 @@ int outputHash(char file[], char command[], FILE * outputFile)
 
     if (hash == NULL)
     {
-        printf("Error in file_of_command!\n");
+        perror("OutputHash");
         return 3;
     }
 
@@ -81,7 +81,7 @@ int outputHash(char file[], char command[], FILE * outputFile)
 
     if (fgets(temp, 255, hash) == NULL)
     {
-        printf("Error in fgets!\n");
+        perror("outputHash");
         return 4;
     }
 
@@ -172,8 +172,6 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256, FILE * outpu
     }
 
     fprintf(outputFile, "\n");
-
-    //=================================================
 
     return 0;
 }

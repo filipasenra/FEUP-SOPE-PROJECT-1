@@ -8,7 +8,7 @@ int gettingRegFileCommand(FILE *regFile, clock_t start, char *cmd)
     //Adding register to the log file
     if (addLog(start, times(NULL), act, regFile))
     {
-        printf("Failed printing to log file\n");
+        printf("Failed printing to log file in gettingRegFileCommand\n");
         return 1;
     }
 
@@ -23,7 +23,7 @@ int gettingRegFileSignalOne(FILE *regFile, clock_t start)
     //Adding register to the log file
     if (addLog(start, times(NULL), act, regFile))
     {
-        printf("Failed printing to log file\n");
+        printf("Failed printing to log file in gettingRegFileSignalOne\n");
         return 1;
     }
 
@@ -38,7 +38,7 @@ int gettingRegFileSignalTwo(FILE *regFile, clock_t start)
     //Adding register to the log file
     if (addLog(start, times(NULL), act, regFile))
     {
-        printf("Failed printing to log file\n");
+        printf("Failed printing to log file in gettingRegFileSignalTwo\n");
         return 1;
     }
 
@@ -54,7 +54,7 @@ int gettingRegFileAnalized(char *file, FILE *regFile, clock_t start)
     //Adding register to the log file
     if (addLog(start, times(NULL), act, regFile))
     {
-        printf("Failed printing to log file\n");
+        printf("Failed printing to log file in gettingRegFileAnalized\n");
         return 1;
     }
 
@@ -69,7 +69,7 @@ int gettingRegFileFinished(FILE *regFile, clock_t start)
     //Adding register to the log file
     if (addLog(start, times(NULL), act, regFile))
     {
-        printf("Failed printing to log file\n");
+        printf("Failed printing to log file in gettingRegFileFinished\n");
         return 1;
     }
 
