@@ -5,16 +5,19 @@
  * 
  * @return Returns the current time in miliseconds
 */
-long double gettingTime() {
-    long double ms; // Milliseconds
+struct timeval gettingTime() {
+    /*struct timeval ms; // Milliseconds
     struct timespec spec;
 
     clock_gettime(CLOCK_MONOTONIC, &spec);
 
-    ms = (long double) spec.tv_nsec / 1.0e4; // Convert nanoseconds to milliseconds
+    ms = (struct timeval) spec.tv_nsec / 1.0e4; // Convert nanoseconds to milliseconds
     ms = ms/100;
-    
-    return ms;
+    return ms;*/
+
+    struct timeval time;
+    gettimeofday(&time,NULL);
+    return time;
 }
 
 /**
@@ -26,7 +29,7 @@ long double gettingTime() {
  * 
  * @return Returns 0 upon success, non-zero otherwise
 */
-int gettingRegFileCommand(FILE *regFile, long double start, char *cmd)
+int gettingRegFileCommand(FILE *regFile, struct timeval start, char *cmd)
 {
     char act[256] = "COMMAND ";
     strcat(act, cmd);
@@ -49,7 +52,7 @@ int gettingRegFileCommand(FILE *regFile, long double start, char *cmd)
  * 
  * @return Returns 0 upon success, non-zero otherwise
 */
-int gettingRegFileSignalOne(FILE *regFile, long double start)
+int gettingRegFileSignalOne(FILE *regFile, struct timeval start)
 {
     // Setting up char array act
     char act[256] = "SIGNAL USR1";
@@ -72,7 +75,7 @@ int gettingRegFileSignalOne(FILE *regFile, long double start)
  * 
  * @return Returns 0 upon success, non-zero otherwise
 */
-int gettingRegFileSignalTwo(FILE *regFile, long double start)
+int gettingRegFileSignalTwo(FILE *regFile, struct timeval start)
 {
     //Setting up char array act
     char act[256] = "SIGNAL USR2";
@@ -95,7 +98,7 @@ int gettingRegFileSignalTwo(FILE *regFile, long double start)
  * 
  * @return Returns 0 upon success, non-zero otherwise
 */
-int gettingRegFileAnalized(char *file, FILE *regFile, long double start)
+int gettingRegFileAnalized(char *file, FILE *regFile, struct timeval start)
 {
     //Setting up char array act
     char act[256] = "ANALIZED ";
@@ -119,7 +122,7 @@ int gettingRegFileAnalized(char *file, FILE *regFile, long double start)
  * 
  * @return Returns 0 upon success, non-zero otherwise
 */
-int gettingRegFileFinished(FILE *regFile, long double start)
+int gettingRegFileFinished(FILE *regFile, struct timeval start)
 {
     //Setting up char array act
     char act[256] = "Finished process execution";
@@ -144,11 +147,11 @@ int gettingRegFileFinished(FILE *regFile, long double start)
 *
 * @return Return zero upon sucess, non-zero otherwise
 */
-int addLog(long double start, long double end, char act[], FILE *file_output)
+int addLog(struct timeval start, struct timeval end, char act[], FILE *file_output)
 {
-    long double inst = end-start;
+    double inst = (double) (end.tv_usec - start.tv_usec) / 1000000 + (double)(end.tv_sec - start.tv_sec);
 
-    fprintf(file_output, "%.2Lf", inst);
+    fprintf(file_output, "%-8.2f", inst*1000);
     fflush(file_output);
 
     fprintf(file_output, " - ");

@@ -7,6 +7,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <math.h>
+#include <sys/time.h>
 
 /**
  * @brief Enum to define which act is to be printed on the log file
@@ -24,7 +25,7 @@ enum act {
  * 
  * @return Returns the current time in miliseconds
 */
-long double gettingTime();
+struct timeval gettingTime();
 
 /**
  * @brief Outputs the log to the Register File
@@ -35,7 +36,7 @@ long double gettingTime();
  * 
  * @return Returns 0 upon success, non-zero otherwise
 */
-int gettingRegFileCommand(FILE *regFile, long double start, char *cmd);
+int gettingRegFileCommand(FILE *regFile, struct timeval start, char *cmd);
 
 /**
  * @brief Outputs the SIGNAL USR1 log to the Register File
@@ -45,7 +46,7 @@ int gettingRegFileCommand(FILE *regFile, long double start, char *cmd);
  * 
  * @return Returns 0 upon success, non-zero otherwise
 */
-int gettingRegFileSignalOne(FILE *regFile, long double start);
+int gettingRegFileSignalOne(FILE *regFile, struct timeval start);
 
 /**
  * @brief Outputs the SIGNAL USR2 log to the Register File
@@ -55,7 +56,7 @@ int gettingRegFileSignalOne(FILE *regFile, long double start);
  * 
  * @return Returns 0 upon success, non-zero otherwise
 */
-int gettingRegFileSignalTwo(FILE *regFile, long double start);
+int gettingRegFileSignalTwo(FILE *regFile, struct timeval start);
 
 /**
  * @brief Outputs the ANALIZED FILE log to the Register File
@@ -65,7 +66,7 @@ int gettingRegFileSignalTwo(FILE *regFile, long double start);
  * 
  * @return Returns 0 upon success, non-zero otherwise
 */
-int gettingRegFileAnalized(char *file, FILE *regFile, long double start);
+int gettingRegFileAnalized(char *file, FILE *regFile, struct timeval start);
 
 /**
  * @brief Outputs the FINISHED PROCESS EXECUTION  log to the Register File
@@ -75,7 +76,7 @@ int gettingRegFileAnalized(char *file, FILE *regFile, long double start);
  * 
  * @return Returns 0 upon success, non-zero otherwise
 */
-int gettingRegFileFinished(FILE *regFile, long double start);
+int gettingRegFileFinished(FILE *regFile, struct timeval start);
 
 /**
 * @brief Adds a log at the end of a file
@@ -87,8 +88,8 @@ int gettingRegFileFinished(FILE *regFile, long double start);
 *
 * @return Return zero upon sucess, non-zero otherwise
 */
-int addLog(long double start, long double end, char act[], FILE *file_output);
+int addLog(struct timeval start, struct timeval end, char act[], FILE *file_output);
 
-long double gettingTime();
+struct timeval gettingTime();
 
 #endif

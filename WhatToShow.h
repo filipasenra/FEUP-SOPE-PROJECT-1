@@ -41,7 +41,7 @@ typedef struct
     FILE *redOutputFile;
     char *file;
     bool is_file;
-    clock_t start;
+    struct timeval start;
 
 } WhatToShow;
 
