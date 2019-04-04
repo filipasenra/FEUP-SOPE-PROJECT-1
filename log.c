@@ -13,6 +13,7 @@ long double gettingTime() {
 
     ms = (long double) spec.tv_nsec / 1.0e4; // Convert nanoseconds to milliseconds
     ms = ms/100;
+    
     return ms;
 }
 
