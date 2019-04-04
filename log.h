@@ -6,7 +6,7 @@
 #include <time.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/times.h>
+#include <math.h>
 
 /**
  * @brief Enum to define which act is to be printed on the log file
@@ -19,15 +19,15 @@ enum act {
     finished
 };
 
-int gettingRegFileCommand(FILE *regFile, clock_t start, char *cmd);
+int gettingRegFileCommand(FILE *regFile, long double start, char *cmd);
 
-int gettingRegFileSignalOne(FILE *regFile, clock_t start);
+int gettingRegFileSignalOne(FILE *regFile, long double start);
 
-int gettingRegFileSignalTwo(FILE *regFile, clock_t start);
+int gettingRegFileSignalTwo(FILE *regFile, long double start);
 
-int gettingRegFileAnalized(char *file, FILE *regFile, clock_t start);
+int gettingRegFileAnalized(char *file, FILE *regFile, long double start);
 
-int gettingRegFileFinished(FILE *regFile, clock_t start);
+int gettingRegFileFinished(FILE *regFile, long double start);
 
 /**
 * @brief Adds a log at the end of a file
@@ -39,6 +39,8 @@ int gettingRegFileFinished(FILE *regFile, clock_t start);
 *
 * @return Return zero upon sucess, non-zero otherwise
 */
-int addLog(time_t start, time_t end, char act[], FILE *file_output);
+int addLog(long double start, long double end, char act[], FILE *file_output);
+
+long double gettingTime();
 
 #endif

@@ -1,12 +1,23 @@
 #include "log.h"
 
-int gettingRegFileCommand(FILE *regFile, clock_t start, char *cmd)
+long double gettingTime() {
+    long double ms; // Milliseconds
+    struct timespec spec;
+
+    clock_gettime(CLOCK_REALTIME, &spec);
+
+    ms = (double) spec.tv_nsec / 1.0e4; // Convert nanoseconds to milliseconds
+    ms = ms/100;
+    return ms;
+}
+
+int gettingRegFileCommand(FILE *regFile, long double start, char *cmd)
 {
     char act[256] = "COMMAND ";
     strcat(act, cmd);
 
     //Adding register to the log file
-    if (addLog(start, times(NULL), act, regFile))
+    if (addLog(start, gettingTime(), act, regFile))
     {
         printf("Failed printing to log file in gettingRegFileCommand\n");
         return 1;
@@ -15,13 +26,13 @@ int gettingRegFileCommand(FILE *regFile, clock_t start, char *cmd)
     return 0;
 }
 
-int gettingRegFileSignalOne(FILE *regFile, clock_t start)
+int gettingRegFileSignalOne(FILE *regFile, long double start)
 {
     // Setting up char array act
     char act[256] = "SIGNAL USR1";
 
     //Adding register to the log file
-    if (addLog(start, times(NULL), act, regFile))
+    if (addLog(start, gettingTime(), act, regFile))
     {
         printf("Failed printing to log file in gettingRegFileSignalOne\n");
         return 1;
@@ -30,13 +41,13 @@ int gettingRegFileSignalOne(FILE *regFile, clock_t start)
     return 0;
 }
 
-int gettingRegFileSignalTwo(FILE *regFile, clock_t start)
+int gettingRegFileSignalTwo(FILE *regFile, long double start)
 {
     //Setting up char array act
     char act[256] = "SIGNAL USR2";
 
     //Adding register to the log file
-    if (addLog(start, times(NULL), act, regFile))
+    if (addLog(start, gettingTime(), act, regFile))
     {
         printf("Failed printing to log file in gettingRegFileSignalTwo\n");
         return 1;
@@ -45,14 +56,14 @@ int gettingRegFileSignalTwo(FILE *regFile, clock_t start)
     return 0;
 }
 
-int gettingRegFileAnalized(char *file, FILE *regFile, clock_t start)
+int gettingRegFileAnalized(char *file, FILE *regFile, long double start)
 {
     //Setting up char array act
     char act[256] = "ANALIZED ";
     strcat(act, file);
 
     //Adding register to the log file
-    if (addLog(start, times(NULL), act, regFile))
+    if (addLog(start, gettingTime(), act, regFile))
     {
         printf("Failed printing to log file in gettingRegFileAnalized\n");
         return 1;
@@ -61,13 +72,13 @@ int gettingRegFileAnalized(char *file, FILE *regFile, clock_t start)
     return 0;
 }
 
-int gettingRegFileFinished(FILE *regFile, clock_t start)
+int gettingRegFileFinished(FILE *regFile, long double start)
 {
     //Setting up char array act
     char act[256] = "Finished process execution";
 
     //Adding register to the log file
-    if (addLog(start, times(NULL), act, regFile))
+    if (addLog(start, gettingTime(), act, regFile))
     {
         printf("Failed printing to log file in gettingRegFileFinished\n");
         return 1;
@@ -86,11 +97,11 @@ int gettingRegFileFinished(FILE *regFile, clock_t start)
 *
 * @return Return zero upon sucess, non-zero otherwise
 */
-int addLog(clock_t start, clock_t end, char act[], FILE *file_output)
+int addLog(long double start, long double end, char act[], FILE *file_output)
 {
-    long ticks = sysconf(_SC_CLK_TCK);
-    double inst = ((double)end - start) / ticks * 1000;
-    fprintf(file_output, "%4.2f", inst);
+    long double inst = end-start;
+
+    fprintf(file_output, "%4.2Lf", inst);
     fflush(file_output);
 
     fprintf(file_output, " - ");

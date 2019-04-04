@@ -235,7 +235,7 @@ int verifyInvalidArgInserts(char *argv[], int argc)
 */
 void constructorWhatToShow(WhatToShow *whatToShow)
 {
-    whatToShow->start = times(NULL);
+    whatToShow->start = gettingTime();
     whatToShow->analiseAll = false;
     whatToShow->MD5 = false;
     whatToShow->SHA1 = false;
