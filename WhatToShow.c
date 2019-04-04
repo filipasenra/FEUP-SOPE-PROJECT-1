@@ -66,8 +66,6 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
         }
     }
 
-
-
     while ((dir = readdir(d)) != NULL)
     {
         if (flag)
@@ -141,7 +139,13 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
 }
 
 /**
- * @brief Updates whatToShow with the information of the hashes
+ * @brief Updates whatToShow with the hashes requested by the user
+ * 
+ * @param whatToShow Struct
+ *        argument C-string with the format 'md5,sha1,sha256'
+ *        s Comma
+ * 
+ * @return Returns 0 in case of valid, right ordered arguments and non-zero otherwise
 */
 void gettingTokens(WhatToShow *whatToShow, char * argument, const char s[2])
 {
@@ -345,7 +349,15 @@ int initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
         {
             whatToShow->saidaPadrao = false;
             whatToShow->outputFile = argv[i + 1];
+
             whatToShow->redOutputFile = fopen(whatToShow->outputFile, "w");
+
+            if(whatToShow->redOutputFile == 0)
+            {
+                perror("initializeWhatToShow");
+                return 1;
+            }
+
         }
         else if (strcmp(argv[i], "-h") == 0)
         {

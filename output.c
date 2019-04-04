@@ -20,6 +20,14 @@ FILE *file_of_command(char *file, const char command[])
     return in;
 }
 
+/**
+ * @brief Outputs the type of a file
+ * 
+ * @param file File to be analysed
+ *        outputFile Pointer to a file where the output should be written
+ * 
+ * @return Returns 0 upon success and non-zero otherwise
+*/
 int outputTypeOfFile(char file[], FILE * outputFile)
 {
     //===============================================
@@ -57,6 +65,14 @@ int outputTypeOfFile(char file[], FILE * outputFile)
     return 0;
 }
 
+/**
+ * @brief Outputs the given date and time in the format ISO 8601
+ * 
+ * @param tm Struct with date and time
+ *        outputFile Pointer to a file where the output should be written
+ * 
+ * @return Returns 0 upon success and non-zero otherwise
+*/
 int outputTimeISO_8601(struct tm *time, FILE * outputFile)
 {
     //Printing modification time in ISO 8601 (<date>T<time>) format
@@ -65,6 +81,15 @@ int outputTimeISO_8601(struct tm *time, FILE * outputFile)
     return 0;
 }
 
+/**
+ * @brief Outputs an hash
+ * 
+ * @param file Name of the file to be analized
+ *        command Command declaring which hash to be outputed
+ *        outputFile Pointer to a file where the output should be written
+ * 
+ * @return Returns 0 upon success and non-zero otherwise
+*/
 int outputHash(char file[], char command[], FILE * outputFile)
 {
 
@@ -95,6 +120,14 @@ int outputHash(char file[], char command[], FILE * outputFile)
     return 0;
 }
 
+/**
+ * @brief Outputs files' permissions
+ * 
+ * @param mode Bit mask of the modes
+ *        outputFile Pointer to a file where the output should be written
+ * 
+ * @return Returns 0 upon success and non-zero otherwise
+*/
 int outputPermissions(mode_t mode, FILE * outputFile)
 {
     fprintf(outputFile, (mode & S_IWUSR) ? "w" : "-");

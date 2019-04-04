@@ -19,14 +19,62 @@ enum act {
     finished
 };
 
+/**
+ * @brief Gives the current time in miliseconds
+ * 
+ * @return Returns the current time in miliseconds
+*/
+long double gettingTime();
+
+/**
+ * @brief Outputs the log to the Register File
+ * 
+ * @param regFile Pointer to a file to be written with the logs
+ *        start Start time of execution
+ *        cmd Command given by the user
+ * 
+ * @return Returns 0 upon success, non-zero otherwise
+*/
 int gettingRegFileCommand(FILE *regFile, long double start, char *cmd);
 
+/**
+ * @brief Outputs the SIGNAL USR1 log to the Register File
+ * 
+ * @param regFile Pointer to a file to be written with the logs
+ *        start Start time of execution
+ * 
+ * @return Returns 0 upon success, non-zero otherwise
+*/
 int gettingRegFileSignalOne(FILE *regFile, long double start);
 
+/**
+ * @brief Outputs the SIGNAL USR2 log to the Register File
+ * 
+ * @param regFile Pointer to a file to be written with the logs
+ *        start Start time of execution
+ * 
+ * @return Returns 0 upon success, non-zero otherwise
+*/
 int gettingRegFileSignalTwo(FILE *regFile, long double start);
 
+/**
+ * @brief Outputs the ANALIZED FILE log to the Register File
+ * 
+ * @param regFile Pointer to a file to be written with the logs
+ *        start Start time of execution
+ * 
+ * @return Returns 0 upon success, non-zero otherwise
+*/
 int gettingRegFileAnalized(char *file, FILE *regFile, long double start);
 
+/**
+ * @brief Outputs the FINISHED PROCESS EXECUTION  log to the Register File
+ * 
+ * @param regFile Pointer to a file to be written with the logs
+ *        start Start time of execution
+ * 
+ * @return Returns 0 upon success, non-zero otherwise
+*/
 int gettingRegFileFinished(FILE *regFile, long double start);
 
 /**
@@ -35,7 +83,7 @@ int gettingRegFileFinished(FILE *regFile, long double start);
 * @param start  Initial instant
 *        end    Final instant
 *        act    Description
-*        output Output file's name
+*        file_output Output file's name
 *
 * @return Return zero upon sucess, non-zero otherwise
 */

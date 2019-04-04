@@ -5,7 +5,6 @@
 #include "output.h"
 #include "signals.h"
 
-#define _GNU_SOURCE 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -47,6 +46,16 @@ typedef struct
 } WhatToShow;
 
 /**
+ * @brief Gets the initial command given by the user
+ * 
+ * @param argc Number of arguments in argv
+ *        argv Arguments given by the user
+ *        command String that reseives the command
+ * 
+*/
+void getInitialCommand(int argc, char *argv[], char command[]);
+
+/**
  * @brief Initializes struct WhatToShow given by argument with default values
  * 
  * @param whatToShow Struct WhatToShow to be initialized
@@ -72,19 +81,20 @@ int initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc);
 int gettingOutput(WhatToShow whatToShow);
 
 /**
- * @brief Reedirects the output of the command given to a FILE
+ * @brief Updates whatToShow with the hashes requested by the user
  * 
- * @param File to be analysed
- *        Command to be given
+ * @param whatToShow Struct
+ *        argument C-string with the format 'md5,sha1,sha256'
+ *        s Comma
  * 
- * @return Returns a pointer to the FILE where the output of the command is redirected
 */
-FILE *file_of_command(char *file, const char command[]);
-
 void gettingTokens(WhatToShow *whatToShow, char * argument, const char s[2]);
 
 /**
  * @brief Verifies all arguments inserted by the user
+ * 
+ * @param argv Arguments
+ *        argc Number of arguments 
  * 
  * @return Returns 0 in case of valid, right ordered arguments and non-zero otherwise
 */
@@ -100,5 +110,25 @@ int verifyInvalidArgInserts(char *argv[], int argc);
  * @return Returns 0 upon sucess, non-zero otherwise
 */
 int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir);
+
+/**
+ * @brief Determinates if the user chose a file or a directory
+ * 
+ * @param whatToShow Struct
+ * 
+ * @return Returns 0 upon sucess, non-zero otherwise
+*/
+int is_file(WhatToShow *whatToShow);
+
+/**
+ * @brief Updates whatToShow when the user chose to have Execution Registers
+ * 
+ * @param whatToShow Struct
+ *        argv
+ *        argc
+ * 
+ * @return Returns 0 upon sucess, non-zero otherwise
+*/
+int initializeRegistosExe(WhatToShow *whatToShow, char *argv[], int argc);
 
 #endif 

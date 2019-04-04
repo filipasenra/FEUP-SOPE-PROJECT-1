@@ -1,16 +1,30 @@
 #include "log.h"
 
+/**
+ * @brief Gives the current time in miliseconds
+ * 
+ * @return Returns the current time in miliseconds
+*/
 long double gettingTime() {
     long double ms; // Milliseconds
     struct timespec spec;
 
-    clock_gettime(CLOCK_REALTIME, &spec);
+    clock_gettime(CLOCK_MONOTONIC, &spec);
 
-    ms = (double) spec.tv_nsec / 1.0e4; // Convert nanoseconds to milliseconds
+    ms = (long double) spec.tv_nsec / 1.0e4; // Convert nanoseconds to milliseconds
     ms = ms/100;
     return ms;
 }
 
+/**
+ * @brief Outputs the command log to the Register File
+ * 
+ * @param regFile Pointer to a file to be written with the logs
+ *        start Start time of execution
+ *        cmd Command given by the user
+ * 
+ * @return Returns 0 upon success, non-zero otherwise
+*/
 int gettingRegFileCommand(FILE *regFile, long double start, char *cmd)
 {
     char act[256] = "COMMAND ";
@@ -26,6 +40,14 @@ int gettingRegFileCommand(FILE *regFile, long double start, char *cmd)
     return 0;
 }
 
+/**
+ * @brief Outputs the SIGNAL USR1 log to the Register File
+ * 
+ * @param regFile Pointer to a file to be written with the logs
+ *        start Start time of execution
+ * 
+ * @return Returns 0 upon success, non-zero otherwise
+*/
 int gettingRegFileSignalOne(FILE *regFile, long double start)
 {
     // Setting up char array act
@@ -41,6 +63,14 @@ int gettingRegFileSignalOne(FILE *regFile, long double start)
     return 0;
 }
 
+/**
+ * @brief Outputs the SIGNAL USR2 log to the Register File
+ * 
+ * @param regFile Pointer to a file to be written with the logs
+ *        start Start time of execution
+ * 
+ * @return Returns 0 upon success, non-zero otherwise
+*/
 int gettingRegFileSignalTwo(FILE *regFile, long double start)
 {
     //Setting up char array act
@@ -56,6 +86,14 @@ int gettingRegFileSignalTwo(FILE *regFile, long double start)
     return 0;
 }
 
+/**
+ * @brief Outputs the ANALIZED FILE log to the Register File
+ * 
+ * @param regFile Pointer to a file to be written with the logs
+ *        start Start time of execution
+ * 
+ * @return Returns 0 upon success, non-zero otherwise
+*/
 int gettingRegFileAnalized(char *file, FILE *regFile, long double start)
 {
     //Setting up char array act
@@ -72,6 +110,14 @@ int gettingRegFileAnalized(char *file, FILE *regFile, long double start)
     return 0;
 }
 
+/**
+ * @brief Outputs the FINISHED PROCESS EXECUTION  log to the Register File
+ * 
+ * @param regFile Pointer to a file to be written with the logs
+ *        start Start time of execution
+ * 
+ * @return Returns 0 upon success, non-zero otherwise
+*/
 int gettingRegFileFinished(FILE *regFile, long double start)
 {
     //Setting up char array act
@@ -101,7 +147,7 @@ int addLog(long double start, long double end, char act[], FILE *file_output)
 {
     long double inst = end-start;
 
-    fprintf(file_output, "%4.2Lf", inst);
+    fprintf(file_output, "%.2Lf", inst);
     fflush(file_output);
 
     fprintf(file_output, " - ");

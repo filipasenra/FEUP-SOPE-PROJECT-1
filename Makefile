@@ -7,7 +7,7 @@ C_FILES := $(wildcard $(SRCDIR)/*.c)
 
 #build options
 BUILDDIR = build
-OBJS := forensic.c log.c output.c signals.c WhatToShow.c
+OBJS := log.c output.c signals.c WhatToShow.c forensic.c
 
 #compiler options
 CFLAGS = -Wall -pedantic
