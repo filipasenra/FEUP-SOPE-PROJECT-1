@@ -15,45 +15,45 @@
 #define TRUE 1
 
 /**
- * @brief Outputs the type of a file
+ * @brief Gets the output of the type of a file
  * 
  * @param file File to be analysed
- *        outputFile Pointer to a file where the output should be written
+ *        output C-string that the output will be added at the end of it
  * 
  * @return Returns 0 upon success and non-zero otherwise
 */
-int outputTypeOfFile(char file[], FILE * outputFile);
+int outputTypeOfFile(char file[], char output[]);
 
 /**
- * @brief Outputs the given date and time in the format ISO 8601
+ * @brief Gets the output of the given date and time in the format ISO 8601
  * 
  * @param tm Struct with date and time
- *        outputFile Pointer to a file where the output should be written
+ *        output C-string that the output will be added at the end of it
  * 
  * @return Returns 0 upon success and non-zero otherwise
 */
-int outputTimeISO_8601 (struct tm * time, FILE * outputFile);
+int outputTimeISO_8601 (struct tm * time, char output[]);
 
 /**
- * @brief Outputs an hash
+ * @brief Gets the outputs of an hash
  * 
  * @param file Name of the file to be analized
  *        command Command declaring which hash to be outputed
- *        outputFile Pointer to a file where the output should be written
+ *        output C-string that the output will be added at the end of it
  * 
  * @return Returns 0 upon success and non-zero otherwise
 */
-int outputHash(char file[], char command[], FILE * outputFile);
+int outputHash(char file[], char command[], char output[]);
 
 /**
- * @brief Outputs files' permissions
+ * @brief Gets the outputs of the files' permissions
  * 
  * @param mode Bit mask of the modes
- *        outputFile Pointer to a file where the output should be written
+ *        output C-string that the output will be added at the end of it
  * 
  * @return Returns 0 upon success and non-zero otherwise
 */
-int outputPermissions(mode_t mode, FILE * outputFile);
+int outputPermissions(mode_t mode, char output[]);
 
 /**
  * @brief Getting the output of a file

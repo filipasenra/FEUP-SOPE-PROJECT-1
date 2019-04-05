@@ -1,20 +1,11 @@
 #include "log.h"
 
 /**
- * @brief Gives the current time in miliseconds
+ * @brief Gets the current time
  * 
- * @return Returns the current time in miliseconds
+ * @return Returns a Struct timeval
 */
 struct timeval gettingTime() {
-    /*struct timeval ms; // Milliseconds
-    struct timespec spec;
-
-    clock_gettime(CLOCK_MONOTONIC, &spec);
-
-    ms = (struct timeval) spec.tv_nsec / 1.0e4; // Convert nanoseconds to milliseconds
-    ms = ms/100;
-    return ms;*/
-
     struct timeval time;
     gettimeofday(&time,NULL);
     return time;
@@ -150,22 +141,23 @@ int gettingRegFileFinished(FILE *regFile, struct timeval start)
 int addLog(struct timeval start, struct timeval end, char act[], FILE *file_output)
 {
     double inst = (double) (end.tv_usec - start.tv_usec) / 1000000 + (double)(end.tv_sec - start.tv_sec);
+    char output[256];
 
-    fprintf(file_output, "%-8.2f", inst*1000);
-    fflush(file_output);
+    sprintf(output, "%-8.2f", inst*1000);
 
-    fprintf(file_output, " - ");
-    fflush(file_output);
+    strcat(output, " - ");
 
-    fprintf(file_output, "%d", getpid());
-    fflush(file_output);
-    fprintf(file_output, " - ");
-    fflush(file_output);
+    char tmp[256];
+    sprintf(tmp, "%d", getpid());
+    strcat(output, tmp);
+    strcat(output, " - ");
 
-    fprintf(file_output, "%s", act);
-    fflush(file_output);
-    fprintf(file_output, "\n");
-    fflush(file_output);
+    strcat(output, act);
+    strcat(output, "\n");
 
+    fflush(file_output);
+    fprintf(file_output, "%s", output);
+    fflush(file_output);
+    
     return 0;
 }

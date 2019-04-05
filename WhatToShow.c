@@ -119,20 +119,18 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
                 closedir(d);
                 exit(0);
             }
-            else if (pid > 0) //father working
-            {
-                //Wiats for sun until it finishes (against signals, as well)
-                while (wait(NULL))
-                {
-                    if (errno == EINTR)
-                        continue;
-                    else
-                        break;
-                }
-            }
         }
     }
 
+     //Waits for sun until it finishes (against signals, as well)
+    while (wait(NULL))
+    {
+        if (errno == EINTR)
+            continue;
+        else if (errno == ECHILD)
+            break;
+    }
+    
     closedir(d);
 
     return 0;

@@ -21,9 +21,9 @@ enum act {
 };
 
 /**
- * @brief Gives the current time in miliseconds
+ * @brief Gets the current time
  * 
- * @return Returns the current time in miliseconds
+ * @return Returns a Struct timeval
 */
 struct timeval gettingTime();
 
@@ -89,7 +89,5 @@ int gettingRegFileFinished(FILE *regFile, struct timeval start);
 * @return Return zero upon sucess, non-zero otherwise
 */
 int addLog(struct timeval start, struct timeval end, char act[], FILE *file_output);
-
-struct timeval gettingTime();
 
 #endif

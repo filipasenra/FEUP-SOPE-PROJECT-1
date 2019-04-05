@@ -21,14 +21,14 @@ FILE *file_of_command(char *file, const char command[])
 }
 
 /**
- * @brief Outputs the type of a file
+ * @brief Gets the output of the type of a file
  * 
  * @param file File to be analysed
- *        outputFile Pointer to a file where the output should be written
+ *        output C-string that the output will be added at the end of it
  * 
  * @return Returns 0 upon success and non-zero otherwise
 */
-int outputTypeOfFile(char file[], FILE * outputFile)
+int outputTypeOfFile(char file[], char output[])
 {
     //===============================================
     //TYPE OF FILE
@@ -58,7 +58,8 @@ int outputTypeOfFile(char file[], FILE * outputFile)
         }
     }
 
-    fprintf(outputFile, "%s, ", type_file);
+    strcat(output, type_file);
+    strcat(output, ", ");
 
     pclose(in_type_of_file);
 
@@ -66,31 +67,35 @@ int outputTypeOfFile(char file[], FILE * outputFile)
 }
 
 /**
- * @brief Outputs the given date and time in the format ISO 8601
+ * @brief Gets the output of the given date and time in the format ISO 8601
  * 
  * @param tm Struct with date and time
- *        outputFile Pointer to a file where the output should be written
+ *        output C-string that the output will be added at the end of it
  * 
  * @return Returns 0 upon success and non-zero otherwise
 */
-int outputTimeISO_8601(struct tm *time, FILE * outputFile)
+int outputTimeISO_8601(struct tm *time, char output[])
 {
+    char time_s[256];
+
     //Printing modification time in ISO 8601 (<date>T<time>) format
-   fprintf(outputFile, "%d-%d-%dT%d-%d-%d", time->tm_mday, time->tm_mon + 1, time->tm_year + 1900, time->tm_hour, time->tm_min, time->tm_sec);
+    sprintf(time_s, "%d-%d-%dT%d-%d-%d", time->tm_mday, time->tm_mon + 1, time->tm_year + 1900, time->tm_hour, time->tm_min, time->tm_sec);
+
+    strcat(output, time_s);
 
     return 0;
 }
 
 /**
- * @brief Outputs an hash
+ * @brief Gets the outputs of an hash
  * 
  * @param file Name of the file to be analized
  *        command Command declaring which hash to be outputed
- *        outputFile Pointer to a file where the output should be written
+ *        output C-string that the output will be added at the end of it
  * 
  * @return Returns 0 upon success and non-zero otherwise
 */
-int outputHash(char file[], char command[], FILE * outputFile)
+int outputHash(char file[], char command[], char output[])
 {
 
     FILE *hash = file_of_command(file, command);
@@ -113,7 +118,8 @@ int outputHash(char file[], char command[], FILE * outputFile)
     //Cuts C-string to get only what we want
     char *string_md5 = strndup(temp, strlen(temp) - (strlen(file) + 3));
 
-    fprintf(outputFile, ", %s", string_md5);
+    strcat(output, ", ");
+    strcat(output, string_md5);
 
     pclose(hash);
 
@@ -121,19 +127,19 @@ int outputHash(char file[], char command[], FILE * outputFile)
 }
 
 /**
- * @brief Outputs files' permissions
+ * @brief Gets the outputs of the files' permissions
  * 
  * @param mode Bit mask of the modes
- *        outputFile Pointer to a file where the output should be written
+ *        output C-string that the output will be added at the end of it
  * 
  * @return Returns 0 upon success and non-zero otherwise
 */
-int outputPermissions(mode_t mode, FILE * outputFile)
+int outputPermissions(mode_t mode, char output[])
 {
-    fprintf(outputFile, (mode & S_IWUSR) ? "w" : "-");
-    fprintf(outputFile, (mode & S_IWGRP) ? "w" : "-");
-    fprintf(outputFile, (mode & S_IWOTH) ? "w" : "-");
-    fprintf(outputFile, ", ");
+    strcat(output, (mode & S_IWUSR) ? "w" : "-");
+    strcat(output, (mode & S_IWGRP) ? "w" : "-");
+    strcat(output, (mode & S_IWOTH) ? "w" : "-");
+    strcat(output, ", ");
 
     return 0;
 }
@@ -148,9 +154,11 @@ int outputPermissions(mode_t mode, FILE * outputFile)
  * 
  * @return Returns zero upon sucess, non-zero otherwise
 */
-int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256, FILE * outputFile)
+int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256, FILE *outputFile)
 {
     struct stat fileStat;
+
+    char output[256];
 
     if (stat(file, &fileStat) < 0)
     {
@@ -159,52 +167,56 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256, FILE * outpu
     }
 
     //FILE NAME
-    fprintf(outputFile, "%s, ", file);
+    sprintf(output, "%s, ", file);
 
     //TYPE OF FILE
-    outputTypeOfFile(file, outputFile);
+    outputTypeOfFile(file, output);
 
     //FILE SIZE
-    fprintf(outputFile, "%ld, ", fileStat.st_size);
+    char file_s[256];
+    sprintf(file_s, "%ld, ", fileStat.st_size);
+    strcat(output, file_s);
 
     //FILE PERMISSIONS
-    outputPermissions(fileStat.st_mode, outputFile);
+    outputPermissions(fileStat.st_mode, output);
 
     //MODIFICATION TIME
-    outputTimeISO_8601(localtime(&fileStat.st_mtime), outputFile);
-    fprintf(outputFile, ", ");
+    outputTimeISO_8601(localtime(&fileStat.st_mtime), output);
+    strcat(output, ", ");
 
     //LAST ACESS TIME
-    outputTimeISO_8601(localtime(&fileStat.st_atime), outputFile);
+    outputTimeISO_8601(localtime(&fileStat.st_atime), output);
 
     //HASH
 
     //se é um diretorio, não tem hash
     if (S_ISDIR(fileStat.st_mode))
     {
-        fprintf(outputFile, "\n");
+        strcat(output, "\n");
         return 0;
     }
 
     if (MD5)
     {
         char md5command[] = "md5sum ";
-        outputHash(file, md5command, outputFile);
+        outputHash(file, md5command, output);
     }
 
     if (SHA1)
     {
         char sha1command[] = "sha1sum ";
-        outputHash(file, sha1command, outputFile);
+        outputHash(file, sha1command, output);
     }
 
     if (SHA256)
     {
         char sha256command[] = "sha256sum ";
-        outputHash(file, sha256command, outputFile);
+        outputHash(file, sha256command, output);
     }
 
-    fprintf(outputFile, "\n");
+    strcat(output, "\n");
+
+    fprintf(outputFile, "%s", output);
 
     return 0;
 }
