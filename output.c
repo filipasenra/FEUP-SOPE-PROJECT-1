@@ -162,7 +162,7 @@ int gettingOutputFile(char *file, bool MD5, bool SHA1, bool SHA256, FILE *output
 
     if (stat(file, &fileStat) < 0)
     {
-        printf("FileStat failed!\n");
+        perror("gettingOutputFile");
         return 1;
     }
 

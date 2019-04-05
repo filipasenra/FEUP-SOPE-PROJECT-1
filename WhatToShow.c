@@ -130,7 +130,7 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
         else if (errno == ECHILD)
             break;
     }
-    
+
     closedir(d);
 
     return 0;
@@ -190,7 +190,7 @@ int verifyInvalidArgInserts(char *argv[], int argc)
     struct stat path_stat;
     if (stat(argv[argc - 1], &path_stat) < 0)
     {
-        printf("FileStat failed!\n");
+        perror("verifyInvalidArgInserts");
         return 2;
     }
 
