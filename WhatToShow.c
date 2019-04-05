@@ -2,7 +2,6 @@
 
 static int pid_pai;
 
-
 /**
  * @brief Gets the initial command given by the user
  * 
@@ -75,7 +74,7 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
             continue;
 
         //If it is a file or a if it isn't to analyse subfolders
-        if (dir->d_type == DT_REG || !whatToShow.analiseAll )
+        if (dir->d_type == DT_REG || !whatToShow.analiseAll)
         {
             if (!isFirstDir)
                 fprintf(whatToShow.redOutputFile, "%s/", directory);
@@ -116,17 +115,27 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
                 closedir(d);
                 exit(0);
             }
+            else if (pid > 0)
+            {
+                while (wait(NULL))
+                {
+                    if (errno == EINTR)
+                        continue;
+                    else
+                        break;
+                }
+            }
         }
     }
 
-     //Waits for sun until it finishes (against signals, as well)
+    /*//Waits for sun until it finishes (against signals, as well)
     while (wait(NULL))
     {
         if (errno == EINTR)
             continue;
         else if (errno == ECHILD)
             break;
-    }
+    }*/
 
     closedir(d);
 
@@ -142,7 +151,7 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
  * 
  * @return Returns 0 in case of valid, right ordered arguments and non-zero otherwise
 */
-void gettingTokens(WhatToShow *whatToShow, char * argument, const char s[2])
+void gettingTokens(WhatToShow *whatToShow, char *argument, const char s[2])
 {
     char *token;
 
@@ -347,12 +356,11 @@ int initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
 
             whatToShow->redOutputFile = fopen(whatToShow->outputFile, "w");
 
-            if(whatToShow->redOutputFile == 0)
+            if (whatToShow->redOutputFile == 0)
             {
                 perror("initializeWhatToShow");
                 return 1;
             }
-
         }
         else if (strcmp(argv[i], "-h") == 0)
         {
@@ -417,7 +425,7 @@ int gettingOutput(WhatToShow whatToShow)
         }
     }
 
-    if(flag)
+    if (flag)
         exit(1);
 
     //Rights in the console if necessary
