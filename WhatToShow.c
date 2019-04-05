@@ -69,10 +69,7 @@ int foundNewDirectory(WhatToShow whatToShow, char *directory, char isFirstDir)
     while ((dir = readdir(d)) != NULL)
     {
         if (flag)
-        {
-            kill(0, SIGKILL);
             exit(1);
-        }
 
         if ((strcmp(dir->d_name, ".") == 0) || (strcmp(dir->d_name, "..") == 0))
             continue;
