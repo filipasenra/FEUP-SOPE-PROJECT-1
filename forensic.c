@@ -7,7 +7,7 @@
 //forensic [-r] [-h [md5[,sha1[,sha256]]] [-o <outfile>] [-v] <file|dir>
 
 
-int main(int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[])
 {
     setbuf(stdout, NULL);
 

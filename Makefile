@@ -10,7 +10,7 @@ BUILDDIR = build
 OBJS := log.c output.c signals.c WhatToShow.c forensic.c
 
 #compiler options
-CFLAGS = -Wall -pedantic
+CFLAGS = -Wall -Wextra -Werror -pedantic
 LDFLAGS =
 LDLIBS =
 
