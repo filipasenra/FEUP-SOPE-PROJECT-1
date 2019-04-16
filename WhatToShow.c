@@ -347,7 +347,7 @@ int initializeWhatToShowUser(WhatToShow *whatToShow, char *argv[], int argc)
     {
         if (strcmp(argv[i], "-v") == 0)
         {
-            initializeRegistosExe(whatToShow, argv, argc);
+            initializeRegistosExe(whatToShow, argv, argc + 1);
         }
         else if (strcmp(argv[i], "-o") == 0)
         {
